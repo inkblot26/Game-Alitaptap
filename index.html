@@ -149,9 +149,51 @@
     }
     
     .center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
       z-index: 2;
+    
+      width: 90%;
+      max-width: 500px;
     }
 
+    /* ===== RESPONSIVE FIX ===== */
+    @media (max-width: 768px) {
+    
+      h1 {
+        font-size: 2rem;
+        letter-spacing: 2px;
+      }
+    
+      .tagline {
+        font-size: 0.75rem;
+        padding: 0 10px;
+      }
+    
+      .menu button {
+        width: 180px;
+        font-size: 0.9rem;
+        padding: 10px;
+      }
+    
+      .quote {
+        font-size: 0.7rem;
+        padding: 0 15px;
+      }
+    }
+
+    body {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    .menu button {
+      min-height: 44px; /* Apple touch guideline */
+    }
+    
   </style>
 </head>
 
