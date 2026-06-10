@@ -219,6 +219,15 @@
     color: white;
     text-shadow: 0 2px 6px rgba(0,0,0,0.6);
   }
+
+  #infoText {
+    font-size: 1rem;
+    line-height: 1.6;
+    text-align: justify;
+    background: #f9f9f9;
+    padding: 12px;
+    border-radius: 10px;
+  }
   
 </style>
 </head>
@@ -478,15 +487,17 @@
   let time = 180;
   let timerRunning = true;
   
+  const timerEl = document.getElementById("timer");
+  
   let timerInterval = setInterval(() => {
-
-    if (!timerRunning) return; // ⭐ STOP CONTROL
-    
+    if (!timerRunning) return;
+  
     let m = Math.floor(time / 60);
     let s = time % 60;
   
-    document.getElementById("timer").innerText =
-      `${m}:${s.toString().padStart(2, "0")}`;
+    if (timerEl) {
+      timerEl.innerText = `${m}:${s.toString().padStart(2, "0")}`;
+    }
   
     time--;
   
@@ -497,27 +508,29 @@
   }, 1000);
   
   /* ===== START GAME ===== */
-  window.onload = async function () {
+  window.addEventListener("DOMContentLoaded", async () => {
     await loadRiddles();
-  
-    // wait 100ms to ensure data is stable
-    setTimeout(() => {
-      assignRiddlesToCards();
-    }, 100);
-  };
+    assignRiddlesToCards();
+  });
 
   async function openInfo() {
-    document.getElementById("infoModal").style.display = "flex";
+    const modal = document.getElementById("infoModal");
+    const textBox = document.getElementById("infoText");
+  
+    if (!modal || !textBox) return;
+  
+    modal.style.display = "flex";
+    textBox.innerText = "Loading...";
   
     try {
       const res = await fetch("pic/mi_joserizal.txt");
-      const text = await res.text();
+      if (!res.ok) throw new Error("File not found");
   
-      document.getElementById("infoText").innerText = text;
+      const text = await res.text();
+      textBox.innerText = text;
   
     } catch (err) {
-      document.getElementById("infoText").innerText =
-        "Failed to load information.";
+      textBox.innerText = "Information unavailable. Please check file path.";
     }
   }
   
