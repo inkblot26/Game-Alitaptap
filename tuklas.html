@@ -191,18 +191,22 @@
 </div>
 
 <!-- MODAL -->
-<div class="modal" id="modal" onclick="closeModal(event)">
-  <div class="modal-content" onclick="event.stopPropagation()">
-
-    <div id="question"></div>
-
-    <input type="text" id="answer" placeholder="Ilagay ang sagot..." />
-
-    <button onclick="submitAnswer()">Submit</button>
-
-    <div id="feedback"></div>
-
+<div class="modal-content" onclick="event.stopPropagation()">
+  <div id="bigTitle" style="font-size:28px; font-weight:bold; margin-bottom:10px;">
+    ? BUGTONG
   </div>
+
+  <div id="question" style="margin-bottom:15px;"></div>
+
+  <button onclick="showHints()">Show Hints</button>
+
+  <div id="hints" style="margin-top:10px;"></div>
+
+  <input type="text" id="answer" placeholder="Ilagay ang sagot..." />
+
+  <button onclick="submitAnswer()">Submit</button>
+
+  <div id="feedback"></div>
 </div>
 
 <!-- FAIL SCREEN -->
@@ -293,9 +297,13 @@
     currentIndex = index;
   
     document.getElementById("modal").style.display = "flex";
+  
+    // reset UI each open
+    document.getElementById("bigTitle").innerText = "? BUGTONG";
     document.getElementById("question").innerText = riddles[index].q;
     document.getElementById("answer").value = "";
     document.getElementById("feedback").innerText = "";
+    document.getElementById("hints").innerHTML = "";
   }
   
   function updateCards() {
@@ -306,6 +314,16 @@
         ? ("Bugtong " + (i + 1))
         : "Loading...";
     }
+  }
+
+  function showHints() {
+    let r = riddles[currentIndex];
+  
+    document.getElementById("hints").innerHTML = `
+      <div>📂 Category: ${r.category}</div>
+      <div>🔢 Length: ${r.length}</div>
+      <div>🔤 First letter: ${r.firstLetter}</div>
+    `;
   }
   
   function submitAnswer() {
