@@ -191,22 +191,26 @@
 </div>
 
 <!-- MODAL -->
-<div class="modal-content" onclick="event.stopPropagation()">
-  <div id="bigTitle" style="font-size:28px; font-weight:bold; margin-bottom:10px;">
-    ? BUGTONG
+<div class="modal" id="modal" onclick="closeModal(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+
+    <div id="bigTitle" style="font-size:28px; font-weight:bold; margin-bottom:10px;">
+      ? BUGTONG
+    </div>
+
+    <div id="question" style="margin-bottom:15px;"></div>
+
+    <button onclick="showHints()">Show Hints</button>
+
+    <div id="hints" style="margin-top:10px;"></div>
+
+    <input type="text" id="answer" placeholder="Ilagay ang sagot..." />
+
+    <button onclick="submitAnswer()">Submit</button>
+
+    <div id="feedback"></div>
+
   </div>
-
-  <div id="question" style="margin-bottom:15px;"></div>
-
-  <button onclick="showHints()">Show Hints</button>
-
-  <div id="hints" style="margin-top:10px;"></div>
-
-  <input type="text" id="answer" placeholder="Ilagay ang sagot..." />
-
-  <button onclick="submitAnswer()">Submit</button>
-
-  <div id="feedback"></div>
 </div>
 
 <!-- FAIL SCREEN -->
@@ -391,7 +395,6 @@
     setTimeout(() => {
       assignRiddlesToCards();
     }, 100);
-    assignRiddlesToCards();
   };
   
 </script>
