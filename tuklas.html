@@ -232,7 +232,7 @@
 
 <!-- MYSTERY BOX -->
 <div class="mystery-container">
-  <div class="mystery-instruction">
+  <div class="mystery-instruction" id="mysteryText">
     🔒 Mystery Image Locked<br>
     Solve 3 bugtong to reveal!
   </div>
@@ -425,8 +425,16 @@
   
   function checkWin() {
     if (solved.every(v => v)) {
-      document.querySelector(".mystery-box").innerText =
-        "✨ Mystery Revealed!";
+  
+      // 1. Stop timer
+      timerRunning = false;
+  
+      // 2. Change instruction text
+      document.getElementById("mysteryText").innerHTML =
+        "✨ Mystery Image: Jose Rizal<br>Click for more info!";
+  
+      // 3. Change mystery box (optional visual unlock feel)
+      document.querySelector(".mystery-box").style.filter = "none";
     }
   }
   
@@ -446,8 +454,12 @@
   
   /* ===== TIMER ===== */
   let time = 180;
+  let timerRunning = true;
   
   let timerInterval = setInterval(() => {
+
+    if (!timerRunning) return; // ⭐ STOP CONTROL
+    
     let m = Math.floor(time / 60);
     let s = time % 60;
   
