@@ -426,15 +426,16 @@
   function checkWin() {
     if (solved.every(v => v)) {
   
-      // 1. Stop timer
+      // stop timer
       timerRunning = false;
   
-      // 2. Change instruction text
+      // update instruction text
       document.getElementById("mysteryText").innerHTML =
-        "✨ Mystery Image: Jose Rizal<br>Click for more info!";
+        "✨ Mystery Image: Jose Rizal<br>Click image more info!";
   
-      // 3. Change mystery box (optional visual unlock feel)
-      document.querySelector(".mystery-box").style.filter = "none";
+      // REVEAL IMAGE ⭐
+      document.querySelector(".mystery-box").style.backgroundImage =
+        "url('pic/mi_joserizal.png')";
     }
   }
   
