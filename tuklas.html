@@ -222,116 +222,135 @@
 </div>
 
 <script>
-
-let riddles = [];
-let currentIndex = 0;
-let solved = [false, false, false];
-
-/* ===== LOAD BUGTONG FROM TXT ===== */
-async function loadRiddles() {
-  try {
-    const res = await fetch("easybugtong.txt");
-    const text = await res.text();
-
-    let lines = text.split("\n").filter(l => l.trim() !== "");
-
-    let parsed = lines.map(line => {
-      let parts = line.split("-");
-      return {
-        q: parts[0].trim(),
-        a: parts[1].trim().toLowerCase()
-      };
-    });
-
-    // shuffle
-    parsed = parsed.sort(() => Math.random() - 0.5);
-
-    // pick 3 random
-    riddles = parsed.slice(0, 3);
-
-    console.log("Loaded riddles:", riddles);
-
-  } catch (err) {
-    console.error("Error loading bugtong:", err);
+  let riddles = [];
+  let currentIndex = 0;
+  let solved = [false, false, false];
+  
+  /* ===== LOAD BUGTONG FROM TXT ===== */
+  async function loadRiddles() {
+    try {
+      const res = await fetch("easybugtong.txt");
+  
+      if (!res.ok) {
+        throw new Error("Cannot load easybugtong.txt");
+      }
+  
+      const text = await res.text();
+  
+      let lines = text
+        .split("\n")
+        .map(l => l.trim())
+        .filter(l => l.includes("-"));
+  
+      let parsed = lines.map(line => {
+        let dashIndex = line.indexOf("-");
+        let q = line.substring(0, dashIndex).trim();
+        let a = line.substring(dashIndex + 1).trim().toLowerCase();
+  
+        return { q, a };
+      });
+  
+      parsed = parsed.sort(() => Math.random() - 0.5);
+  
+      riddles = parsed.slice(0, 3);
+  
+      console.log("Loaded riddles:", riddles);
+  
+      // safety check
+      if (riddles.length < 3) {
+        alert("Not enough bugtong in file!");
+      }
+  
+    } catch (err) {
+      console.error("Error loading bugtong:", err);
+      alert("Failed to load easybugtong.txt");
+    }
   }
-}
-
-let currentIndex = 0;
-let solved = [false, false, false];
-
-/* ===== CARD SYSTEM ===== */
-function openCard(index) {
-  if (!riddles[index]) return;
-  currentIndex = index;
-  document.getElementById("modal").style.display = "flex";
-  document.getElementById("question").innerText = riddles[index].q;
-  document.getElementById("answer").value = "";
-  document.getElementById("feedback").innerText = "";
-}
-
-function updateCards() {
-  let cards = document.getElementsByClassName("card");
-
-  for (let i = 0; i < 3; i++) {
-    cards[i].innerText = "Bugtong " + (i + 1);
+  
+  /* ===== CARD SYSTEM ===== */
+  function openCard(index) {
+    if (!riddles[index]) return;
+  
+    currentIndex = index;
+  
+    document.getElementById("modal").style.display = "flex";
+    document.getElementById("question").innerText = riddles[index].q;
+    document.getElementById("answer").value = "";
+    document.getElementById("feedback").innerText = "";
   }
-}
-                           
-function closeModal(e) {
-  document.getElementById("modal").style.display = "none";
-}
-
-function submitAnswer() {
-  let user = document.getElementById("answer").value.toLowerCase().trim();
-
-  if (user === riddles[currentIndex].a) {
-    solved[currentIndex] = true;
-    document.getElementsByClassName("card")[currentIndex].classList.add("done");
-    document.getElementById("feedback").innerText = "✔ Tama!";
-    checkWin();
-  } else {
-    document.getElementById("feedback").innerText = "✖ Subukan muli!";
+  
+  function updateCards() {
+    let cards = document.getElementsByClassName("card");
+  
+    for (let i = 0; i < 3; i++) {
+      cards[i].innerText = riddles[i]
+        ? ("Bugtong " + (i + 1))
+        : "Loading...";
+    }
   }
-}
-
-function checkWin() {
-  if (solved.every(v => v)) {
-    document.querySelector(".mystery-box").innerText = "✨ Mystery Revealed!";
+  
+  function submitAnswer() {
+    let user = document
+      .getElementById("answer")
+      .value.toLowerCase()
+      .trim();
+  
+    if (user === riddles[currentIndex].a) {
+      solved[currentIndex] = true;
+      document.getElementsByClassName("card")[currentIndex]
+        .classList.add("done");
+  
+      document.getElementById("feedback").innerText = "✔ Tama!";
+      checkWin();
+    } else {
+      document.getElementById("feedback").innerText = "✖ Subukan muli!";
+    }
   }
-}
-
-/* ===== NAVIGATION ===== */
-function goHome() {
-  window.location.href = "index.html";
-}
-
-function restart() {
-  location.reload();
-}
-
-/* ===== TIMER (3 MINUTES) ===== */
-let time = 180;
-
-let timerInterval = setInterval(() => {
-  let m = Math.floor(time / 60);
-  let s = time % 60;
-
-  document.getElementById("timer").innerText =
-    `${m}:${s.toString().padStart(2,'0')}`;
-
-  time--;
-
-  if (time < 0) {
-    clearInterval(timerInterval);
-    document.getElementById("failScreen").style.display = "flex";
+  
+  function checkWin() {
+    if (solved.every(v => v)) {
+      document.querySelector(".mystery-box").innerText =
+        "✨ Mystery Revealed!";
+    }
   }
-
-}, 1000);
-
- window.onload = async function () {
-  await loadRiddles();
-  updateCards();
-}; 
+  
+  /* ===== MODAL CLOSE ===== */
+  function closeModal(e) {
+    document.getElementById("modal").style.display = "none";
+  }
+  
+  /* ===== NAVIGATION ===== */
+  function goHome() {
+    window.location.href = "index.html";
+  }
+  
+  function restart() {
+    location.reload();
+  }
+  
+  /* ===== TIMER ===== */
+  let time = 180;
+  
+  let timerInterval = setInterval(() => {
+    let m = Math.floor(time / 60);
+    let s = time % 60;
+  
+    document.getElementById("timer").innerText =
+      `${m}:${s.toString().padStart(2, "0")}`;
+  
+    time--;
+  
+    if (time < 0) {
+      clearInterval(timerInterval);
+      document.getElementById("failScreen").style.display = "flex";
+    }
+  }, 1000);
+  
+  /* ===== START GAME ===== */
+  window.onload = async function () {
+    await loadRiddles();
+    updateCards();
+  };
   
 </script>
 
