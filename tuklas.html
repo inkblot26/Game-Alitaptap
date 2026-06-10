@@ -251,11 +251,14 @@
         .filter(l => l.includes("|"));
   
       let parsed = lines.map(line => {
-        let [q, a] = line.split("|");
-  
+        let parts = line.split("|").map(p => p.trim());
+      
         return {
-          q: q.trim(),
-          a: a.trim().toLowerCase()
+          q: parts[0] || "",
+          a: (parts[1] || "").toLowerCase(),
+          category: parts[2] || "Unknown",
+          length: parts[3] || "?",
+          firstLetter: parts[4] || "?"
         };
       });
   
