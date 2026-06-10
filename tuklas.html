@@ -218,6 +218,12 @@
     color: white;
     text-shadow: 0 2px 6px rgba(0,0,0,0.6);
   }
+
+  .mystery-note {
+    font-size: 0.85rem;
+    font-weight: normal;
+    opacity: 0.85;
+  }
   
 </style>
 </head>
@@ -226,7 +232,11 @@
 
 <!-- TOP BAR -->
 <div class="top-bar">
-  <button class="home-btn" onclick="goHome()">🏠 Home</button>
+  <div>
+    <button class="home-btn" onclick="goHome()">🏠 Home</button>
+    <button class="home-btn" onclick="playAgain()">🔄 Play Again</button>
+  </div>
+
   <div class="timer" id="timer">03:00</div>
 </div>
 
@@ -431,7 +441,8 @@
   
       // update instruction text
       document.getElementById("mysteryText").innerHTML =
-      "Mystery Image: Jose Rizal<br><small>Click image more info!</small>";
+      `Mystery Image: Jose Rizal<br>
+      <span class="mystery-note">Click image for more info!</span>`;
   
       // REVEAL IMAGE ⭐
       const box = document.querySelector(".mystery-box");
@@ -488,6 +499,27 @@
       assignRiddlesToCards();
     }, 100);
   };
+
+  function playAgain() {
+    // reset game state
+    solved = [];
+    currentIndex = 0;
+  
+    // reset mystery box
+    document.querySelector(".mystery-box").style.backgroundImage =
+      "url('pic/mysterynobg.png')";
+  
+    document.getElementById("mysteryText").innerHTML =
+      `🔒 Mystery Image Locked<br>
+       Solve 3 bugtong to reveal!`;
+  
+    // reset timer
+    time = 180;
+    timerRunning = true;
+  
+    // restart riddles
+    loadRiddles();
+  }
   
 </script>
 
