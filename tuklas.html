@@ -309,6 +309,8 @@
   let riddles = [];
   let currentIndex = 0;
   let solved = [];
+  let mysteryImage = "";
+  let mysteryInfo = "";
   
   /* ===== LOAD BUGTONG FROM TXT ===== */
   async function loadRiddles() {
@@ -445,21 +447,19 @@
   function checkWin() {
     if (solved.every(v => v)) {
   
-      // stop timer
       timerRunning = false;
   
-      // update instruction text
-      document.getElementById("mysteryText").innerHTML =
-      `Mystery Image: Jose Rizal<br>
-      <span class="mystery-note">Click image for more info!</span>`;
-  
-      // REVEAL IMAGE ⭐
       const box = document.querySelector(".mystery-box");
-      
-      box.style.backgroundImage = "url('pic/mi_joserizal.png')";
+  
+      // show selected mystery image
+      box.style.backgroundImage = `url('pic/${mysteryImage}')`;
       box.style.backgroundSize = "cover";
-      box.style.backgroundRepeat = "no-repeat";
       box.style.backgroundPosition = "center";
+      box.style.cursor = "pointer";
+  
+      document.getElementById("mysteryText").innerHTML =
+        `Mystery Revealed<br>
+        <span class="mystery-note">Click image for more info!</span>`;
     }
   }
   
@@ -501,9 +501,9 @@
   
   /* ===== START GAME ===== */
   window.onload = async function () {
-    await loadRiddles();
+    await loadMystery();   // ⭐ FIRST choose mystery
+    await loadRiddles();   // then load riddles
   
-    // wait 100ms to ensure data is stable
     setTimeout(() => {
       assignRiddlesToCards();
     }, 100);
@@ -531,12 +531,12 @@
   }
 
   async function openInfo() {
-    // only allow click AFTER reveal
     const box = document.querySelector(".mystery-box");
-    if (!box.style.backgroundImage.includes("mi_joserizal.png")) return;
+  
+    if (!box.style.backgroundImage.includes("mi_")) return;
   
     try {
-      const res = await fetch("pic/mi_joserizal.txt");
+      const res = await fetch("pic/" + mysteryInfo);
       const text = await res.text();
   
       document.getElementById("infoText").innerText = text;
@@ -544,13 +544,39 @@
   
     } catch (err) {
       document.getElementById("infoText").innerText =
-        "Failed to load information file.";
+        "Failed to load info file.";
       document.getElementById("infoModal").style.display = "flex";
     }
   }
   
   function closeInfoModal(e) {
     document.getElementById("infoModal").style.display = "none";
+  }
+
+  async function loadMystery() {
+    const res = await fetch("pic/mysterylist.txt");
+    const text = await res.text();
+  
+    const lines = text
+      .split("\n")
+      .map(l => l.trim())
+      .filter(l => l.includes("|"));
+  
+    const list = lines.map(line => {
+      let parts = line.split("|").map(p => p.trim());
+      return {
+        img: parts[1],
+        info: parts[2]
+      };
+    });
+  
+    // pick random mystery
+    const pick = list[Math.floor(Math.random() * list.length)];
+  
+    mysteryImage = pick.img;
+    mysteryInfo = pick.info;
+  
+    console.log("Mystery selected:", pick);
   }
   
 </script>
