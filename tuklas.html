@@ -214,7 +214,6 @@
   .mystery-instruction {
     text-align: center;
     font-size: 1.2rem;
-    font-weight: bold;
     margin-bottom: 12px;
     color: white;
     text-shadow: 0 2px 6px rgba(0,0,0,0.6);
@@ -237,16 +236,16 @@
 
 <!-- TOP BAR -->
 <div class="top-bar">
-  <button class="home-btn" onclick="goHome()">🏠 Home</button>
+  <div style="display:flex; gap:10px; align-items:center;">
+    <button class="home-btn" onclick="goHome()">🏠 Home</button>
 
-  <div style="display:flex; align-items:center; gap:10px;">
-    <div class="timer" id="timer">03:00</div>
-
-    <!-- NEW PLAY AGAIN BUTTON -->
-    <button id="playAgainBtn" onclick="restart()" style="display:none;">
+    <!-- Play Again (hidden by default) -->
+    <button id="playAgainBtn" class="home-btn" onclick="restart()" style="display:none;">
       🔄 Play Again
     </button>
   </div>
+
+  <div class="timer" id="timer">03:00</div>
 </div>
 
 <!-- MYSTERY BOX -->
@@ -453,7 +452,10 @@
   
       // update instruction text
       document.getElementById("mysteryText").innerHTML =
-        "✨ Mystery Image: Jose Rizal<br>Click image for more info!";
+      `Mystery Image: Jose Rizal<br>
+      <span style="font-size:0.9rem; font-weight:normal;">
+        Click image for more info!
+      </span>`;
   
       // expand mystery box
       document.querySelector(".mystery-box").style.width = "500px";
