@@ -224,7 +224,7 @@
 <script>
   let riddles = [];
   let currentIndex = 0;
-  let solved = [false, false, false];
+  let solved = [];
   
   /* ===== LOAD BUGTONG FROM TXT ===== */
   async function loadRiddles() {
@@ -240,14 +240,15 @@
       let lines = text
         .split("\n")
         .map(l => l.trim())
-        .filter(l => l.includes("-"));
+        .filter(l => l.includes("|"));
   
       let parsed = lines.map(line => {
-        let dashIndex = line.indexOf("|");
-        let q = line.substring(0, dashIndex).trim();
-        let a = line.substring(dashIndex + 1).trim().toLowerCase();
+        let [q, a] = line.split("|");
   
-        return { q, a };
+        return {
+          q: q.trim(),
+          a: a.trim().toLowerCase()
+        };
       });
   
       parsed = parsed.sort(() => Math.random() - 0.5);
@@ -255,11 +256,14 @@
       riddles = parsed.slice(0, 3);
   
       console.log("Loaded riddles:", riddles);
-  
-      // safety check
+
+      solved = new Array(riddles.length).fill(false); 
+      
       if (riddles.length < 3) {
         alert("Not enough bugtong in file!");
       }
+  
+      assignRiddlesToCards(); // ✅ IMPORTANT FIX HERE
   
     } catch (err) {
       console.error("Error loading bugtong:", err);
@@ -369,6 +373,7 @@
     setTimeout(() => {
       assignRiddlesToCards();
     }, 100);
+    assignRiddlesToCards();
   };
   
 </script>
