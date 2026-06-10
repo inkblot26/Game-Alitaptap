@@ -290,6 +290,14 @@
   let riddles = [];
   let currentIndex = 0;
   let solved = [];
+
+  function goHome() {
+    window.location.href = "index.html";
+  }
+  
+  function restart() {
+    location.reload();
+  }
   
   let timerRunning = true;
   let hintsVisible = false;
@@ -456,36 +464,52 @@
   /* ===== TIMER ===== */
   let time = 180;
   let timerRunning = true;
+  let timerInterval;
   
-  let timerInterval = setInterval(() => {
-
-    if (!timerRunning) {
-      clearInterval(timerInterval);
-      return;
-    }
-    
-    let m = Math.floor(time / 60);
-    let s = time % 60;
+  function startTimer() {
+    timerRunning = true;
   
-    document.getElementById("timer").innerText =
-      `${m}:${s.toString().padStart(2, "0")}`;
+    timerInterval = setInterval(() => {
   
-    time--;
+      if (!timerRunning) {
+        clearInterval(timerInterval);
+        return;
+      }
   
-    if (time < 0) {
-      clearInterval(timerInterval);
-      document.getElementById("failScreen").style.display = "flex";
-    }
-  }, 1000);
+      let m = Math.floor(time / 60);
+      let s = time % 60;
+  
+      const el = document.getElementById("timer");
+      if (el) {
+        el.innerText = `${m}:${s.toString().padStart(2, "0")}`;
+      }
+  
+      time--;
+  
+      if (time < 0) {
+        clearInterval(timerInterval);
+        document.getElementById("failScreen").style.display = "flex";
+      }
+  
+    }, 1000);
+  }
   
   /* ===== START GAME ===== */
   window.onload = async function () {
-    await loadRiddles();
   
-    // wait 100ms to ensure data is stable
-    setTimeout(() => {
-      assignRiddlesToCards();
-    }, 100);
+    // ⭐ START TIMER FIRST (so buttons still work even if fetch fails)
+    startTimer();
+  
+    try {
+      await loadRiddles();
+  
+      setTimeout(() => {
+        assignRiddlesToCards();
+      }, 100);
+  
+    } catch (err) {
+      console.log("Riddle loading failed, but game still works:", err);
+    }
   };
   
 </script>
