@@ -80,6 +80,7 @@
     height: 240px;
     transition: all 0.5s ease;
     border-radius: 15px;
+    cursor: pointer;
   
     background-image: url("pic/mysterynobg.png");
     background-size: contain;   /* IMPORTANT CHANGE */
@@ -218,16 +219,6 @@
     color: white;
     text-shadow: 0 2px 6px rgba(0,0,0,0.6);
   }
-
-  #playAgainBtn {
-    background: #4b6cb7;
-    color: white;
-    border: none;
-    padding: 10px 14px;
-    border-radius: 10px;
-    font-weight: bold;
-    cursor: pointer;
-  }
   
 </style>
 </head>
@@ -255,7 +246,7 @@
     Solve 3 bugtong to reveal!
   </div>
   
-  <div class="mystery-box"></div>
+  <div class="mystery-box" onclick="openInfo()"></div>
 </div>
 
 <!-- CARDS -->
@@ -448,7 +439,9 @@
       timerRunning = false;
   
       // show play again button
-      document.getElementById("playAgainBtn").style.display = "block";
+      <button id="playAgainBtn" class="home-btn" onclick="restart()" style="display:none;">
+        🔄 Play Again
+      </button>
   
       // update instruction text
       document.getElementById("mysteryText").innerHTML =
@@ -513,8 +506,47 @@
       assignRiddlesToCards();
     }, 100);
   };
+
+  async function openInfo() {
+    document.getElementById("infoModal").style.display = "flex";
+  
+    try {
+      const res = await fetch("pic/mi_joserizal.txt");
+      const text = await res.text();
+  
+      document.getElementById("infoText").innerText = text;
+  
+    } catch (err) {
+      document.getElementById("infoText").innerText =
+        "Failed to load information.";
+    }
+  }
+  
+  function closeInfo(e) {
+    document.getElementById("infoModal").style.display = "none";
+  }
   
 </script>
 
+<!-- INFO MODAL -->
+<div class="modal" id="infoModal" onclick="closeInfo(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+
+    <div style="font-size:24px; font-weight:bold; margin-bottom:10px;">
+      José Rizal
+    </div>
+
+    <div id="infoText" style="text-align:justify; line-height:1.6;">
+      Loading...
+    </div>
+
+    <button onclick="closeInfo()" style="margin-top:15px;">
+      Close
+    </button>
+
+  </div>
+</div>
+  
+  
 </body>
 </html>
