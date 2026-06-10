@@ -323,7 +323,7 @@
     document.getElementById("modal").style.display = "flex";
   
     // reset UI each open
-    document.getElementById("bigTitle").innerText = "? BUGTONG";
+    document.getElementById("bigTitle").innerText = "BUGTONG";
     document.getElementById("question").innerText = riddles[index].q;
     document.getElementById("answer").value = "";
     document.getElementById("feedback").innerText = "";
@@ -355,9 +355,9 @@
       // SHOW hints
       hintsBox.innerHTML = `
         <div class="hint-row">
-          <span>📂 ${r.category}</span>
-          <span>🔢 ${r.length}</span>
-          <span>🔤 ${r.firstLetter}</span>
+          <span>Category: ${r.category}</span>
+          <span>Length: ${r.length}</span>
+          <span>First Letter: ${r.firstLetter}</span>
         </div>
       `;
       hintsVisible = true;
