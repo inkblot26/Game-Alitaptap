@@ -223,17 +223,45 @@
 
 <script>
 
-let riddles = [
-  { q: "May ilaw sa gabi ngunit hindi ilaw ng bahay.", a: "alitaptap" },
-  { q: "Hindi tao, hindi hayop ngunit may buntot sa tubig.", a: "bangka" },
-  { q: "Bilog na pula, matamis at makatas.", a: "kamatis" }
-];
+let riddles = [];
+let currentIndex = 0;
+let solved = [false, false, false];
+
+/* ===== LOAD BUGTONG FROM TXT ===== */
+async function loadRiddles() {
+  try {
+    const res = await fetch("easybugtong.txt");
+    const text = await res.text();
+
+    let lines = text.split("\n").filter(l => l.trim() !== "");
+
+    let parsed = lines.map(line => {
+      let parts = line.split("-");
+      return {
+        q: parts[0].trim(),
+        a: parts[1].trim().toLowerCase()
+      };
+    });
+
+    // shuffle
+    parsed = parsed.sort(() => Math.random() - 0.5);
+
+    // pick 3 random
+    riddles = parsed.slice(0, 3);
+
+    console.log("Loaded riddles:", riddles);
+
+  } catch (err) {
+    console.error("Error loading bugtong:", err);
+  }
+}
 
 let currentIndex = 0;
 let solved = [false, false, false];
 
 /* ===== CARD SYSTEM ===== */
 function openCard(index) {
+  if (!riddles[index]) return;
   currentIndex = index;
   document.getElementById("modal").style.display = "flex";
   document.getElementById("question").innerText = riddles[index].q;
@@ -241,6 +269,14 @@ function openCard(index) {
   document.getElementById("feedback").innerText = "";
 }
 
+function updateCards() {
+  let cards = document.getElementsByClassName("card");
+
+  for (let i = 0; i < 3; i++) {
+    cards[i].innerText = "Bugtong " + (i + 1);
+  }
+}
+                           
 function closeModal(e) {
   document.getElementById("modal").style.display = "none";
 }
@@ -292,6 +328,11 @@ let timerInterval = setInterval(() => {
 
 }, 1000);
 
+ window.onload = async function () {
+  await loadRiddles();
+  updateCards();
+}; 
+  
 </script>
 
 </body>
