@@ -1,14 +1,14 @@
-May korona ngunit hindi hari, gumigising bago pa ang marami. | Manok
-Hari ng bubungan, mahilig sa buwan at katahimikan. | Pusa
-Mabilis sa lupa, ngunit walang gulong na dala. | Kabayo
-Kasama ng magsasaka, sa putikan siya masaya. | Kalabaw
-Munting musikero ng palayan, umaawit tuwing tag-ulan. | Palaka
-Munting tiririt, may bombilya sa puwit. | Alitaptap
-May katawan ngunit walang paa, sa paggapang siya'y bihasa. | Ahas
-May balbas ngunit hindi matanda, may sungay ngunit hindi masama. | Kambing
-May pakpak ngunit hindi eroplano, lumilipad sa ulap, sa langit lumalayo. | Ibon
-May sipit na matulis, sa buhangin ay mabilis. | Alimango
-Kaibigang tunay, laging tapat sa buhay, tahol ang tanda kapag may panganib sa bahay. | Aso
-Lumilipad kahit hindi ginagamit ang mata, kapag natulog ay nakasabit sa sanga. | Paniki
-Mabagal ang lakad, may bahay na kasama, sa bawat paggalaw, dahan-dahan ang dala. | Pagong
-Sa kislap ng tubig siya’y sumasayaw, sa agos ng buhay dahan-dahang galaw. | Isda
+May korona ngunit hindi hari, gumigising bago pa ang marami. | Manok | Animal | 5 | M
+Hari ng bubungan, mahilig sa buwan at katahimikan. | Pusa | Animal | 4 | P
+Mabilis sa lupa, ngunit walang gulong na dala. | Kabayo | Animal | 6 | K
+Kasama ng magsasaka, sa putikan siya masaya. | Kalabaw | Animal | 7 | K
+Munting musikero ng palayan, umaawit tuwing tag-ulan. | Palaka | Animal | 6 | P
+Munting tiririt, may bombilya sa puwit. | Alitaptap | Animal | 9 | A
+May katawan ngunit walang paa, sa paggapang siya'y bihasa. | Ahas | Animal | 4 | A
+May balbas ngunit hindi matanda, may sungay ngunit hindi masama. | Kambing | Animal | 7 | K
+May pakpak ngunit hindi eroplano, lumilipad sa ulap, sa langit lumalayo. | Ibon | Animal | 4 | I
+May sipit na matulis, sa buhangin ay mabilis. | Alimango | Animal | 8 | A
+Kaibigang tunay, laging tapat sa buhay, tahol ang tanda kapag may panganib sa bahay. | Aso | Animal | 3 | A
+Lumilipad kahit hindi ginagamit ang mata, kapag natulog ay nakasabit sa sanga. | Paniki | Animal | 6 | P
+Mabagal ang lakad, may bahay na kasama, sa bawat paggalaw, dahan-dahan ang dala. | Pagong | Animal | 6 | P
+Sa kislap ng tubig siya’y sumasayaw, sa agos ng buhay dahan-dahang galaw. | Isda | Animal | 4 | I
