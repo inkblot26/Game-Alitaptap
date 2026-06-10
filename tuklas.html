@@ -12,10 +12,32 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
-    background: linear-gradient(to top, #4b6cb7, #182848);
     color: white;
+  
+    background-image: url("pic/tuklaspagebg.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
   }
 
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 0;
+  }
+
+  .top-bar,
+  .mystery-container,
+  .cards,
+  .modal,
+  .fail-screen {
+    position: relative;
+    z-index: 2;
+  }
+  
   /* ===== TOP BAR ===== */
   .top-bar {
     display: flex;
