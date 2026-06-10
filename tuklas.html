@@ -274,7 +274,7 @@
         alert("Not enough bugtong in file!");
       }
   
-      assignRiddlesToCards(); // ✅ IMPORTANT FIX HERE
+      assignRiddlesToCards(); 
   
     } catch (err) {
       console.error("Error loading bugtong:", err);
@@ -288,7 +288,7 @@
     for (let i = 0; i < 3; i++) {
       if (riddles[i]) {
         cards[i].innerText = "Bugtong " + (i + 1);
-        cards[i].dataset.index = i; // IMPORTANT LINK
+        cards[i].dataset.index = i; 
       } else {
         cards[i].innerText = "Loading...";
       }
@@ -298,7 +298,8 @@
   /* ===== CARD SYSTEM ===== */
   function openCard(cardElement) {
     let index = cardElement.dataset.index;
-  
+    hintsVisible = false;
+    
     if (index === undefined || !riddles[index]) return;
   
     currentIndex = index;
@@ -311,6 +312,7 @@
     document.getElementById("answer").value = "";
     document.getElementById("feedback").innerText = "";
     document.getElementById("hints").innerHTML = "";
+    
   }
   
   function updateCards() {
@@ -323,14 +325,25 @@
     }
   }
 
+  
+  let hintsVisible = false;
   function showHints() {
     let r = riddles[currentIndex];
+    let hintsBox = document.getElementById("hints");
   
-    document.getElementById("hints").innerHTML = `
-      <div>📂 Category: ${r.category}</div>
-      <div>🔢 Length: ${r.length}</div>
-      <div>🔤 First letter: ${r.firstLetter}</div>
-    `;
+    if (hintsVisible) {
+      // HIDE hints
+      hintsBox.innerHTML = "";
+      hintsVisible = false;
+    } else {
+      // SHOW hints
+      hintsBox.innerHTML = `
+        <div>📂 Category: ${r.category}</div>
+        <div>🔢 Length: ${r.length}</div>
+        <div>🔤 First letter: ${r.firstLetter}</div>
+      `;
+      hintsVisible = true;
+    }
   }
   
   function submitAnswer() {
