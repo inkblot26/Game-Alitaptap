@@ -164,6 +164,22 @@
     margin: 10px 5px 0 5px;
   }
 
+  .hint-row {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .hint-row span {
+    background: #f2f2f2;
+    color: #182848;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+  }
+
 </style>
 </head>
 
@@ -338,9 +354,11 @@
     } else {
       // SHOW hints
       hintsBox.innerHTML = `
-        <div>📂 Category: ${r.category}</div>
-        <div>🔢 Length: ${r.length}</div>
-        <div>🔤 First letter: ${r.firstLetter}</div>
+        <div class="hint-row">
+          <span>📂 ${r.category}</span>
+          <span>🔢 ${r.length}</span>
+          <span>🔤 ${r.firstLetter}</span>
+        </div>
       `;
       hintsVisible = true;
     }
