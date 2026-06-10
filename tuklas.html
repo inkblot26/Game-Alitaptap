@@ -78,6 +78,7 @@
   .mystery-box {
     width: 380px;
     height: 240px;
+    transition: all 0.5s ease;
     border-radius: 15px;
   
     background-image: url("pic/mysterynobg.png");
@@ -218,6 +219,16 @@
     color: white;
     text-shadow: 0 2px 6px rgba(0,0,0,0.6);
   }
+
+  #playAgainBtn {
+    background: #4b6cb7;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+  }
   
 </style>
 </head>
@@ -227,7 +238,15 @@
 <!-- TOP BAR -->
 <div class="top-bar">
   <button class="home-btn" onclick="goHome()">🏠 Home</button>
-  <div class="timer" id="timer">03:00</div>
+
+  <div style="display:flex; align-items:center; gap:10px;">
+    <div class="timer" id="timer">03:00</div>
+
+    <!-- NEW PLAY AGAIN BUTTON -->
+    <button id="playAgainBtn" onclick="restart()" style="display:none;">
+      🔄 Play Again
+    </button>
+  </div>
 </div>
 
 <!-- MYSTERY BOX -->
@@ -429,13 +448,21 @@
       // stop timer
       timerRunning = false;
   
+      // show play again button
+      document.getElementById("playAgainBtn").style.display = "block";
+  
       // update instruction text
       document.getElementById("mysteryText").innerHTML =
-        "✨ Mystery Image: Jose Rizal<br>Click image more info!";
+        "✨ Mystery Image: Jose Rizal<br>Click image for more info!";
   
-      // REVEAL IMAGE ⭐
+      // expand mystery box
+      document.querySelector(".mystery-box").style.width = "500px";
+      document.querySelector(".mystery-box").style.height = "320px";
+  
+      // reveal image
       document.querySelector(".mystery-box").style.backgroundImage =
         "url('pic/mi_joserizal.png')";
+      document.querySelector(".mystery-box").style.backgroundSize = "cover";
     }
   }
   
