@@ -1,1 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tuklas Mode - Alitaptap</title>
 
+  <style>
+    body {
+      margin: 0;
+      font-family: Georgia, serif;
+      background: linear-gradient(to top, #1b2a3a, #2f4f4f);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 600px;
+      text-align: center;
+      background: rgba(0,0,0,0.4);
+      padding: 20px;
+      border-radius: 12px;
+      backdrop-filter: blur(5px);
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      color: #ffd86b;
+    }
+
+    .riddle {
+      font-size: 1.2rem;
+      margin: 20px 0;
+      line-height: 1.5;
+    }
+
+    input {
+      width: 80%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 10px 15px;
+      margin: 5px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #ffd86b;
+      color: #000;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #ffeaa0;
+    }
+
+    .feedback {
+      margin-top: 15px;
+      font-size: 1rem;
+    }
+
+    .score {
+      margin-top: 10px;
+      color: #9effa1;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>🧠 TUKLAS MODE</h1>
+
+    <div class="riddle" id="riddle">
+      Loading...
+    </div>
+
+    <input type="text" id="answer" placeholder="Ilagay ang sagot..." />
+
+    <br>
+
+    <button onclick="checkAnswer()">Sagot</button>
+    <button onclick="nextRiddle()">Next</button>
+    <button onclick="goHome()">Home</button>
+
+    <div class="feedback" id="feedback"></div>
+    <div class="score" id="score">Score: 0</div>
+
+  </div>
+
+  <script>
+    const riddles = [
+      { q: "May ilaw sa gabi ngunit hindi ilaw ng bahay.", a: "alitaptap" },
+      { q: "Hindi tao, hindi hayop, ngunit may buntot na gumagalaw sa tubig.", a: "bangka" },
+      { q: "Bilog na pula, matamis at makatas.", a: "kamatis" },
+      { q: "May mata ngunit hindi nakakakita.", a: "karayom" },
+      { q: "Sumasama sa iyo ngunit hindi mo nakikita.", a: "anino" }
+    ];
+
+    let current = 0;
+    let score = 0;
+
+    function loadRiddle() {
+      document.getElementById("riddle").innerText = riddles[current].q;
+      document.getElementById("feedback").innerText = "";
+      document.getElementById("answer").value = "";
+    }
+
+    function checkAnswer() {
+      let userAnswer = document.getElementById("answer").value.toLowerCase().trim();
+      let correct = riddles[current].a;
+
+      if (userAnswer === correct) {
+        score++;
+        document.getElementById("feedback").innerText = "✔ Tama! Lumalakas ang liwanag ng alitaptap.";
+      } else {
+        document.getElementById("feedback").innerText = "✖ Mali. Subukan muli.";
+      }
+
+      document.getElementById("score").innerText = "Score: " + score;
+    }
+
+    function nextRiddle() {
+      current++;
+      if (current >= riddles.length) {
+        current = 0;
+      }
+      loadRiddle();
+    }
+
+    function goHome() {
+      window.location.href = "index.html";
+    }
+
+    loadRiddle();
+  </script>
+
+</body>
+</html>
