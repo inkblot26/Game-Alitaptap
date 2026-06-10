@@ -78,9 +78,7 @@
   .mystery-box {
     width: 380px;
     height: 240px;
-    transition: all 0.5s ease;
     border-radius: 15px;
-    cursor: pointer;
   
     background-image: url("pic/mysterynobg.png");
     background-size: contain;   /* IMPORTANT CHANGE */
@@ -215,18 +213,10 @@
   .mystery-instruction {
     text-align: center;
     font-size: 1.2rem;
+    font-weight: bold;
     margin-bottom: 12px;
     color: white;
     text-shadow: 0 2px 6px rgba(0,0,0,0.6);
-  }
-
-  #infoText {
-    font-size: 1rem;
-    line-height: 1.6;
-    text-align: justify;
-    background: #f9f9f9;
-    padding: 12px;
-    border-radius: 10px;
   }
   
 </style>
@@ -236,15 +226,7 @@
 
 <!-- TOP BAR -->
 <div class="top-bar">
-  <div style="display:flex; gap:10px; align-items:center;">
-    <button class="home-btn" onclick="goHome()">🏠 Home</button>
-
-    <!-- Play Again (hidden by default) -->
-    <button id="playAgainBtn" class="home-btn" onclick="restart()" style="display:none;">
-      🔄 Play Again
-    </button>
-  </div>
-
+  <button class="home-btn" onclick="goHome()">🏠 Home</button>
   <div class="timer" id="timer">03:00</div>
 </div>
 
@@ -255,7 +237,7 @@
     Solve 3 bugtong to reveal!
   </div>
   
-  <div class="mystery-box" onclick="openInfo()"></div>
+  <div class="mystery-box"></div>
 </div>
 
 <!-- CARDS -->
@@ -308,7 +290,6 @@
   let riddles = [];
   let currentIndex = 0;
   let solved = [];
-  let hintsVisible = false;
   
   /* ===== LOAD BUGTONG FROM TXT ===== */
   async function loadRiddles() {
@@ -448,24 +429,13 @@
       // stop timer
       timerRunning = false;
   
-      // show play again button
-      document.getElementById("playAgainBtn").style.display = "inline-block";
-  
       // update instruction text
       document.getElementById("mysteryText").innerHTML =
-        `Mystery Image: Jose Rizal<br>
-        <span style="font-size:0.9rem; font-weight:normal;">
-          Click image for more info!
-        </span>`;
+        "✨ Mystery Image: Jose Rizal<br>Click image more info!";
   
-      // expand mystery box
-      const box = document.querySelector(".mystery-box");
-      box.style.width = "500px";
-      box.style.height = "320px";
-  
-      // reveal image
-      box.style.backgroundImage = "url('pic/mi_joserizal.png')";
-      box.style.backgroundSize = "cover";
+      // REVEAL IMAGE ⭐
+      document.querySelector(".mystery-box").style.backgroundImage =
+        "url('pic/mi_joserizal.png')";
     }
   }
   
@@ -486,17 +456,16 @@
   /* ===== TIMER ===== */
   let time = 180;
   let timerRunning = true;
-  const timerEl = document.getElementById("timer");
   
   let timerInterval = setInterval(() => {
-    if (!timerRunning) return;
-  
+
+    if (!timerRunning) return; // ⭐ STOP CONTROL
+    
     let m = Math.floor(time / 60);
     let s = time % 60;
   
-    if (timerEl) {
-      timerEl.innerText = `${m}:${s.toString().padStart(2, "0")}`;
-    }
+    document.getElementById("timer").innerText =
+      `${m}:${s.toString().padStart(2, "0")}`;
   
     time--;
   
@@ -507,57 +476,16 @@
   }, 1000);
   
   /* ===== START GAME ===== */
-  window.addEventListener("DOMContentLoaded", async () => {
+  window.onload = async function () {
     await loadRiddles();
-    assignRiddlesToCards();
-  });
-
-  async function openInfo() {
-    const modal = document.getElementById("infoModal");
-    const textBox = document.getElementById("infoText");
   
-    if (!modal || !textBox) return;
-  
-    modal.style.display = "flex";
-    textBox.innerText = "Loading...";
-  
-    try {
-      const res = await fetch("pic/mi_joserizal.txt");
-      if (!res.ok) throw new Error("File not found");
-  
-      const text = await res.text();
-      textBox.innerText = text;
-  
-    } catch (err) {
-      textBox.innerText = "Information unavailable. Please check file path.";
-    }
-  }
-  
-  function closeInfo(e) {
-    document.getElementById("infoModal").style.display = "none";
-  }
+    // wait 100ms to ensure data is stable
+    setTimeout(() => {
+      assignRiddlesToCards();
+    }, 100);
+  };
   
 </script>
 
-<!-- INFO MODAL -->
-<div class="modal" id="infoModal" onclick="closeInfo(event)">
-  <div class="modal-content" onclick="event.stopPropagation()">
-
-    <div style="font-size:24px; font-weight:bold; margin-bottom:10px;">
-      José Rizal
-    </div>
-
-    <div id="infoText" style="text-align:justify; line-height:1.6;">
-      Loading...
-    </div>
-
-    <button onclick="closeInfo()" style="margin-top:15px;">
-      Close
-    </button>
-
-  </div>
-</div>
-  
-  
 </body>
 </html>
