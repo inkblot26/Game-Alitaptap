@@ -243,7 +243,7 @@
         .filter(l => l.includes("-"));
   
       let parsed = lines.map(line => {
-        let dashIndex = line.indexOf("-");
+        let dashIndex = line.indexOf("|");
         let q = line.substring(0, dashIndex).trim();
         let a = line.substring(dashIndex + 1).trim().toLowerCase();
   
