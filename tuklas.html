@@ -185,9 +185,9 @@
 
 <!-- CARDS -->
 <div class="cards">
-  <div class="card" onclick="openCard(0)">Card 1</div>
-  <div class="card" onclick="openCard(1)">Card 2</div>
-  <div class="card" onclick="openCard(2)">Card 3</div>
+  <div class="card" onclick="openCard(this)">Card 1</div>
+  <div class="card" onclick="openCard(this)">Card 2</div>
+  <div class="card" onclick="openCard(this)">Card 3</div>
 </div>
 
 <!-- MODAL -->
@@ -266,10 +266,25 @@
       alert("Failed to load easybugtong.txt");
     }
   }
+
+  function assignRiddlesToCards() {
+    let cards = document.getElementsByClassName("card");
   
+    for (let i = 0; i < 3; i++) {
+      if (riddles[i]) {
+        cards[i].innerText = "Bugtong " + (i + 1);
+        cards[i].dataset.index = i; // IMPORTANT LINK
+      } else {
+        cards[i].innerText = "Loading...";
+      }
+    }
+  }
+            
   /* ===== CARD SYSTEM ===== */
-  function openCard(index) {
-    if (!riddles[index]) return;
+  function openCard(cardElement) {
+    let index = cardElement.dataset.index;
+  
+    if (index === undefined || !riddles[index]) return;
   
     currentIndex = index;
   
@@ -349,7 +364,11 @@
   /* ===== START GAME ===== */
   window.onload = async function () {
     await loadRiddles();
-    updateCards();
+  
+    // wait 100ms to ensure data is stable
+    setTimeout(() => {
+      assignRiddlesToCards();
+    }, 100);
   };
   
 </script>
