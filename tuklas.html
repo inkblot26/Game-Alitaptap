@@ -291,6 +291,9 @@
   let currentIndex = 0;
   let solved = [];
   
+  let timerRunning = true;
+  let hintsVisible = false;
+  
   /* ===== LOAD BUGTONG FROM TXT ===== */
   async function loadRiddles() {
     try {
@@ -354,22 +357,19 @@
             
   /* ===== CARD SYSTEM ===== */
   function openCard(cardElement) {
-    let index = cardElement.dataset.index;
-    hintsVisible = false;
-    
-    if (index === undefined || !riddles[index]) return;
+    const index = Number(cardElement.dataset.index);
   
+    if (Number.isNaN(index) || !riddles[index]) return;
     currentIndex = index;
-  
     document.getElementById("modal").style.display = "flex";
-  
-    // reset UI each open
     document.getElementById("bigTitle").innerText = "BUGTONG";
     document.getElementById("question").innerText = riddles[index].q;
     document.getElementById("answer").value = "";
     document.getElementById("feedback").innerText = "";
     document.getElementById("hints").innerHTML = "";
-    
+  
+    // reset hints properly
+    hintsVisible = false;
   }
   
   function updateCards() {
@@ -426,14 +426,14 @@
   function checkWin() {
     if (solved.every(v => v)) {
   
-      // stop timer
+      // stop timer safely
       timerRunning = false;
   
-      // update instruction text
+      // update text
       document.getElementById("mysteryText").innerHTML =
-        "✨ Mystery Image: Jose Rizal<br>Click image more info!";
+        "✨ Mystery Image: Jose Rizal<br>Click image for more info!";
   
-      // REVEAL IMAGE ⭐
+      // reveal image
       document.querySelector(".mystery-box").style.backgroundImage =
         "url('pic/mi_joserizal.png')";
     }
@@ -459,7 +459,10 @@
   
   let timerInterval = setInterval(() => {
 
-    if (!timerRunning) return; // ⭐ STOP CONTROL
+    if (!timerRunning) {
+      clearInterval(timerInterval);
+      return;
+    }
     
     let m = Math.floor(time / 60);
     let s = time % 60;
