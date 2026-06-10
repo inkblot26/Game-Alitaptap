@@ -224,6 +224,15 @@
     font-weight: normal;
     opacity: 0.85;
   }
+
+  .mystery-box {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  
+  .mystery-box:hover {
+    transform: scale(1.02);
+  }
   
 </style>
 </head>
@@ -247,7 +256,7 @@
     Solve 3 bugtong to reveal!
   </div>
   
-  <div class="mystery-box"></div>
+  <div class="mystery-box" onclick="openInfo()"></div>
 </div>
 
 <!-- CARDS -->
@@ -520,8 +529,43 @@
     // restart riddles
     loadRiddles();
   }
+
+  async function openInfo() {
+    // only allow click AFTER reveal
+    const box = document.querySelector(".mystery-box");
+    if (!box.style.backgroundImage.includes("mi_joserizal.png")) return;
+  
+    try {
+      const res = await fetch("pic/mi_joserizal.txt");
+      const text = await res.text();
+  
+      document.getElementById("infoText").innerText = text;
+      document.getElementById("infoModal").style.display = "flex";
+  
+    } catch (err) {
+      document.getElementById("infoText").innerText =
+        "Failed to load information file.";
+      document.getElementById("infoModal").style.display = "flex";
+    }
+  }
+  
+  function closeInfoModal(e) {
+    document.getElementById("infoModal").style.display = "none";
+  }
   
 </script>
 
+<!-- INFO MODAL -->
+<div class="modal" id="infoModal" onclick="closeInfoModal(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    
+    <h2 id="infoTitle">Information</h2>
+    <div id="infoText" style="text-align:left; white-space:pre-line;"></div>
+
+    <button onclick="closeInfoModal()">Close</button>
+  </div>
+</div>
+
+  
 </body>
 </html>
