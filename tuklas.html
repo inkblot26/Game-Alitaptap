@@ -236,15 +236,15 @@
 
   .top-bar {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start; 
     align-items: center;
     padding: 15px;
   }
-
+  
   .left-controls {
     display: flex;
-    gap: 10px;
     align-items: center;
+    gap: 10px;
   }
   
 </style>
@@ -257,8 +257,8 @@
   <div class="left-controls">
     <button class="home-btn" onclick="goHome()">🏠 Home</button>
     <button class="home-btn" onclick="playAgain()">🔄 Play Again</button>
+    <div class="timer" id="timer">03:00</div>
   </div>
-  <div class="timer" id="timer">03:00</div>
 </div>
 
 <!-- MYSTERY BOX -->
