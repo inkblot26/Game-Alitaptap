@@ -46,39 +46,23 @@
     padding: 15px;
   }
 
-  .top-bar,
-  .top-bar button,
-  .top-bar .timer {
-    font-family: Georgia, serif;
-  }
-
-  .home-btn,
-  .timer {
-    font-family: Georgia, serif;
-    font-size: 1rem;
-  
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  
-    padding: 0 16px;
-    min-width: 110px;
-    border-radius: 10px;
-  
-    font-weight: bold;
-  }
-  
   .home-btn {
     background: #ffffff;
     color: #182848;
     border: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-weight: bold;
     cursor: pointer;
   }
-  
+
   .timer {
     background: rgba(255,255,255,0.95);
     color: #182848;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1.1rem;
   }
 
   /* ===== MYSTERY BOX ===== */
@@ -169,7 +153,7 @@
   }
 
   button {
-    margin-top: 10px;
+    margin-top: 0;
     padding: 12px 16px;
     border: none;
     border-radius: 10px;
@@ -279,28 +263,6 @@
     line-height: 1;          
     box-sizing: border-box;
   }
-
-  #gameFinishedText {
-    align-self: center;
-    text-align: center;
-    margin-left: 15px;
-  
-    font-family: Georgia, serif;
-    font-size: 1rem;
-    font-weight: bold;
-  
-    padding: 10px 14px;
-    border-radius: 10px;
-  
-    background: rgba(255,255,255,0.95);
-    color: #182848;
-  }
-
-  .modal-content {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
   
 </style>
 </head>
@@ -311,7 +273,7 @@
 <div class="top-bar">
   <div class="left-controls">
     <button class="home-btn" onclick="goHome()">🏠 Home</button>
-    <button class="home-btn" onclick="playAgain()">Play Again</button>
+    <button class="home-btn" onclick="playAgain()">🔄 Play Again</button>
     <div class="timer" id="timer">03:00</div>
     <div id="scoreText" class="timer">Mystery Solve: 0</div>
   </div>
@@ -339,8 +301,8 @@
               cursor:default;
               margin-top:10px;
               pointer-events:none;
-              background: #ffffff;">
-    Game Finished! All 4 Mysteries Unlocked!
+              background:#4b6cb7;">
+    🎉 Game Finished! All 4 Mysteries Unlocked!
   </div>
   
 </div>
