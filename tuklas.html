@@ -353,6 +353,7 @@
   let usedMysteries = [];
   let usedRiddles = [];
   let hintsVisible = false;
+  let timerRunning = true;
   
   /* ===== LOAD BUGTONG FROM TXT ===== */
   async function loadRiddles() {
@@ -393,14 +394,29 @@
         available = parsed.map((_, i) => i);
       }
       
-      let selected = [];
+      // pick 3 UNIQUE without tracking indexes incorrectly
+      let pool = [...parsed];
       
-      while (selected.length < 3) {
-        let pick = available[Math.floor(Math.random() * available.length)];
-        if (!selected.includes(pick)) {
-          selected.push(pick);
+      // remove already used riddles based on text (safer than index)
+      pool = pool.filter(r => !usedRiddles.includes(r.q));
+      
+      if (pool.length < 3) {
+        usedRiddles = [];
+        pool = [...parsed];
+      }
+      
+      riddles = [];
+      
+      while (riddles.length < 3) {
+        let pick = pool[Math.floor(Math.random() * pool.length)];
+      
+        if (!riddles.find(r => r.q === pick.q)) {
+          riddles.push(pick);
         }
       }
+      
+      // store used riddles by QUESTION (not index)
+      usedRiddles.push(...riddles.map(r => r.q));
       
       usedRiddles.push(...selected);
       
@@ -581,6 +597,7 @@
 
   function playAgain() {
     // reset game state
+    usedRiddles = [];
     solved = [];
     currentIndex = 0;
     // reset card colors back to yellow
@@ -610,6 +627,7 @@
   }
 
   async function nextGame() {
+    usedRiddles = [];
     // new mystery
     await loadMystery();
     // reset solved state
