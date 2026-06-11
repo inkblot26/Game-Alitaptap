@@ -641,9 +641,11 @@
     document.getElementById("nextGameBtn").style.display = "none";
     document.getElementById("gameFinishedText").style.display = "none";
     
-    document.querySelector(".mystery-box").style.backgroundImage =
-      "url('pic/mysterynobg.png')";
+    const box = document.querySelector(".mystery-box");
+    box.style.backgroundImage = "url('pic/mysterynobg.png')";
+    
     mysteryImage = "mysterynobg.png";
+    
     updateMysteryClickState();
   
     document.getElementById("mysteryText").innerHTML =
@@ -731,8 +733,17 @@
       mysteryImage = list[pickIndex].img;
       mysteryInfo = list[pickIndex].info;
       
-      console.log("Mystery selected:", mysteryImage, mysteryInfo);
+      const box = document.querySelector(".mystery-box");
+      
+      // ALWAYS reset or set image properly
+      box.style.backgroundImage = `url('pic/${mysteryImage}')`;
+      box.style.backgroundSize = "cover";
+      box.style.backgroundPosition = "center";
+      
+      // IMPORTANT: update click state AFTER image is set
       updateMysteryClickState();
+      
+      console.log("Mystery selected:", mysteryImage, mysteryInfo);
   
     } catch (err) {
       console.error("❌ Mystery load failed:", err);
