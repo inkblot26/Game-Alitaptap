@@ -347,6 +347,8 @@
   let riddles = [];
   let currentIndex = 0;
   let solved = [];
+  let timerRunning = true;
+  let time = 180;
   let mysteryImage = "";
   let mysteryInfo = "";
   let lastMysteryIndex = -1;
@@ -356,8 +358,7 @@
   let totalMysteries = 4;
   
   let hintsVisible = false;
-  let timerRunning = true;
-  let time = 180;
+
   
   /* ===== LOAD BUGTONG FROM TXT ===== */
   async function loadRiddles() {
@@ -544,11 +545,14 @@
   
   /* ===== NAVIGATION ===== */
   function goHome() {
-    // full reset before leaving page
-    sessionStorage.clear();
-    localStorage.clear();
-  
-    window.location.href = "index.html";
+    try {
+      sessionStorage.clear();
+      localStorage.clear();
+      window.location.href = "./index.html";
+    } catch (e) {
+      console.error("Home navigation failed:", e);
+      window.location.href = "./index.html";
+    }
   }
   
   function restart() {
