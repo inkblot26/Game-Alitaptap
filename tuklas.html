@@ -628,7 +628,8 @@
   async function openInfo() {
     const box = document.querySelector(".mystery-box");
   
-    if (!box.style.backgroundImage.includes("mi_")) return;
+    /*  only allow click AFTER mystery is revealed */
+    if (!mysteryImage) return;
   
     try {
       const res = await fetch("pic/" + mysteryInfo);
@@ -664,6 +665,11 @@
         info: parts[2]
       };
     });
+  
+    if (!list.length) {
+      console.error("mysterylist.txt is empty or invalid");
+      return;
+    }
   
     let pickIndex;
   
