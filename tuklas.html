@@ -547,12 +547,15 @@
   
   /* ===== START GAME ===== */
   window.onload = async function () {
-    await loadMystery();   // ⭐ FIRST choose mystery
-    await loadRiddles();   // then load riddles
+    console.log("Game starting...");
   
-    setTimeout(() => {
-      assignRiddlesToCards();
-    }, 100);
+    await loadMystery();
+    await loadRiddles();
+  
+    // FORCE assign AFTER load (no delay needed)
+    assignRiddlesToCards();
+  
+    console.log("Game ready!");
   };
 
   function playAgain() {
@@ -650,41 +653,50 @@
   }
 
   async function loadMystery() {
-    const res = await fetch("pic/mysterylist.txt");
-    const text = await res.text();
+    try {
+      const res = await fetch("pic/mysterylist.txt");
   
-    const lines = text
-      .split("\n")
-      .map(l => l.trim())
-      .filter(l => l.includes("|"));
+      if (!res.ok) {
+        throw new Error("Cannot load pic/mysterylist.txt");
+      }
   
-    const list = lines.map(line => {
-      let parts = line.split("|").map(p => p.trim());
-      return {
-        img: parts[1],
-        info: parts[2]
-      };
-    });
+      const text = await res.text();
   
-    if (!list.length) {
-      console.error("mysterylist.txt is empty or invalid");
-      return;
+      const lines = text
+        .split("\n")
+        .map(l => l.trim())
+        .filter(l => l.includes("|"));
+  
+      if (lines.length === 0) {
+        throw new Error("mysterylist.txt is empty or invalid");
+      }
+  
+      const list = lines.map(line => {
+        let parts = line.split("|").map(p => p.trim());
+        return {
+          img: parts[1],
+          info: parts[2]
+        };
+      });
+  
+      let pickIndex;
+  
+      do {
+        pickIndex = Math.floor(Math.random() * list.length);
+      } while (pickIndex === lastMysteryIndex && list.length > 1);
+  
+      lastMysteryIndex = pickIndex;
+  
+      const pick = list[pickIndex];
+  
+      mysteryImage = pick.img;
+      mysteryInfo = pick.info;
+  
+      console.log("Mystery selected:", pick);
+  
+    } catch (err) {
+      console.error("❌ Mystery load failed:", err);
     }
-  
-    let pickIndex;
-  
-    do {
-      pickIndex = Math.floor(Math.random() * list.length);
-    } while (pickIndex === lastMysteryIndex && list.length > 1);
-  
-    lastMysteryIndex = pickIndex;
-  
-    const pick = list[pickIndex];
-  
-    mysteryImage = pick.img;
-    mysteryInfo = pick.info;
-  
-    console.log("Mystery selected:", pick);
   }
   
 </script>
