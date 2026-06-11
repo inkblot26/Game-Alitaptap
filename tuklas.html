@@ -348,10 +348,11 @@
   let solved = [];
   let mysteryImage = "";
   let mysteryInfo = "";
+  let mysteryImage = "";
+  let mysteryInfo = "";
   let lastMysteryIndex = -1;
   let mysteryScore = 0;
-  let hintsVisible = false;
-  let timerRunning = true;
+  let usedMysteries = [];
   
   /* ===== LOAD BUGTONG FROM TXT ===== */
   async function loadRiddles() {
@@ -632,7 +633,7 @@
     const box = document.querySelector(".mystery-box");
   
     /*  only allow click AFTER mystery is revealed */
-    if (!mysteryImage) return;
+    if (mysteryScore === 0) return;
   
     try {
       const res = await fetch("pic/" + mysteryInfo);
@@ -680,17 +681,29 @@
         throw new Error("No valid mystery entries found");
       }
   
-      let pickIndex;
-  
-      do {
-        pickIndex = Math.floor(Math.random() * list.length);
-      } while (pickIndex === lastMysteryIndex && list.length > 1);
-  
+      // get available indexes that were NOT used yet
+      let available = list
+        .map((_, i) => i)
+        .filter(i => !usedMysteries.includes(i));
+      
+      // if all used → reset memory
+      if (available.length === 0) {
+        usedMysteries = [];
+        available = list.map((_, i) => i);
+      }
+      
+      // pick random from available only
+      const pickIndex = available[
+        Math.floor(Math.random() * available.length)
+      ];
+      
+      // store memory
+      usedMysteries.push(pickIndex);
       lastMysteryIndex = pickIndex;
-  
+      
       mysteryImage = list[pickIndex].img;
       mysteryInfo = list[pickIndex].info;
-  
+      
       console.log("Mystery selected:", mysteryImage, mysteryInfo);
   
     } catch (err) {
