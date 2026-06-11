@@ -276,7 +276,7 @@
     Solve 3 bugtong to reveal!
   </div>
   
-  <div class="mystery-box"></div>
+  <div class="mystery-box" onclick="openInfo()"></div>
   <button
     id="nextGameBtn"
     class="home-btn"
@@ -603,9 +603,7 @@
     // reset mystery box
     document.querySelector(".mystery-box").style.backgroundImage =
       "url('pic/mysterynobg.png')";
-    mysteryImage = "mysterynobg.png";
-    updateMysteryClickState();
-    
+  
     document.getElementById("mysteryText").innerHTML =
       `🔒 Mystery Image Locked<br>
        Solve 3 bugtong to reveal!`;
@@ -641,12 +639,8 @@
     document.getElementById("nextGameBtn").style.display = "none";
     document.getElementById("gameFinishedText").style.display = "none";
     
-    const box = document.querySelector(".mystery-box");
-    box.style.backgroundImage = "url('pic/mysterynobg.png')";
-    
-    mysteryImage = "mysterynobg.png";
-    
-    updateMysteryClickState();
+    document.querySelector(".mystery-box").style.backgroundImage =
+      "url('pic/mysterynobg.png')";
   
     document.getElementById("mysteryText").innerHTML =
       `🔒 Mystery Image Locked<br>
@@ -733,33 +727,10 @@
       mysteryImage = list[pickIndex].img;
       mysteryInfo = list[pickIndex].info;
       
-      const box = document.querySelector(".mystery-box");
-      
-      // ALWAYS reset or set image properly
-      box.style.backgroundImage = `url('pic/${mysteryImage}')`;
-      box.style.backgroundSize = "cover";
-      box.style.backgroundPosition = "center";
-      
-      // IMPORTANT: update click state AFTER image is set
-      updateMysteryClickState();
-      
       console.log("Mystery selected:", mysteryImage, mysteryInfo);
   
     } catch (err) {
       console.error("❌ Mystery load failed:", err);
-    }
-  }
-
-  function updateMysteryClickState() {
-    const box = document.querySelector(".mystery-box");
-  
-    // only clickable if NOT locked image
-    if (mysteryImage && mysteryImage !== "mysterynobg.png") {
-      box.style.cursor = "pointer";
-      box.onclick = openInfo;
-    } else {
-      box.style.cursor = "default";
-      box.onclick = null;
     }
   }
   
