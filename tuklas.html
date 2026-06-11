@@ -602,29 +602,22 @@
   }
 
   async function nextGame() {
-    mysteryScore = 0;
     usedMysteries = [];
     mysterySolved = false;
-    document.getElementById("scoreText").innerText = "Mystery Solve: 0";
-    // new mystery
+  
     await loadMystery();
-
-    
-    // reset solved state
+  
     solved = [];
     currentIndex = 0;
   
-    // reset cards
     let cards = document.getElementsByClassName("card");
   
     for (let card of cards) {
       card.classList.remove("done");
     }
   
-    // hide next button
     document.getElementById("nextGameBtn").style.display = "none";
   
-    // reset mystery image
     document.querySelector(".mystery-box").style.backgroundImage =
       "url('pic/mysterynobg.png')";
   
@@ -632,11 +625,9 @@
       `🔒 Mystery Image Locked<br>
        Solve 3 bugtong to reveal!`;
   
-    // reset timer
     time = 180;
     timerRunning = true;
   
-    // load NEW bugtong set
     await loadRiddles();
   }
   
