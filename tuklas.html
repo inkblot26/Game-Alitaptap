@@ -351,6 +351,8 @@
   let lastMysteryIndex = -1;
   let mysteryScore = 0;
   let usedMysteries = [];
+  let usedRiddles = [];
+  let hintsVisible = false;
   
   /* ===== LOAD BUGTONG FROM TXT ===== */
   async function loadRiddles() {
@@ -382,7 +384,27 @@
   
       parsed = parsed.sort(() => Math.random() - 0.5);
   
-      riddles = parsed.slice(0, 3);
+      let available = parsed
+        .map((_, i) => i)
+        .filter(i => !usedRiddles.includes(i));
+      
+      if (available.length < 3) {
+        usedRiddles = []; // reset if exhausted
+        available = parsed.map((_, i) => i);
+      }
+      
+      let selected = [];
+      
+      while (selected.length < 3) {
+        let pick = available[Math.floor(Math.random() * available.length)];
+        if (!selected.includes(pick)) {
+          selected.push(pick);
+        }
+      }
+      
+      usedRiddles.push(...selected);
+      
+      riddles = selected.map(i => parsed[i]);
   
       console.log("Loaded riddles:", riddles);
 
@@ -561,8 +583,6 @@
     // reset game state
     solved = [];
     currentIndex = 0;
-    document.getElementById("scoreText").innerText = "Mystery Solve: 0";
-
     // reset card colors back to yellow
     let cards = document.getElementsByClassName("card");
     
@@ -590,11 +610,8 @@
   }
 
   async function nextGame() {
-    document.getElementById("scoreText").innerText = "Mystery Solve: 0";
     // new mystery
     await loadMystery();
-
-    
     // reset solved state
     solved = [];
     currentIndex = 0;
