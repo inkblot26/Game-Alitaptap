@@ -355,6 +355,10 @@
   let mysterySolved = false;
   let totalMysteries = 4;
   
+  let hintsVisible = false;
+  let timerRunning = true;
+  let time = 180;
+  
   /* ===== LOAD BUGTONG FROM TXT ===== */
   async function loadRiddles() {
     try {
@@ -446,8 +450,6 @@
     }
   }
 
-  
-  let hintsVisible = false;
   function showHints() {
     let r = riddles[currentIndex];
     let hintsBox = document.getElementById("hints");
@@ -554,9 +556,6 @@
   }
   
   /* ===== TIMER ===== */
-  let time = 180;
-  let timerRunning = true;
-  
   let timerInterval = setInterval(() => {
 
     if (!timerRunning) return; // ⭐ STOP CONTROL
