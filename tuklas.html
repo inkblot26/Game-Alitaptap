@@ -294,6 +294,17 @@
     style="display:none;">
     ➡ Next Game
   </button>  
+
+  <div id="gameFinishedText"
+       class="home-btn"
+       style="display:none;
+              cursor:default;
+              margin-top:10px;
+              pointer-events:none;
+              background:#4b6cb7;">
+    🎉 Game Finished! All 4 Mysteries Unlocked!
+  </div>
+  
 </div>
 
 <!-- CARDS -->
@@ -513,14 +524,23 @@
       document.getElementById("mysteryText").innerHTML =
         `Mystery Revealed<br>
          <span class="mystery-note">Click image for more info!</span>`;
-  
-      document.getElementById("nextGameBtn").style.display = "block";
-  
-      // ⭐ ADD THIS PART (GAME COMPLETION CHECK)
+      
       if (mysteryScore >= totalMysteries) {
-        setTimeout(() => {
-          alert("🏆 GAME COMPLETED! You unlocked all mystery images!");
-        }, 300);
+      
+        document.getElementById("nextGameBtn").style.display = "none";
+      
+        document.getElementById("gameFinishedText").style.display = "block";
+      
+        document.getElementById("mysteryText").innerHTML =
+          `🏆 Game Completed!<br>
+           <span class="mystery-note">
+           You unlocked all 4 mystery images!
+           </span>`;
+      
+      } else {
+      
+        document.getElementById("nextGameBtn").style.display = "block";
+      
       }
     }
   }
@@ -607,6 +627,9 @@
 
     //hide button next game
     document.getElementById("nextGameBtn").style.display = "none";
+    
+    //hide game finished text
+    document.getElementById("gameFinishedText").style.display = "none";
   }
 
   async function nextGame() {
@@ -624,7 +647,8 @@
     }
   
     document.getElementById("nextGameBtn").style.display = "none";
-  
+    document.getElementById("gameFinishedText").style.display = "none";
+    
     document.querySelector(".mystery-box").style.backgroundImage =
       "url('pic/mysterynobg.png')";
   
