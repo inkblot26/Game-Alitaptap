@@ -29,7 +29,7 @@
     z-index: 0;
   }
 
-  
+  .top-bar,
   .mystery-container,
   .cards,
   .modal,
@@ -37,7 +37,33 @@
     position: relative;
     z-index: 2;
   }
+  
+  /* ===== TOP BAR ===== */
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+  }
 
+  .home-btn {
+    background: #ffffff;
+    color: #182848;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .timer {
+    background: rgba(255,255,255,0.95);
+    color: #182848;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
 
   /* ===== MYSTERY BOX ===== */
   .mystery-container {
@@ -208,50 +234,34 @@
     transform: scale(1.02);
   }
 
-  /* ===== TOP BAR (FIXED UNIFORM STYLE) ===== */
   .top-bar {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     padding: 15px;
   }
-  
   .left-controls {
     display: flex;
-    align-items: center;
+    align-items: center; 
     gap: 10px;
   }
   
-  /* SAME BASE STYLE FOR ALL TOP ELEMENTS */
-  .home-btn,
-  .timer {
-    font-family: Georgia, serif;
-    font-size: 1rem;
-    font-weight: bold;
-  
-    height: 40px;
+  .home-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-  
-    padding: 0 14px;
-    border-radius: 10px;
-  
-    box-sizing: border-box;
+    height: 40px;            
+    padding: 0 14px;        
   }
   
-  /* BUTTON ONLY */
-  .home-btn {
-    background: #ffffff;
-    color: #182848;
-    border: none;
-    cursor: pointer;
-  }
-  
-  /* TIMER + SCORE BOX */
   .timer {
-    background: rgba(255,255,255,0.95);
-    color: #182848;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;             
+    padding: 0 18px;         
+    line-height: 1;          
+    box-sizing: border-box;
   }
   
 </style>
@@ -284,17 +294,6 @@
     style="display:none;">
     ➡ Next Game
   </button>  
-
-  <div id="gameFinishedText"
-       class="home-btn"
-       style="display:none;
-              cursor:default;
-              margin-top:10px;
-              pointer-events:none;
-              background:#4b6cb7;">
-    🎉 Game Finished! All 4 Mysteries Unlocked!
-  </div>
-  
 </div>
 
 <!-- CARDS -->
@@ -347,18 +346,12 @@
   let riddles = [];
   let currentIndex = 0;
   let solved = [];
-  let timerRunning = true;
-  let time = 180;
   let mysteryImage = "";
   let mysteryInfo = "";
   let lastMysteryIndex = -1;
   let mysteryScore = 0;
   let usedMysteries = [];
   let mysterySolved = false;
-  let totalMysteries = 4;
-  
-  let hintsVisible = false;
-
   
   /* ===== LOAD BUGTONG FROM TXT ===== */
   async function loadRiddles() {
@@ -451,6 +444,8 @@
     }
   }
 
+  
+  let hintsVisible = false;
   function showHints() {
     let r = riddles[currentIndex];
     let hintsBox = document.getElementById("hints");
@@ -491,7 +486,7 @@
   }
   
   function checkWin() {
-    if (mysterySolved) return;
+    if (mysterySolved) return; // prevent double counting
   
     if (solved.every(v => v)) {
       mysterySolved = true;
@@ -517,24 +512,8 @@
       document.getElementById("mysteryText").innerHTML =
         `Mystery Revealed<br>
          <span class="mystery-note">Click image for more info!</span>`;
-      
-      if (mysteryScore >= totalMysteries) {
-      
-        document.getElementById("nextGameBtn").style.display = "none";
-      
-        document.getElementById("gameFinishedText").style.display = "block";
-      
-        document.getElementById("mysteryText").innerHTML =
-          `🏆 Game Completed!<br>
-           <span class="mystery-note">
-           You unlocked all 4 mystery images!
-           </span>`;
-      
-      } else {
-      
-        document.getElementById("nextGameBtn").style.display = "block";
-      
-      }
+  
+      document.getElementById("nextGameBtn").style.display = "block";
     }
   }
   
@@ -545,14 +524,7 @@
   
   /* ===== NAVIGATION ===== */
   function goHome() {
-    try {
-      sessionStorage.clear();
-      localStorage.clear();
-      window.location.href = "./index.html";
-    } catch (e) {
-      console.error("Home navigation failed:", e);
-      window.location.href = "./index.html";
-    }
+    window.location.href = "index.html";
   }
   
   function restart() {
@@ -560,6 +532,9 @@
   }
   
   /* ===== TIMER ===== */
+  let time = 180;
+  let timerRunning = true;
+  
   let timerInterval = setInterval(() => {
 
     if (!timerRunning) return; // ⭐ STOP CONTROL
@@ -592,53 +567,42 @@
   };
 
   function playAgain() {
-    // STOP CURRENT GAME LOOP
-    timerRunning = false;
-  
-    // RESET CORE STATE
-    riddles = [];
+    // reset game state
     solved = [];
-    currentIndex = 0;
-  
-    mysteryImage = "";
-    mysteryInfo = "";
-    mysteryScore = 0;
     usedMysteries = [];
+    currentIndex = 0;
+    mysteryScore = 0;
     mysterySolved = false;
-    lastMysteryIndex = -1;
+    document.getElementById("scoreText").innerText = "Mystery Solve: 0";
+
+    // reset card colors back to yellow
+    let cards = document.getElementsByClassName("card");
+    
+    for (let card of cards) {
+      card.classList.remove("done");
+    }  
+    
+    // reset mystery box
+    document.querySelector(".mystery-box").style.backgroundImage =
+      "url('pic/mysterynobg.png')";
   
+    document.getElementById("mysteryText").innerHTML =
+      `🔒 Mystery Image Locked<br>
+       Solve 3 bugtong to reveal!`;
+  
+    // reset timer
     time = 180;
     timerRunning = true;
   
-    // RESET UI
-    document.getElementById("scoreText").innerText = "Mystery Solve: 0";
-  
-    document.getElementById("mysteryText").innerHTML =
-      `🔒 Mystery Image Locked<br>Solve 3 bugtong to reveal!`;
-  
+    // restart riddles
+    loadRiddles();
+
+    //hide button next game
     document.getElementById("nextGameBtn").style.display = "none";
-    document.getElementById("gameFinishedText").style.display = "none";
-  
-    document.getElementById("failScreen").style.display = "none";
-  
-    // RESET CARDS VISUALLY
-    const cards = document.querySelectorAll(".card");
-    cards.forEach(card => {
-      card.classList.remove("done");
-      card.innerText = "Loading...";
-      card.dataset.index = "";
-    });
-  
-    // RESET MYSTERY BOX
-    const box = document.querySelector(".mystery-box");
-    box.style.backgroundImage = "url('pic/mysterynobg.png')";
-    box.onclick = null;
-  
-    // IMPORTANT: restart clean game flow
-    startGame();
   }
 
   async function nextGame() {
+    usedMysteries = [];
     mysterySolved = false;
   
     await loadMystery();
@@ -653,8 +617,7 @@
     }
   
     document.getElementById("nextGameBtn").style.display = "none";
-    document.getElementById("gameFinishedText").style.display = "none";
-    
+  
     document.querySelector(".mystery-box").style.backgroundImage =
       "url('pic/mysterynobg.png')";
   
@@ -748,19 +711,6 @@
     } catch (err) {
       console.error("❌ Mystery load failed:", err);
     }
-  }
-
-  async function startGame() {
-    console.log("Restarting full game...");
-  
-    await loadMystery();
-    await loadRiddles();
-  
-    assignRiddlesToCards();
-  
-    // ensure mystery box is locked visually
-    const box = document.querySelector(".mystery-box");
-    box.style.backgroundImage = "url('pic/mysterynobg.png')";
   }
   
 </script>
