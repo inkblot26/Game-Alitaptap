@@ -352,6 +352,7 @@
   let mysteryScore = 0;
   let usedMysteries = [];
   let mysterySolved = false;
+  let totalMysteries = 4;
   
   /* ===== LOAD BUGTONG FROM TXT ===== */
   async function loadRiddles() {
@@ -486,7 +487,7 @@
   }
   
   function checkWin() {
-    if (mysterySolved) return; // prevent double counting
+    if (mysterySolved) return;
   
     if (solved.every(v => v)) {
       mysterySolved = true;
@@ -514,6 +515,13 @@
          <span class="mystery-note">Click image for more info!</span>`;
   
       document.getElementById("nextGameBtn").style.display = "block";
+  
+      // ⭐ ADD THIS PART (GAME COMPLETION CHECK)
+      if (mysteryScore >= totalMysteries) {
+        setTimeout(() => {
+          alert("🏆 GAME COMPLETED! You unlocked all mystery images!");
+        }, 300);
+      }
     }
   }
   
