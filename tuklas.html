@@ -359,104 +359,49 @@
   async function loadRiddles() {
     try {
       const res = await fetch("easybugtong.txt");
-  
-      if (!res.ok) {
-        throw new Error("Cannot load easybugtong.txt");
-      }
-  
       const text = await res.text();
   
-      let lines = text
+      let parsed = text
         .split("\n")
         .map(l => l.trim())
-        .filter(l => l.includes("|"));
+        .filter(l => l.includes("|"))
+        .map(line => {
+          let parts = line.split("|").map(p => p.trim());
+          return {
+            q: parts[0] || "",
+            a: (parts[1] || "").toLowerCase(),
+            category: parts[2] || "Unknown",
+            length: parts[3] || "?",
+            firstLetter: parts[4] || "?"
+          };
+        });
   
-      let parsed = lines.map(line => {
-        let parts = line.split("|").map(p => p.trim());
-      
-        return {
-          q: parts[0] || "",
-          a: (parts[1] || "").toLowerCase(),
-          category: parts[2] || "Unknown",
-          length: parts[3] || "?",
-          firstLetter: parts[4] || "?"
-        };
-      });
-  
-      parsed = parsed.sort(() => Math.random() - 0.5);
       // remove used riddles
       let pool = parsed.filter(r => !usedRiddles.includes(r.q));
-      
+  
       if (pool.length < 3) {
         usedRiddles = [];
-        pool = [...parsed];
+        pool = parsed;
       }
-      
+  
+      // pick 3 unique
       riddles = [];
-      
       while (riddles.length < 3) {
         let pick = pool[Math.floor(Math.random() * pool.length)];
-      
         if (!riddles.find(r => r.q === pick.q)) {
           riddles.push(pick);
         }
       }
-      
-      // store used questions
+  
+      // save used
       usedRiddles.push(...riddles.map(r => r.q));
-      
+  
+      solved = new Array(riddles.length).fill(false);
+  
       assignRiddlesToCards();
-  
-      let available = parsed
-        .map((_, i) => i)
-        .filter(i => !usedRiddles.includes(i));
-      
-      if (available.length < 3) {
-        usedRiddles = []; // reset if exhausted
-        available = parsed.map((_, i) => i);
-      }
-      
-      // pick 3 UNIQUE without tracking indexes incorrectly
-      let pool = [...parsed];
-      
-      // remove already used riddles based on text (safer than index)
-      pool = pool.filter(r => !usedRiddles.includes(r.q));
-      
-      if (pool.length < 3) {
-        usedRiddles = [];
-        pool = [...parsed];
-      }
-      
-      riddles = [];
-      
-      while (riddles.length < 3) {
-        let pick = pool[Math.floor(Math.random() * pool.length)];
-      
-        if (!riddles.find(r => r.q === pick.q)) {
-          riddles.push(pick);
-        }
-      }
-      
-      // store used riddles by QUESTION (not index)
-      usedRiddles.push(...riddles.map(r => r.q));
-      
-      usedRiddles.push(...selected);
-      
-      riddles = selected.map(i => parsed[i]);
-  
-      console.log("Loaded riddles:", riddles);
-
-      solved = new Array(riddles.length).fill(false); 
-      
-      if (riddles.length < 3) {
-        alert("Not enough bugtong in file!");
-      }
-  
-      assignRiddlesToCards(); 
   
     } catch (err) {
       console.error("Error loading bugtong:", err);
-      alert("Failed to load easybugtong.txt");
     }
   }
 
