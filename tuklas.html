@@ -351,57 +351,52 @@
   let lastMysteryIndex = -1;
   let mysteryScore = 0;
   let usedMysteries = [];
-  let usedRiddles = [];
-  let hintsVisible = false;
-  let timerRunning = true;
   
   /* ===== LOAD BUGTONG FROM TXT ===== */
   async function loadRiddles() {
     try {
       const res = await fetch("easybugtong.txt");
+  
+      if (!res.ok) {
+        throw new Error("Cannot load easybugtong.txt");
+      }
+  
       const text = await res.text();
   
-      let parsed = text
+      let lines = text
         .split("\n")
         .map(l => l.trim())
-        .filter(l => l.includes("|"))
-        .map(line => {
-          let parts = line.split("|").map(p => p.trim());
-          return {
-            q: parts[0] || "",
-            a: (parts[1] || "").toLowerCase(),
-            category: parts[2] || "Unknown",
-            length: parts[3] || "?",
-            firstLetter: parts[4] || "?"
-          };
-        });
+        .filter(l => l.includes("|"));
   
-      // remove used riddles
-      let pool = parsed.filter(r => !usedRiddles.includes(r.q));
+      let parsed = lines.map(line => {
+        let parts = line.split("|").map(p => p.trim());
+      
+        return {
+          q: parts[0] || "",
+          a: (parts[1] || "").toLowerCase(),
+          category: parts[2] || "Unknown",
+          length: parts[3] || "?",
+          firstLetter: parts[4] || "?"
+        };
+      });
   
-      if (pool.length < 3) {
-        usedRiddles = [];
-        pool = parsed;
+      parsed = parsed.sort(() => Math.random() - 0.5);
+  
+      riddles = parsed.slice(0, 3);
+  
+      console.log("Loaded riddles:", riddles);
+
+      solved = new Array(riddles.length).fill(false); 
+      
+      if (riddles.length < 3) {
+        alert("Not enough bugtong in file!");
       }
   
-      // pick 3 unique
-      riddles = [];
-      while (riddles.length < 3) {
-        let pick = pool[Math.floor(Math.random() * pool.length)];
-        if (!riddles.find(r => r.q === pick.q)) {
-          riddles.push(pick);
-        }
-      }
-  
-      // save used
-      usedRiddles.push(...riddles.map(r => r.q));
-  
-      solved = new Array(riddles.length).fill(false);
-  
-      assignRiddlesToCards();
+      assignRiddlesToCards(); 
   
     } catch (err) {
       console.error("Error loading bugtong:", err);
+      alert("Failed to load easybugtong.txt");
     }
   }
 
@@ -564,9 +559,12 @@
 
   function playAgain() {
     // reset game state
-    usedRiddles = [];
     solved = [];
+    usedMysteries = [];
     currentIndex = 0;
+    mysteryScore = 0;
+    document.getElementById("scoreText").innerText = "Mystery Solve: 0";
+
     // reset card colors back to yellow
     let cards = document.getElementsByClassName("card");
     
@@ -594,8 +592,13 @@
   }
 
   async function nextGame() {
+    mysteryScore = 0;
+    usedMysteries = [];
+    document.getElementById("scoreText").innerText = "Mystery Solve: 0";
     // new mystery
     await loadMystery();
+
+    
     // reset solved state
     solved = [];
     currentIndex = 0;
