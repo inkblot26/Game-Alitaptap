@@ -589,38 +589,50 @@
   };
 
   function playAgain() {
-    // reset game state
-    solved = [];
-    usedMysteries = [];
-    currentIndex = 0;
-    mysteryScore = 0;
-    mysterySolved = false;
+    // STOP CURRENT GAME LOOP
+    timerRunning = false;
   
+    // RESET CORE STATE
+    riddles = [];
+    solved = [];
+    currentIndex = 0;
+  
+    mysteryImage = "";
+    mysteryInfo = "";
+    mysteryScore = 0;
+    usedMysteries = [];
+    mysterySolved = false;
+    lastMysteryIndex = -1;
+  
+    time = 180;
+    timerRunning = true;
+  
+    // RESET UI
     document.getElementById("scoreText").innerText = "Mystery Solve: 0";
   
-    // reset cards
-    let cards = document.getElementsByClassName("card");
-    for (let card of cards) {
-      card.classList.remove("done");
-    }
-  
-    // reset UI text
     document.getElementById("mysteryText").innerHTML =
       `🔒 Mystery Image Locked<br>Solve 3 bugtong to reveal!`;
   
     document.getElementById("nextGameBtn").style.display = "none";
     document.getElementById("gameFinishedText").style.display = "none";
   
-    // reset timer
-    time = 180;
-    timerRunning = true;
+    document.getElementById("failScreen").style.display = "none";
   
-    // IMPORTANT FIX: reload riddles AND mystery
-    loadRiddles();
-    loadMystery().then(() => {
-      const box = document.querySelector(".mystery-box");
-      box.style.backgroundImage = "url('pic/mysterynobg.png')";
+    // RESET CARDS VISUALLY
+    const cards = document.querySelectorAll(".card");
+    cards.forEach(card => {
+      card.classList.remove("done");
+      card.innerText = "Loading...";
+      card.dataset.index = "";
     });
+  
+    // RESET MYSTERY BOX
+    const box = document.querySelector(".mystery-box");
+    box.style.backgroundImage = "url('pic/mysterynobg.png')";
+    box.onclick = null;
+  
+    // IMPORTANT: restart clean game flow
+    startGame();
   }
 
   async function nextGame() {
@@ -733,6 +745,19 @@
     } catch (err) {
       console.error("❌ Mystery load failed:", err);
     }
+  }
+
+  async function startGame() {
+    console.log("Restarting full game...");
+  
+    await loadMystery();
+    await loadRiddles();
+  
+    assignRiddlesToCards();
+  
+    // ensure mystery box is locked visually
+    const box = document.querySelector(".mystery-box");
+    box.style.backgroundImage = "url('pic/mysterynobg.png')";
   }
   
 </script>
