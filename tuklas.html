@@ -275,6 +275,7 @@
     <button class="home-btn" onclick="goHome()">🏠 Home</button>
     <button class="home-btn" onclick="playAgain()">🔄 Play Again</button>
     <div class="timer" id="timer">03:00</div>
+    <div id="scoreText" class="timer">Mystery Solve: 0</div>
   </div>
 </div>
 
@@ -484,7 +485,10 @@
     if (solved.every(v => v)) {
   
       timerRunning = false;
-  
+
+      mysteryScore++;
+      document.getElementById("scoreText").innerText = "Mystery Solve: " + mysteryScore;
+      
       const box = document.querySelector(".mystery-box");
   
       // show selected mystery image
@@ -551,6 +555,8 @@
     // reset game state
     solved = [];
     currentIndex = 0;
+    mysteryScore = 0;
+    document.getElementById("scoreText").innerText = "Mystery Solve: 0";
 
     // reset card colors back to yellow
     let cards = document.getElementsByClassName("card");
@@ -579,9 +585,12 @@
   }
 
   async function nextGame() {
+    mysteryScore = 0;
+    document.getElementById("scoreText").innerText = "Mystery Solve: 0";
     // new mystery
     await loadMystery();
-  
+
+    
     // reset solved state
     solved = [];
     currentIndex = 0;
@@ -651,6 +660,23 @@
         info: parts[2]
       };
     });
+  
+    // pick a DIFFERENT mystery than last time
+    let pickIndex;
+  
+    do {
+      pickIndex = Math.floor(Math.random() * list.length);
+    } while (pickIndex === lastMysteryIndex && list.length > 1);
+  
+    lastMysteryIndex = pickIndex;
+  
+    const pick = list[pickIndex];
+  
+    mysteryImage = pick.img;
+    mysteryInfo = pick.info;
+  
+    console.log("Mystery selected:", pick);
+  }
   
     // pick random mystery
     const pick = list[Math.floor(Math.random() * list.length)];
