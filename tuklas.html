@@ -351,6 +351,7 @@
   let lastMysteryIndex = -1;
   let mysteryScore = 0;
   let usedMysteries = [];
+  let mysterySolved = false;
   
   /* ===== LOAD BUGTONG FROM TXT ===== */
   async function loadRiddles() {
@@ -485,25 +486,33 @@
   }
   
   function checkWin() {
+    if (mysterySolved) return; // prevent double counting
+  
     if (solved.every(v => v)) {
+      mysterySolved = true;
   
       timerRunning = false;
-
+  
       mysteryScore++;
-      document.getElementById("scoreText").innerText = "Mystery Solve: " + mysteryScore;
-      
+      document.getElementById("scoreText").innerText =
+        "Mystery Solve: " + mysteryScore;
+  
       const box = document.querySelector(".mystery-box");
   
-      // show selected mystery image
-      box.style.backgroundImage = `url('${mysteryImage.startsWith("pic/") ? mysteryImage : "pic/" + mysteryImage}')`;
+      box.style.backgroundImage = `url('${
+        mysteryImage.startsWith("pic/")
+          ? mysteryImage
+          : "pic/" + mysteryImage
+      }')`;
+  
       box.style.backgroundSize = "cover";
       box.style.backgroundPosition = "center";
       box.style.cursor = "pointer";
   
       document.getElementById("mysteryText").innerHTML =
         `Mystery Revealed<br>
-        <span class="mystery-note">Click image for more info!</span>`;
-
+         <span class="mystery-note">Click image for more info!</span>`;
+  
       document.getElementById("nextGameBtn").style.display = "block";
     }
   }
@@ -563,6 +572,7 @@
     usedMysteries = [];
     currentIndex = 0;
     mysteryScore = 0;
+    mysterySolved = false;
     document.getElementById("scoreText").innerText = "Mystery Solve: 0";
 
     // reset card colors back to yellow
@@ -594,6 +604,7 @@
   async function nextGame() {
     mysteryScore = 0;
     usedMysteries = [];
+    mysterySolved = false;
     document.getElementById("scoreText").innerText = "Mystery Solve: 0";
     // new mystery
     await loadMystery();
