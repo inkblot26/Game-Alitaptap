@@ -384,6 +384,28 @@
       });
   
       parsed = parsed.sort(() => Math.random() - 0.5);
+      // remove used riddles
+      let pool = parsed.filter(r => !usedRiddles.includes(r.q));
+      
+      if (pool.length < 3) {
+        usedRiddles = [];
+        pool = [...parsed];
+      }
+      
+      riddles = [];
+      
+      while (riddles.length < 3) {
+        let pick = pool[Math.floor(Math.random() * pool.length)];
+      
+        if (!riddles.find(r => r.q === pick.q)) {
+          riddles.push(pick);
+        }
+      }
+      
+      // store used questions
+      usedRiddles.push(...riddles.map(r => r.q));
+      
+      assignRiddlesToCards();
   
       let available = parsed
         .map((_, i) => i)
@@ -627,7 +649,6 @@
   }
 
   async function nextGame() {
-    usedRiddles = [];
     // new mystery
     await loadMystery();
     // reset solved state
