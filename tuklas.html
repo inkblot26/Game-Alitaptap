@@ -286,6 +286,13 @@
   </div>
   
   <div class="mystery-box" onclick="openInfo()"></div>
+  <button
+    id="nextGameBtn"
+    class="home-btn"
+    onclick="nextGame()"
+    style="display:none;">
+    ➡ Next Game
+  </button>  
 </div>
 
 <!-- CARDS -->
@@ -489,6 +496,8 @@
       document.getElementById("mysteryText").innerHTML =
         `Mystery Revealed<br>
         <span class="mystery-note">Click image for more info!</span>`;
+
+      document.getElementById("nextGameBtn").style.display = "block";
     }
   }
   
@@ -564,8 +573,45 @@
   
     // restart riddles
     loadRiddles();
+
+    //hide button next game
+    document.getElementById("nextGameBtn").style.display = "none";
   }
 
+  async function nextGame() {
+    // new mystery
+    await loadMystery();
+  
+    // reset solved state
+    solved = [];
+    currentIndex = 0;
+  
+    // reset cards
+    let cards = document.getElementsByClassName("card");
+  
+    for (let card of cards) {
+      card.classList.remove("done");
+    }
+  
+    // hide next button
+    document.getElementById("nextGameBtn").style.display = "none";
+  
+    // reset mystery image
+    document.querySelector(".mystery-box").style.backgroundImage =
+      "url('pic/mysterynobg.png')";
+  
+    document.getElementById("mysteryText").innerHTML =
+      `🔒 Mystery Image Locked<br>
+       Solve 3 bugtong to reveal!`;
+  
+    // reset timer
+    time = 180;
+    timerRunning = true;
+  
+    // load NEW bugtong set
+    await loadRiddles();
+  }
+  
   async function openInfo() {
     const box = document.querySelector(".mystery-box");
   
