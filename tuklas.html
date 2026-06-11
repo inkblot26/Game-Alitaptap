@@ -560,9 +560,7 @@
   function playAgain() {
     // reset game state
     solved = [];
-    usedMysteries = [];
     currentIndex = 0;
-    mysteryScore = 0;
     document.getElementById("scoreText").innerText = "Mystery Solve: 0";
 
     // reset card colors back to yellow
@@ -592,8 +590,6 @@
   }
 
   async function nextGame() {
-    mysteryScore = 0;
-    usedMysteries = [];
     document.getElementById("scoreText").innerText = "Mystery Solve: 0";
     // new mystery
     await loadMystery();
