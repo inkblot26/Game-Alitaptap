@@ -496,7 +496,7 @@
       const box = document.querySelector(".mystery-box");
   
       // show selected mystery image
-      box.style.backgroundImage = `url('pic/${mysteryImage}')`;
+      box.style.backgroundImage = `url('${mysteryImage.startsWith("pic/") ? mysteryImage : "pic/" + mysteryImage}')`;
       box.style.backgroundSize = "cover";
       box.style.backgroundPosition = "center";
       box.style.cursor = "pointer";
@@ -657,7 +657,7 @@
       const res = await fetch("pic/mysterylist.txt");
   
       if (!res.ok) {
-        throw new Error("Cannot load pic/mysterylist.txt");
+        throw new Error("Cannot load mysterylist.txt");
       }
   
       const text = await res.text();
@@ -667,17 +667,18 @@
         .map(l => l.trim())
         .filter(l => l.includes("|"));
   
-      if (lines.length === 0) {
-        throw new Error("mysterylist.txt is empty or invalid");
-      }
-  
       const list = lines.map(line => {
         let parts = line.split("|").map(p => p.trim());
+  
         return {
-          img: parts[1],
-          info: parts[2]
+          img: (parts[1] || "").trim(),   // ⭐ FORCE CLEAN
+          info: (parts[2] || "").trim()   // ⭐ FORCE CLEAN
         };
-      });
+      }).filter(item => item.img && item.info); // ⭐ REMOVE BAD DATA
+  
+      if (list.length === 0) {
+        throw new Error("No valid mystery entries found");
+      }
   
       let pickIndex;
   
@@ -687,12 +688,10 @@
   
       lastMysteryIndex = pickIndex;
   
-      const pick = list[pickIndex];
+      mysteryImage = list[pickIndex].img;
+      mysteryInfo = list[pickIndex].info;
   
-      mysteryImage = pick.img;
-      mysteryInfo = pick.info;
-  
-      console.log("Mystery selected:", pick);
+      console.log("Mystery selected:", mysteryImage, mysteryInfo);
   
     } catch (err) {
       console.error("❌ Mystery load failed:", err);
