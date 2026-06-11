@@ -542,7 +542,14 @@
     // reset game state
     solved = [];
     currentIndex = 0;
-  
+
+    // reset card colors back to yellow
+    let cards = document.getElementsByClassName("card");
+    
+    for (let card of cards) {
+      card.classList.remove("done");
+    }  
+    
     // reset mystery box
     document.querySelector(".mystery-box").style.backgroundImage =
       "url('pic/mysterynobg.png')";
