@@ -1,7 +1,7 @@
 01 | mi_philflag.png | mi_philflag.txt
 02 | mi_sampaguita.png | mi_sampaguita.txt
 03 | mi_phileagle.png | mi_phileagle.txt
-04 | mi_manopo.png | manopo.txt
+04 | mi_manopo.png | mi_manopo.txt
 05 | mi_bayanihan.png | mi_bayanihan.txt
 06 | mi_mi_harana.png | mi_harana.txt
 07 | mi_bayadpo.png | mi_bayadpo.txt
