@@ -311,8 +311,8 @@
   ===================================================== -->
   <div class="top-bar">
     <div class="left-controls">
-      <button class="home-btn" onclick="goHome()">🏠 Home</button>
-      <button class="home-btn" onclick="playAgain()">🔄 Play Again</button>
+      <button class="home-btn" onclick="goHome()">Home</button>
+      <button class="home-btn" onclick="playAgain()">Play Again</button>
       <div class="timer" id="timer">03:00</div>
       <div id="scoreText" class="timer">Mystery Solve: 0</div>
     </div>
@@ -463,12 +463,10 @@
     
     let mysteryImage = "";
     let mysteryInfo = "";
-    let lastMysteryIndex = -1;
-    
+    let currentMysteryIndex = 0; // current mystery in sequence
     let mysteryScore = 0;
-    let usedMysteries = [];
     let mysterySolved = false;
-    let totalMysteries = 4;
+    let totalMysteries = 33;
     
     let hintsVisible = false;
     
@@ -725,6 +723,7 @@
       solved = [];
       usedMysteries = [];
       currentIndex = 0;
+      currentMysteryIndex = 0;
       mysteryScore = 0;
       mysterySolved = false;
     
@@ -753,7 +752,7 @@
     ===================================================== */
     async function nextGame() {
       mysterySolved = false;
-    
+      currentMysteryIndex++;
       await loadMystery();
     
       solved = [];
@@ -808,7 +807,10 @@
     async function loadMystery() {
       try {
         const res = await fetch("pic/mysterylist.txt");
-        if (!res.ok) throw new Error("Cannot load mysterylist.txt");
+    
+        if (!res.ok) {
+          throw new Error("Cannot load mysterylist.txt");
+        }
     
         const text = await res.text();
     
@@ -818,6 +820,7 @@
           .filter(l => l.includes("|"))
           .map(line => {
             let parts = line.split("|").map(p => p.trim());
+    
             return {
               img: parts[1] || "",
               info: parts[2] || ""
@@ -825,22 +828,18 @@
           })
           .filter(item => item.img && item.info);
     
-        let available = list
-          .map((_, i) => i)
-          .filter(i => !usedMysteries.includes(i));
-    
-        if (available.length === 0) {
-          usedMysteries = [];
-          available = list.map((_, i) => i);
+        if (currentMysteryIndex >= list.length) {
+          currentMysteryIndex = list.length - 1;
         }
     
-        const pick = available[Math.floor(Math.random() * available.length)];
+        mysteryImage = list[currentMysteryIndex].img;
+        mysteryInfo = list[currentMysteryIndex].info;
     
-        usedMysteries.push(pick);
-        lastMysteryIndex = pick;
-    
-        mysteryImage = list[pick].img;
-        mysteryInfo = list[pick].info;
+        console.log(
+          "Mystery selected:",
+          currentMysteryIndex,
+          mysteryImage
+        );
     
       } catch (err) {
         console.error("❌ Mystery load failed:", err);
