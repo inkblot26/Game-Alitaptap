@@ -3,9 +3,9 @@
 03 | mi_phileagle.png | mi_phileagle.txt
 04 | mi_manopo.png | mi_manopo.txt
 05 | mi_bayanihan.png | mi_bayanihan.txt
-06 | mi_mi_harana.png | mi_harana.txt
+06 | mi_harana.png | mi_harana.txt
 07 | mi_bayadpo.png | mi_bayadpo.txt
-08 | mi_mi_barong.png | mi_mi_barong.txt
+08 | mi_barong.png | mi_barong.txt
 09 | mi_filipiniana.png | mi_filipiniana.txt
 10 | mi_bakya.png | mi_bakya.txt
 11 | mi_arnis.png | mi_arnis.txt
