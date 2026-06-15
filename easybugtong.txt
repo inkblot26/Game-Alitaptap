@@ -36,3 +36,12 @@ Berdeng mundo na may pulang puso sa loob nito, hinihiwa sa lamig para tamis ay m
 Maitim na ligaya na natutunaw sa dila mo, sa bawat kagat, tamis ay dumadaloy sa puso. | Tsokolate | Pagkain | 9 | T
 Puting ulap na nakahain sa plato, kasama sa bawat ulam na kinakain mo. | Kanin | Pagkain | 5 | K
 Ako’y gintong sabaw sa kalderong mahimbing, sa bawat sandok ginhawa ang dadating. | Sopas | Pagkain | 5 | S
+Munting kahon ng mga lihim na salita, binubuksan upang kaalaman ay makuha. | Libro | Bagay | 5 | L
+May tinik ngunit hindi nasasaktan, katabi ng kutsara sa hapag-kainan. | Tinidor | Bagay | 7 | T
+Ulo’y malambot ngunit walang isip, hinihigaan sa bawat pagod na bisig. | Unan | Bagay | 4 | U
+Munting ilog sa loob ng bahay, daluyan ng tubig sa araw-araw na buhay. | Gripo | Bagay | 5 | G
+Paikot-ikot, umiikot ang buhay, minsan lang magtagpo ang kamay na magkaakay. | Relo | Bagay | 4 | R
+Kayumangging haligi sa loob ng tahanan, sa akin humihimlay ang pagod na katawan. | Upuan | Bagay | 5 | U
+Balot ng katawan sa gabing malamig, yakap ng init sa pagtulog na mahimbing. | Kumot | Bagay | 5 | K
+Dalawang bibig na hindi nagsasalita, sumasabay sa bawat hakbang ng paa. | Sapatos | Bagay | 7 | S
+Tinik ng apoy na sumusunod sa kamay, nag-iiwan ng bakas na hindi agad mawawalay. | Bolpen | Bagay | 6 | B
