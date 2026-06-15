@@ -733,7 +733,9 @@
     
       document.querySelector(".mystery-box").style.backgroundImage =
         "url('pic/mysterynobg.png')";
-    
+
+      document.querySelector(".mystery-box").style.cursor = "default";
+      
       document.getElementById("mysteryText").innerHTML =
         `🔒 Mystery Image Locked<br>Solve 3 bugtong to reveal!`;
     
@@ -765,7 +767,9 @@
     
       document.querySelector(".mystery-box").style.backgroundImage =
         "url('pic/mysterynobg.png')";
-    
+
+      document.querySelector(".mystery-box").style.cursor = "default";
+      
       document.getElementById("mysteryText").innerHTML =
         `🔒 Mystery Image Locked<br>Solve 3 bugtong to reveal!`;
     
@@ -780,7 +784,8 @@
        14. MYSTERY INFO SYSTEM
     ===================================================== */
     async function openInfo() {
-      if (mysteryScore === 0) return;
+      // Only allow opening after mystery is revealed
+      if (!mysterySolved) return;
     
       try {
         const res = await fetch("pic/" + mysteryInfo);
