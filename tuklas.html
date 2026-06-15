@@ -297,7 +297,7 @@
     .fail-buttons button {
       margin: 10px 5px 0 5px;
     }
-      
+    
     </style>
   </head>
 
@@ -345,6 +345,18 @@
       style="display:none;">
       ➡ Next Game
     </button>
+  
+    <!-- Final completion message -->
+    <div
+      id="gameFinishedText"
+      class="home-btn"
+      style="display:none;
+             cursor:default;
+             margin-top:10px;
+             pointer-events:none;
+             background:#ffffff;">
+      Game Finished! All Mysteries Unlocked!
+    </div>
   
   </div>
   
@@ -454,7 +466,7 @@
     let currentMysteryIndex = 0; // current mystery in sequence
     let mysteryScore = 0;
     let mysterySolved = false;
-    let totalMysteries = 6;      //change to 33
+    let totalMysteries = 2;      //change to 33
     
     let hintsVisible = false;
     
@@ -641,6 +653,8 @@
           document.getElementById("mysteryText").innerHTML =
             `🏆 Game Completed!<br>
              <span class="mystery-note">You unlocked all 33 mystery images!</span>`;
+        } else {
+          document.getElementById("nextGameBtn").style.display = "block";
         }
       }
     }
@@ -719,9 +733,7 @@
     
       document.querySelector(".mystery-box").style.backgroundImage =
         "url('pic/mysterynobg.png')";
-
-      document.querySelector(".mystery-box").style.cursor = "default";
-      
+    
       document.getElementById("mysteryText").innerHTML =
         `🔒 Mystery Image Locked<br>Solve 3 bugtong to reveal!`;
     
@@ -731,6 +743,7 @@
       loadRiddles();
     
       document.getElementById("nextGameBtn").style.display = "none";
+      document.getElementById("gameFinishedText").style.display = "none";
     }
     
     
@@ -748,12 +761,11 @@
       document.querySelectorAll(".card").forEach(c => c.classList.remove("done"));
     
       document.getElementById("nextGameBtn").style.display = "none";
-      
+      document.getElementById("gameFinishedText").style.display = "none";
+    
       document.querySelector(".mystery-box").style.backgroundImage =
         "url('pic/mysterynobg.png')";
-
-      document.querySelector(".mystery-box").style.cursor = "default";
-      
+    
       document.getElementById("mysteryText").innerHTML =
         `🔒 Mystery Image Locked<br>Solve 3 bugtong to reveal!`;
     
@@ -768,8 +780,7 @@
        14. MYSTERY INFO SYSTEM
     ===================================================== */
     async function openInfo() {
-      // Only allow opening after mystery is revealed
-      if (!mysterySolved) return;
+      if (mysteryScore === 0) return;
     
       try {
         const res = await fetch("pic/" + mysteryInfo);
