@@ -354,8 +354,8 @@
              cursor:default;
              margin-top:10px;
              pointer-events:none;
-             background:#4b6cb7;">
-      Game Finished! All 4 Mysteries Unlocked!
+             background:#ffffff;">
+      Game Finished! All Mysteries Unlocked!
     </div>
   
   </div>
@@ -627,7 +627,7 @@
     
         mysteryScore++;
         document.getElementById("scoreText").innerText =
-          "Mystery Solve: " + mysteryScore;
+          "Mystery: " + mysteryScore;
     
         const box = document.querySelector(".mystery-box");
     
@@ -727,7 +727,7 @@
       mysteryScore = 0;
       mysterySolved = false;
     
-      document.getElementById("scoreText").innerText = "Mystery Solve: 0";
+      document.getElementById("scoreText").innerText = "Mystery: 0";
     
       document.querySelectorAll(".card").forEach(c => c.classList.remove("done"));
     
