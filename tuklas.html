@@ -346,18 +346,6 @@
       ➡ Next Game
     </button>
   
-    <!-- Final completion message -->
-    <div
-      id="gameFinishedText"
-      class="home-btn"
-      style="display:none;
-             cursor:default;
-             margin-top:10px;
-             pointer-events:none;
-             background:#ffffff;">
-      Game Finished! All Mysteries Unlocked!
-    </div>
-  
   </div>
   
   
@@ -648,7 +636,6 @@
         // next or finish game logic
         if (mysteryScore >= totalMysteries) {
           document.getElementById("nextGameBtn").style.display = "none";
-          document.getElementById("gameFinishedText").style.display = "block";
     
           document.getElementById("mysteryText").innerHTML =
             `🏆 Game Completed!<br>
@@ -743,7 +730,6 @@
       loadRiddles();
     
       document.getElementById("nextGameBtn").style.display = "none";
-      document.getElementById("gameFinishedText").style.display = "none";
     }
     
     
@@ -761,7 +747,6 @@
       document.querySelectorAll(".card").forEach(c => c.classList.remove("done"));
     
       document.getElementById("nextGameBtn").style.display = "none";
-      document.getElementById("gameFinishedText").style.display = "none";
     
       document.querySelector(".mystery-box").style.backgroundImage =
         "url('pic/mysterynobg.png')";
