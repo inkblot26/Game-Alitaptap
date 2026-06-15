@@ -1,14 +1,38 @@
-May korona ngunit hindi hari, gumigising bago pa ang marami. | Manok | Animal | 5 | M
-Hari ng bubungan, mahilig sa buwan at katahimikan. | Pusa | Animal | 4 | P
-Mabilis sa lupa, ngunit walang gulong na dala. | Kabayo | Animal | 6 | K
-Kasama ng magsasaka, sa putikan siya masaya. | Kalabaw | Animal | 7 | K
-Munting musikero ng palayan, umaawit tuwing tag-ulan. | Palaka | Animal | 6 | P
-Munting tiririt, may bombilya sa puwit. | Alitaptap | Animal | 9 | A
-May katawan ngunit walang paa, sa paggapang siya'y bihasa. | Ahas | Animal | 4 | A
-May balbas ngunit hindi matanda, may sungay ngunit hindi masama. | Kambing | Animal | 7 | K
-May pakpak ngunit hindi eroplano, lumilipad sa ulap, sa langit lumalayo. | Ibon | Animal | 4 | I
-May sipit na matulis, sa buhangin ay mabilis. | Alimango | Animal | 8 | A
-Kaibigang tunay, laging tapat sa buhay, tahol ang tanda kapag may panganib sa bahay. | Aso | Animal | 3 | A
-Lumilipad kahit hindi ginagamit ang mata, kapag natulog ay nakasabit sa sanga. | Paniki | Animal | 6 | P
-Mabagal ang lakad, may bahay na kasama, sa bawat paggalaw, dahan-dahan ang dala. | Pagong | Animal | 6 | P
-Sa kislap ng tubig siya’y sumasayaw, sa agos ng buhay dahan-dahang galaw. | Isda | Animal | 4 | I
+Sa umaga ako’y hari ng walang trono,  tinig ko’y gumigising sa tahimik na mundo. | Manok | Hayop | 5 | M
+Sa bubungan ako’y bantay ng katahimikan,  buwan ang saksi sa aking pagdaraan. | Pusa | Hayop | 4 | P
+Parang hangin sa kapatagan kung ako’y tumakbo, lupa’y nayayanig sa bilis kong tinatamo. | Kabayo | Hayop | 6 | K
+Kasama ng magsasaka, sa putikan siya masaya. | Kalabaw | Hayop | 7 | K
+Munting musikero ng palayan, umaawit tuwing tag-ulan. | Palaka | Hayop | 6 | P
+Munting tiririt, may bombilya sa puwit. | Alitaptap | Hayop | 9 | A
+May katawan ngunit walang paa, sa paggapang siya'y bihasa. | Ahas | Hayop | 4 | A
+May balbas ngunit hindi matanda, may sungay ngunit hindi masama. | Kambing | Hayop | 7 | K
+May pakpak ngunit hindi eroplano, lumilipad sa ulap, sa langit lumalayo. | Ibon | Hayop | 4 | I
+May sipit na matulis, sa buhangin ay mabilis. | Alimango | Hayop | 8 | A
+Kaibigang tunay, laging tapat sa buhay, tahol ang tanda kapag may panganib sa bahay. | Aso | Hayop | 3 | A
+Lumilipad kahit hindi ginagamit ang mata, kapag natulog ay nakasabit sa sanga. | Paniki | Hayop | 6 | P
+Mabagal ang lakad, may bahay na kasama, sa bawat paggalaw, dahan-dahan ang dala. | Pagong | Hayop | 6 | P
+Sa kislap ng tubig siya’y sumasayaw, sa agos ng buhay dahan-dahang galaw. | Isda | Hayop | 4 | I
+Munting mandirigmang maliit na laging may dala, sama-samang naglalakad kahit gaano kabigat pa. | Langgam | Hayop | 7 | L
+Munting manggagawa na lumilipad sa bulaklak na ginto, nag-iipon ng tamis para sa pugad nito. | Bubuyog | Hayop | 7 | B
+Higanteng may ilong na parang mahabang tubo, ginagamit sa pagkuha ng tubig at pagkain nito. | Elepante | Hayop | 8 | E
+Malambot na nilalang na may mahabang tenga, sa damuhan tumatalon nang may sigla. | Kuneho | Hayop | 6 | K
+Sa tubig na malamig ako’y dahan-dahan,  mahaba ang ilong sa gubat ay tahanan. | Buwaya | Hayop | 7 | B
+Sa dagat ako’y may galamay na sumasayaw, tinta ang sandata sa bawat aking paggalaw. | Pusit | Hayop | 5 | P
+Sa gubat ako’y may guhit na lihim sa katawan,  bangis at takot ang dala sa daanan. | Tigre | Hayop | 5 | T
+Sa hardin ako’y makulay na sumasayaw sa hangin,  mula sa uod ako’y isinilang upang bulaklak ang lapitin. | Paru-paro | Hayop | 9 | P
+Sa langit ako’y lipad na walang kapantay,   biktima sa lupa’y aking nakikita kahit malayo pa ang kulay. | Agila | Hayop | 6 | A
+Dilaw na ngiti na nakasabit sa sanga, binabalatan muna bago tamis ay madama. | Saging | Pagkain | 6 | S
+Prinsesang nakasabit sa mataas na trono, hinihintay mahinog bago tikman ng tao. | Mangga | Pagkain | 6 | M
+Di nakikita ngunit hari ng lasa, konting dampi lang, ulam ay sumasarap na. | Asin | Pagkain | 4 | A
+Munting kristal na nagbibigay ligaya, tinutunaw sa pagkain para tamis ay madama. | Asukal | Pagkain | 6 | A
+Isang mundong may kayamanang nakatago, binabasag ang balat para katas ay makuha mo. | Niyog | Pagkain | 5 | N
+Munting buwan na nahahati sa piraso, dinudurog sa kusina para lasa'y dumapo. | Bawang | Pagkain | 6 | B
+Dilaw na hanay na parang mga ngipin, nilalaga o iniihaw bago kainin. | Mais | Pagkain | 4 | M
+Puting ilog na dumadaloy sa baso, hinihigop ng bata para lumakas ang buto. - Gatas | Pagkain | 5 | G
+Munting mundong patong-patong ang anyo, sa bawat hiwa, luha'y kusang tutulo. - Sibuyas | Pagkain | 7 | S
+Munting perlas na nakatago sa bukid na tuyo, niluluto sa tubig bago maging pagkain mo. | Bigas | Pagkain | 5 | B
+Pulang pisngi na nakasabit sa puno, kinakagat sa tamis na hatid nito. | Mansanas | Pagkain | 8 | M
+Berdeng mundo na may pulang puso sa loob nito, hinihiwa sa lamig para tamis ay malasap mo. | Pakwan | Pagkain | 6 | P 
+Maitim na ligaya na natutunaw sa dila mo, sa bawat kagat, tamis ay dumadaloy sa puso. | Tsokolate | Pagkain | 9 | T
+Puting ulap na nakahain sa plato, kasama sa bawat ulam na kinakain mo. | Kanin | Pagkain | 5 | K
+Ako’y gintong sabaw sa kalderong mahimbing, sa bawat sandok ginhawa ang dadating. | Sopas | Pagkain | 5 | S
