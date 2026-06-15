@@ -28,8 +28,8 @@ Munting kristal na nagbibigay ligaya, tinutunaw sa pagkain para tamis ay madama.
 Isang mundong may kayamanang nakatago, binabasag ang balat para katas ay makuha mo. | Niyog | Pagkain | 5 | N
 Munting buwan na nahahati sa piraso, dinudurog sa kusina para lasa'y dumapo. | Bawang | Pagkain | 6 | B
 Dilaw na hanay na parang mga ngipin, nilalaga o iniihaw bago kainin. | Mais | Pagkain | 4 | M
-Puting ilog na dumadaloy sa baso, hinihigop ng bata para lumakas ang buto. - Gatas | Pagkain | 5 | G
-Munting mundong patong-patong ang anyo, sa bawat hiwa, luha'y kusang tutulo. - Sibuyas | Pagkain | 7 | S
+Puting ilog na dumadaloy sa baso, hinihigop ng bata para lumakas ang buto. | Gatas | Pagkain | 5 | G
+Munting mundong patong-patong ang anyo, sa bawat hiwa, luha'y kusang tutulo. | Sibuyas | Pagkain | 7 | S
 Munting perlas na nakatago sa bukid na tuyo, niluluto sa tubig bago maging pagkain mo. | Bigas | Pagkain | 5 | B
 Pulang pisngi na nakasabit sa puno, kinakagat sa tamis na hatid nito. | Mansanas | Pagkain | 8 | M
 Berdeng mundo na may pulang puso sa loob nito, hinihiwa sa lamig para tamis ay malasap mo. | Pakwan | Pagkain | 6 | P 
