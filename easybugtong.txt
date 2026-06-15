@@ -36,6 +36,12 @@ Berdeng mundo na may pulang puso sa loob nito, hinihiwa sa lamig para tamis ay m
 Maitim na ligaya na natutunaw sa dila mo, sa bawat kagat, tamis ay dumadaloy sa puso. | Tsokolate | Pagkain | 9 | T
 Puting ulap na nakahain sa plato, kasama sa bawat ulam na kinakain mo. | Kanin | Pagkain | 5 | K
 Ako’y gintong sabaw sa kalderong mahimbing, sa bawat sandok ginhawa ang dadating. | Sopas | Pagkain | 5 | S
+Berdeng pamaypay na ayaw magpaypay, sa kumukulong sabaw saka lamang sumasabay. | Pechay | Pagkain | 6 | P
+Kulubot ang damit na suot sa katawan, pait ang handog ngunit hinahanap pa rin ng karamihan. | Ampalaya | Pagkain | 8 | A
+May korona ngunit walang kaharian, libo ang matang bantay sa matamis na kayamanan. | Pinya | Pagkain | 5 | P
+Munting perlas na magkakayakap sa tangkay, lunti man o ube, tamis ay taglay. | Ubas | Pagkain | 4 | U
+Kayumangging unan na hindi hinihigaan, sa kape’y kaibigan sa bawat agahan. | Tinapay | Pagkain | 7 | T
+Mahahabang hibla na magkakayakap sa pinggan, sa salu-salo’t handaan ako’y laging pinagkakainan. | Pancit | Pagkain | 6 | P
 Munting kahon ng mga lihim na salita, binubuksan upang kaalaman ay makuha. | Libro | Bagay | 5 | L
 May tinik ngunit hindi nasasaktan, katabi ng kutsara sa hapag-kainan. | Tinidor | Bagay | 7 | T
 Ulo’y malambot ngunit walang isip, hinihigaan sa bawat pagod na bisig. | Unan | Bagay | 4 | U
@@ -45,3 +51,17 @@ Kayumangging haligi sa loob ng tahanan, sa akin humihimlay ang pagod na katawan.
 Balot ng katawan sa gabing malamig, yakap ng init sa pagtulog na mahimbing. | Kumot | Bagay | 5 | K
 Dalawang bibig na hindi nagsasalita, sumasabay sa bawat hakbang ng paa. | Sapatos | Bagay | 7 | S
 Tinik ng apoy na sumusunod sa kamay, nag-iiwan ng bakas na hindi agad mawawalay. | Bolpen | Bagay | 6 | B
+Ibon na papel na walang buhay, sumasayaw sa hangin kapag may taglay na gabay. | Saranggola | Bagay | 10 | S
+Buhok na tuyo na walang ulo, naglalakbay sa sahig upang dumi’y maglaho. | Walis | Bagay | 5 | W
+Pilak na landas na payat at mahaba, sa isang haplos ay naghihiwalay ang magkasama. | Kutsilyo | Bagay | 8 | K
+Dalawang kaibigang laging magkasama, hindi humihiwalay sa init at lamig ng kalsada. | Sapatos | Bagay | 7 | S
+Munting bituin sa loob ng tahanan, nagpapawi ng dilim sa sulok ng gabing malamlam. | Ilaw | Bagay | 4 | I
+May bibig ngunit hindi nagsasalita, tubig ang tahanan sa kanyang loob na payapa. | Baso | Bagay | 4 | B 
+Mata ng bahay na laging gising, liwanag at hangin ang palaging kapiling. | Bintana | Bagay | 7 | B
+Hugis na yumayakap sa ulo, panangga sa araw at patak ng bagyo. | Sumbrero | Bagay | 8 | S
+Munting aklat ng mga araw at buwan, tahimik na gabay sa oras ng pagdaan. | Kalendaryo | Bagay | 10 | K
+Aklat ng balitang naglalakbay sa hangin, katotohanan ng mundo’y dito nakasalin. | Dyaryo | Bagay | 10 | D
+May ngiping hindi nakakagat ng tao, ngunit hinahawi ang gusot sa ulo mo. | Suklay | Bagay | 6 | S
+Kayamanang naglalakbay sa kamay ng tao, nagpapagalaw ng mundo kahit walang buhay na totoo. | Pera | Bagay | 4 | P
+Liwanag na umiiyak sa gitna ng gabi, unti-unting nauupos habang dilim ay napawi. | Kandila | Bagay | 7 | K
+Munting hiyas na dumarampi sa katawan, dumi’y nawawala sa bawat haplos ng tangan. | Sabon | Bagay | 5 | S
