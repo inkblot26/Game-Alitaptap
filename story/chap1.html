@@ -20,6 +20,8 @@ body {
     position: relative;
     background: #000;
     overflow: hidden;
+
+    transform-origin: center;
 }
 
 /* MAP */
@@ -216,6 +218,20 @@ function buttonB() {
     alert("B button pressed");
 }
 
+function scaleGame() {
+    const game = document.getElementById("game");
+
+    const scaleX = window.innerWidth / 640;
+    const scaleY = window.innerHeight / 640;
+
+    const scale = Math.min(scaleX, scaleY);
+
+    game.style.transform = `scale(${scale})`;
+}
+
+window.addEventListener("resize", scaleGame);
+scaleGame();
+    
 </script>
 
 </body>
