@@ -162,7 +162,7 @@ body {
 const map = document.getElementById("map");
 const mc = document.getElementById("mc");
 const game = document.getElementById("game");
-const tileSize = 64;
+let tileSize = 64;
 const mapSize = 20;
 
 /* START POSITION (VISIBLE + SAFE) */
@@ -207,6 +207,9 @@ function buildMap() {
             const tile = document.createElement("div");
             tile.classList.add("tile");
 
+            tile.style.width = tileSize + "px";
+            tile.style.height = tileSize + "px";
+            
             tile.style.left = (col * tileSize) + "px";
             tile.style.top = (row * tileSize) + "px";
 
@@ -244,7 +247,7 @@ function buildMap() {
     }
 }
 
-buildMap();
+
 
 /* DRAW MC */
 function drawMC() {
@@ -307,6 +310,24 @@ function buttonB() {
     alert("B button pressed");
 }
 
+window.addEventListener("resize", () => {
+    updateScaleForDevice();
+    updateCamera();
+});    
+    
+function updateScaleForDevice() {
+    const w = window.innerWidth;
+
+    if (w < 600) {
+        tileSize = 80;   // 📱 phone = BIGGER tiles
+    } else if (w < 1000) {
+        tileSize = 64;   // 💻 tablet/laptop small
+    } else {
+        tileSize = 64;   // 🖥 desktop normal
+    }
+}
+updateScaleForDevice();    
+buildMap();    
 /* INIT */
 drawMC();
 updateCamera();
