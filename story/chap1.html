@@ -191,8 +191,12 @@ buildMap();
 
 /* DRAW MC */
 function drawMC() {
-    mc.style.left = (mcCol * tileSize) + "px";
-    mc.style.top = (mcRow * tileSize) + "px";
+
+    const screenX = mcCol * tileSize - camX;
+    const screenY = mcRow * tileSize - camY;
+
+    mc.style.left = screenX + "px";
+    mc.style.top = screenY + "px";
 }
 
 /* CAMERA SYSTEM */
@@ -218,25 +222,21 @@ function updateCamera() {
 /* MOVEMENT */
 function moveUp() {
     if (mcRow > 0) mcRow--;
-    drawMC();
     updateCamera();
 }
 
 function moveDown() {
     if (mcRow < mapSize - 1) mcRow++;
-    drawMC();
     updateCamera();
 }
 
 function moveLeft() {
     if (mcCol > 0) mcCol--;
-    drawMC();
     updateCamera();
 }
 
 function moveRight() {
     if (mcCol < mapSize - 1) mcCol++;
-    drawMC();
     updateCamera();
 }
 
