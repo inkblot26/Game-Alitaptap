@@ -171,11 +171,34 @@ let camX = 0;
 let camY = 0;
 
 /* BUILD MAP */
-const mapData = Array.from({ length: mapSize }, () =>
-    Array.from({ length: mapSize }, () => "g")
-);
+const mapData = [
+["t","t","t","t","t","t","t","t","t","t","t","t","t","t","t","t","t","t","t","t"],
+["t","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","t"],
+["t","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","t"],
+["t","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","t"],
+["t","g","g","g","g","w","w","w","w","w","w","w","g","g","g","g","g","g","g","t"],
+
+["t","g","g","g","g","w","w","w","w","w","w","w","g","g","g","g","g","g","g","t"],
+["t","g","g","g","g","w","w","w","w","w","w","w","g","g","g","g","g","g","g","t"],
+["t","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","t"],
+["t","g","g","g","g","g","g","h","h","h","g","g","g","g","g","g","g","g","g","t"],
+["t","g","g","g","g","g","g","h","h","h","g","g","g","g","g","g","g","g","g","t"],
+
+["t","g","g","g","g","g","g","h","h","h","g","g","g","g","g","g","g","g","g","t"],
+["t","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","t"],
+["t","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","t"],
+["t","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","t"],
+["t","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","t"],
+
+["t","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","t"],
+["t","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","t"],
+["t","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","t"],
+["t","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","t"],
+["t","t","t","t","t","t","t","t","t","t","t","t","t","t","t","t","t","t","t","t"]
+];
 
 function buildMap() {
+
     for (let row = 0; row < mapData.length; row++) {
         for (let col = 0; col < mapData[row].length; col++) {
 
@@ -184,6 +207,35 @@ function buildMap() {
 
             tile.style.left = (col * tileSize) + "px";
             tile.style.top = (row * tileSize) + "px";
+
+            const type = mapData[row][col];
+
+            if (type === "g") {
+                tile.style.backgroundImage = 'url("tile_tree.png")';
+            }
+
+            if (type === "t") {
+                tile.style.background = "darkgreen";
+                tile.style.color = "white";
+                tile.innerText = "T";
+            }
+
+            if (type === "w") {
+                tile.style.background = "dodgerblue";
+                tile.style.color = "white";
+                tile.innerText = "W";
+            }
+
+            if (type === "h") {
+                tile.style.background = "brown";
+                tile.style.color = "white";
+                tile.innerText = "H";
+            }
+
+            tile.style.display = "flex";
+            tile.style.alignItems = "center";
+            tile.style.justifyContent = "center";
+            tile.style.fontWeight = "bold";
 
             map.appendChild(tile);
         }
