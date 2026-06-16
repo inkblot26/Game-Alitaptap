@@ -160,72 +160,7 @@ const tileSize = 64;
 const mapSize = 20;
 const viewSize = 640;
 
-// MC position in WORLD (not screen)
-let mcRow = 10;
-let mcCol = 10;
-
-// CAMERA offset
-let camX = 0;
-let camY = 0;
-
-/* =========================
-   BUILD MAP
-   ========================= */
-const mapData = Array.from({ length: mapSize }, () =>
-    Array.from({ length: mapSize }, () => "g")
-);
-
-function buildMap() {
-    for (let row = 0; row < mapData.length; row++) {
-        for (let col = 0; col < mapData[row].length; col++) {
-
-            const tile = document.createElement("div");
-            tile.classList.add("tile");
-
-            tile.style.left = (col * tileSize) + "px";
-            tile.style.top = (row * tileSize) + "px";
-
-            map.appendChild(tile);
-        }
-    }
-}
-
-buildMap();
-
-/* =========================
-   CAMERA UPDATE
-   ========================= */
-function updateCamera() {
-
-    const worldWidth = mapSize * tileSize;
-    const worldHeight = mapSize * tileSize;
-
-    // center MC on screen
-    camX = mcCol * tileSize - viewSize / 2 + tileSize / 2;
-    camY = mcRow * tileSize - viewSize / 2 + tileSize / 2;
-
-    // clamp camera
-    if (camX < 0) camX = 0;
-    if (camY < 0) camY = 0;
-
-    if (camX > worldWidth - viewSize) camX = worldWidth - viewSize;
-    if (camY > worldHeight - viewSize) camY = worldHeight - viewSize;
-
-    map.style.transform = `translate(${-camX}px, ${-camY}px)`;
-
-    drawMC();
-}
-
-/* =========================
-   DRAW MC
-const map = document.getElementById("map");
-const mc = document.getElementById("mc");
-
-const tileSize = 64;
-const mapSize = 20;
-const viewSize = 640;
-
-// ✅ START POSITION (what you asked)
+/* START POSITION (VISIBLE + SAFE) */
 let mcRow = 2;
 let mcCol = 2;
 
@@ -260,7 +195,7 @@ function drawMC() {
     mc.style.top = (mcRow * tileSize) + "px";
 }
 
-/* CAMERA */
+/* CAMERA SYSTEM */
 function updateCamera() {
 
     const worldWidth = mapSize * tileSize;
@@ -269,7 +204,6 @@ function updateCamera() {
     camX = mcCol * tileSize - viewSize / 2 + tileSize / 2;
     camY = mcRow * tileSize - viewSize / 2 + tileSize / 2;
 
-    // clamp
     if (camX < 0) camX = 0;
     if (camY < 0) camY = 0;
 
@@ -319,10 +253,9 @@ function buttonB() {
     alert("B button pressed");
 }
 
-/* INIT (IMPORTANT ORDER) */
+/* INIT */
 drawMC();
 updateCamera();
 </script>
-
 </body>
 </html>
