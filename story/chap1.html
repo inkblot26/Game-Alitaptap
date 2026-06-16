@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Simple Tile Map (10x10)</title>
+<title>Simple Tile Map (20x20)</title>
 
 <style>
 body {
@@ -54,87 +54,14 @@ body {
 
     image-rendering: pixelated;
 }
-
-/* CONTROLS (NOW OVER GAME) */
-#controls {
-    position: absolute;
-    bottom: 10px;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 10px;
-    box-sizing: border-box;
-    z-index: 10;
-}
-
-#dpad {
-    display: grid;
-    grid-template-columns: 60px 60px 60px;
-    grid-template-rows: 60px 60px 60px;
-    gap: 5px;
-}
-
-.btn {
-    background: #444;
-    color: white;
-    border: 1px solid #888;
-    text-align: center;
-    line-height: 60px;
-    cursor: pointer;
-    user-select: none;
-}
-
-#ab {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-}
-
-.abbtn {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background: crimson;
-    color: white;
-    text-align: center;
-    line-height: 70px;
-    cursor: pointer;
-    user-select: none;
-}
 </style>
 </head>
 
 <body>
 
 <div id="game">
-
     <div id="map"></div>
     <div id="mc"></div>
-
-    <!-- CONTROLS INSIDE GAME -->
-    <div id="controls">
-
-        <div id="dpad">
-            <div></div>
-            <div class="btn" onclick="moveUp()">↑</div>
-            <div></div>
-
-            <div class="btn" onclick="moveLeft()">←</div>
-            <div></div>
-            <div class="btn" onclick="moveRight()">→</div>
-
-            <div></div>
-            <div class="btn" onclick="moveDown()">↓</div>
-            <div></div>
-        </div>
-
-        <div id="ab">
-            <div class="abbtn" onclick="buttonA()">A</div>
-            <div class="abbtn" onclick="buttonB()">B</div>
-        </div>
-
-    </div>
-
 </div>
 
 <script>
@@ -144,12 +71,16 @@ const mc = document.getElementById("mc");
 
 const tileSize = 64;
 
-/* MAP */
-const mapData = Array.from({ length: 10 }, () =>
-    Array.from({ length: 10 }, () => "g")
+/* =========================
+   🗺️ 20x20 MAP (EDIT HERE)
+   ========================= */
+const mapData = Array.from({ length: 20 }, () =>
+    Array.from({ length: 20 }, () => "g")
 );
 
-/* BUILD MAP */
+/* =========================
+   🧱 BUILD MAP
+   ========================= */
 function buildMap() {
     for (let row = 0; row < mapData.length; row++) {
         for (let col = 0; col < mapData[row].length; col++) {
@@ -167,9 +98,11 @@ function buildMap() {
 
 buildMap();
 
-/* MC POSITION */
-let mcRow = 4;
-let mcCol = 4;
+/* =========================
+   🧍 MC POSITION
+   ========================= */
+let mcRow = 10;
+let mcCol = 10;
 
 function drawMC() {
     mc.style.left = (mcCol * tileSize) + "px";
@@ -178,14 +111,16 @@ function drawMC() {
 
 drawMC();
 
-/* MOVEMENT (1 TILE) */
+/* =========================
+   🎮 TILE MOVEMENT
+   ========================= */
 function moveUp() {
     if (mcRow > 0) mcRow--;
     drawMC();
 }
 
 function moveDown() {
-    if (mcRow < 9) mcRow++;
+    if (mcRow < 19) mcRow++;
     drawMC();
 }
 
@@ -195,26 +130,19 @@ function moveLeft() {
 }
 
 function moveRight() {
-    if (mcCol < 9) mcCol++;
+    if (mcCol < 19) mcCol++;
     drawMC();
 }
 
-/* KEYBOARD SUPPORT */
+/* =========================
+   ⌨️ KEYBOARD SUPPORT
+   ========================= */
 document.addEventListener("keydown", (e) => {
     if (e.key === "ArrowUp") moveUp();
     if (e.key === "ArrowDown") moveDown();
     if (e.key === "ArrowLeft") moveLeft();
     if (e.key === "ArrowRight") moveRight();
 });
-
-/* A B BUTTONS */
-function buttonA() {
-    alert("A button pressed");
-}
-
-function buttonB() {
-    alert("B button pressed");
-}
 
 </script>
 
