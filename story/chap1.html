@@ -109,7 +109,7 @@ body {
 }
 
 #mc {
-    z-index: 2;
+    z-index: 10;
 }
 
 #controls {
@@ -201,15 +201,15 @@ function updateCamera() {
     const worldWidth = mapSize * tileSize;
     const worldHeight = mapSize * tileSize;
 
-    camX = mcCol * tileSize - viewSize / 2 + tileSize / 2;
-    camY = mcRow * tileSize - viewSize / 2 + tileSize / 2;
+    // raw camera target (center MC)
+    let targetX = mcCol * tileSize - viewSize / 2 + tileSize / 2;
+    let targetY = mcRow * tileSize - viewSize / 2 + tileSize / 2;
 
-    if (camX < 0) camX = 0;
-    if (camY < 0) camY = 0;
+    // clamp camera so it NEVER goes out of world
+    camX = Math.max(0, Math.min(targetX, worldWidth - viewSize));
+    camY = Math.max(0, Math.min(targetY, worldHeight - viewSize));
 
-    if (camX > worldWidth - viewSize) camX = worldWidth - viewSize;
-    if (camY > worldHeight - viewSize) camY = worldHeight - viewSize;
-
+    // move MAP (world)
     map.style.transform = `translate(${-camX}px, ${-camY}px)`;
 
     drawMC();
@@ -218,21 +218,25 @@ function updateCamera() {
 /* MOVEMENT */
 function moveUp() {
     if (mcRow > 0) mcRow--;
+    drawMC();
     updateCamera();
 }
 
 function moveDown() {
     if (mcRow < mapSize - 1) mcRow++;
+    drawMC();
     updateCamera();
 }
 
 function moveLeft() {
     if (mcCol > 0) mcCol--;
+    drawMC();
     updateCamera();
 }
 
 function moveRight() {
     if (mcCol < mapSize - 1) mcCol++;
+    drawMC();
     updateCamera();
 }
 
