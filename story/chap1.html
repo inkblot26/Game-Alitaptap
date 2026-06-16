@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Simple Tile Map</title>
+<title>Simple Tile Map (10x10)</title>
 
 <style>
 body {
@@ -15,8 +15,8 @@ body {
 
 /* GAME AREA */
 #game {
-    width: 480px;
-    height: 480px;
+    width: 640px;
+    height: 640px;
     position: relative;
     background: #000;
     overflow: hidden;
@@ -43,12 +43,13 @@ body {
 
 /* MAIN CHARACTER */
 #mc {
-    width: 32px;
-    height: 32px;
+    width: 64px;
+    height: 64px;
     position: absolute;
 
     background: blue;
     border: 2px solid white;
+    box-sizing: border-box;
 }
 </style>
 </head>
@@ -62,33 +63,27 @@ body {
 
 <script>
 
-/* =========================
-   🗺️ 15x15 MAP (using [])
-   ========================= */
-const mapData = [
-["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
-["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
-["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
-["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
-["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
-
-["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
-["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
-["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
-["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
-["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
-
-["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
-["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
-["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
-["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
-["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"]
-];
-
 const map = document.getElementById("map");
 const mc = document.getElementById("mc");
 
 const tileSize = 64;
+
+/* =========================
+   🗺️ 10x10 MAP (using [])
+   ========================= */
+const mapData = [
+["g","g","g","g","g","g","g","g","g","g"],
+["g","g","g","g","g","g","g","g","g","g"],
+["g","g","g","g","g","g","g","g","g","g"],
+["g","g","g","g","g","g","g","g","g","g"],
+["g","g","g","g","g","g","g","g","g","g"],
+
+["g","g","g","g","g","g","g","g","g","g"],
+["g","g","g","g","g","g","g","g","g","g"],
+["g","g","g","g","g","g","g","g","g","g"],
+["g","g","g","g","g","g","g","g","g","g"],
+["g","g","g","g","g","g","g","g","g","g"]
+];
 
 /* =========================
    🧱 BUILD MAP
@@ -112,10 +107,10 @@ function buildMap() {
 buildMap();
 
 /* =========================
-   🧍 PLACE MC (no movement yet)
+   🧍 PLACE MC (center-ish)
    ========================= */
-mc.style.left = (3 * tileSize) + "px";
-mc.style.top = (3 * tileSize) + "px";
+mc.style.left = (4 * tileSize) + "px";
+mc.style.top = (4 * tileSize) + "px";
 
 </script>
 
