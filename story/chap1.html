@@ -6,17 +6,11 @@
 <style>
 body {
     margin: 0;
-    height: 100vh;
-
-    /* 🌄 BACKGROUND IMAGE */
-    background-image: url("lakbaybg.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-
+    background: #222;
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100vh;
 }
 
 /* GAME AREA */
@@ -26,8 +20,6 @@ body {
     position: relative;
     background: #000;
     overflow: hidden;
-
-    transform-origin: center;
 }
 
 /* MAP */
@@ -224,20 +216,6 @@ function buttonB() {
     alert("B button pressed");
 }
 
-function scaleGame() {
-    const game = document.getElementById("game");
-
-    const scaleX = window.innerWidth / 640;
-    const scaleY = window.innerHeight / 640;
-
-    const scale = Math.min(scaleX, scaleY);
-
-    game.style.transform = `scale(${scale})`;
-}
-
-window.addEventListener("resize", scaleGame);
-scaleGame();
-    
 </script>
 
 </body>
