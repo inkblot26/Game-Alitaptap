@@ -39,8 +39,10 @@ body {
     position: absolute;
 
     background-image: url("grasstile.png");
-    background-size: cover;
+    background-size: 32px 32px;
     background-repeat: no-repeat;
+
+    image-rendering: pixelated;
 }
 
 /* PLAYER */
@@ -195,11 +197,13 @@ document.addEventListener("keyup", (e) => {
     keys[e.key] = false;
 });
 
+const tileSize = 32;
+    
 function move(dir) {
-    if (dir === "up") y -= speed * 5;
-    if (dir === "down") y += speed * 5;
-    if (dir === "left") x -= speed * 5;
-    if (dir === "right") x += speed * 5;
+    if (dir === "up") y -= tileSize;
+    if (dir === "down") y += tileSize;
+    if (dir === "left") x -= tileSize;
+    if (dir === "right") x += tileSize;
 }
 
 function action(btn) {
