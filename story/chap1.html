@@ -15,8 +15,11 @@ body {
 
 /* GAME AREA */
 #game {
-    width: 640px;
-    height: 640px;
+    width: min(95vw, 900px);
+    height: min(95vw, 900px);
+
+    max-height: 95vh;
+
     position: relative;
     background: #000;
     overflow: hidden;
@@ -158,10 +161,10 @@ body {
 <script>
 const map = document.getElementById("map");
 const mc = document.getElementById("mc");
-
+const game = document.getElementById("game");
 const tileSize = 64;
 const mapSize = 20;
-const viewSize = 640;
+const game = document.getElementById("game");
 
 /* START POSITION (VISIBLE + SAFE) */
 let mcRow = 2;
@@ -252,6 +255,7 @@ function drawMC() {
 
 /* CAMERA SYSTEM */
 function updateCamera() {
+    const viewSize = game.clientWidth;
     const worldWidth = mapSize * tileSize;
     const worldHeight = mapSize * tileSize;
 
