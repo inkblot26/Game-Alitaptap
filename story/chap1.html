@@ -153,20 +153,28 @@ body {
 </div>
 
 <script>
-
 const map = document.getElementById("map");
 const mc = document.getElementById("mc");
 
 const tileSize = 64;
+const mapSize = 20;
+const viewSize = 640;
+
+// MC position in WORLD (not screen)
+let mcRow = 10;
+let mcCol = 10;
+
+// CAMERA offset
+let camX = 0;
+let camY = 0;
 
 /* =========================
-   🗺️ 20x20 MAP
+   BUILD MAP
    ========================= */
-const mapData = Array.from({ length: 20 }, () =>
-    Array.from({ length: 20 }, () => "g")
+const mapData = Array.from({ length: mapSize }, () =>
+    Array.from({ length: mapSize }, () => "g")
 );
 
-/* BUILD MAP */
 function buildMap() {
     for (let row = 0; row < mapData.length; row++) {
         for (let col = 0; col < mapData[row].length; col++) {
@@ -185,44 +193,71 @@ function buildMap() {
 buildMap();
 
 /* =========================
-   🧍 MC POSITION (CENTER START)
+   CAMERA UPDATE
    ========================= */
-let mcRow = 10;
-let mcCol = 10;
+function updateCamera() {
 
+    const worldWidth = mapSize * tileSize;
+    const worldHeight = mapSize * tileSize;
+
+    // center MC on screen
+    camX = mcCol * tileSize - viewSize / 2 + tileSize / 2;
+    camY = mcRow * tileSize - viewSize / 2 + tileSize / 2;
+
+    // clamp camera
+    if (camX < 0) camX = 0;
+    if (camY < 0) camY = 0;
+
+    if (camX > worldWidth - viewSize) camX = worldWidth - viewSize;
+    if (camY > worldHeight - viewSize) camY = worldHeight - viewSize;
+
+    map.style.transform = `translate(${-camX}px, ${-camY}px)`;
+
+    drawMC();
+}
+
+/* =========================
+   DRAW MC
+   ========================= */
 function drawMC() {
     mc.style.left = (mcCol * tileSize) + "px";
     mc.style.top = (mcRow * tileSize) + "px";
 }
 
-drawMC();
-
 /* =========================
-   🎮 MOVEMENT
+   MOVEMENT
    ========================= */
 function moveUp() {
     if (mcRow > 0) mcRow--;
-    drawMC();
+    updateCamera();
 }
 
 function moveDown() {
-    if (mcRow < 19) mcRow++;
-    drawMC();
+    if (mcRow < mapSize - 1) mcRow++;
+    updateCamera();
 }
 
 function moveLeft() {
     if (mcCol > 0) mcCol--;
-    drawMC();
+    updateCamera();
 }
 
 function moveRight() {
-    if (mcCol < 19) mcCol++;
-    drawMC();
+    if (mcCol < mapSize - 1) mcCol++;
+    updateCamera();
 }
 
 /* =========================
-   🅰️🅱️ BUTTONS
+   KEYBOARD SUPPORT (FIXED)
    ========================= */
+document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowUp") moveUp();
+    if (e.key === "ArrowDown") moveDown();
+    if (e.key === "ArrowLeft") moveLeft();
+    if (e.key === "ArrowRight") moveRight();
+});
+
+/* BUTTONS */
 function buttonA() {
     alert("A button pressed");
 }
@@ -230,6 +265,10 @@ function buttonA() {
 function buttonB() {
     alert("B button pressed");
 }
+
+/* INIT */
+drawMC();
+updateCamera();
 
 </script>
 
