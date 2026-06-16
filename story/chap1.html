@@ -1,1 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bugtong Adventure Prototype</title>
 
+    <style>
+        body {
+            margin: 0;
+            background: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        #game {
+            width: 800px;
+            height: 500px;
+            background: #7ec850;
+            border: 4px solid #000;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #player {
+            width: 32px;
+            height: 32px;
+            background: blue;
+            position: absolute;
+            left: 100px;
+            top: 100px;
+            border: 2px solid white;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+
+<div id="game">
+    <div id="player"></div>
+</div>
+
+<script>
+    const player = document.getElementById("player");
+    const game = document.getElementById("game");
+
+    let x = 100;
+    let y = 100;
+
+    const speed = 4;
+
+    const keys = {};
+
+    document.addEventListener("keydown", (e) => {
+        keys[e.key] = true;
+    });
+
+    document.addEventListener("keyup", (e) => {
+        keys[e.key] = false;
+    });
+
+    function update() {
+
+        if (keys["ArrowUp"]) {
+            y -= speed;
+        }
+
+        if (keys["ArrowDown"]) {
+            y += speed;
+        }
+
+        if (keys["ArrowLeft"]) {
+            x -= speed;
+        }
+
+        if (keys["ArrowRight"]) {
+            x += speed;
+        }
+
+        /* Boundaries */
+
+        if (x < 0) x = 0;
+        if (y < 0) y = 0;
+
+        if (x > game.clientWidth - player.clientWidth) {
+            x = game.clientWidth - player.clientWidth;
+        }
+
+        if (y > game.clientHeight - player.clientHeight) {
+            y = game.clientHeight - player.clientHeight;
+        }
+
+        player.style.left = x + "px";
+        player.style.top = y + "px";
+
+        requestAnimationFrame(update);
+    }
+
+    update();
+</script>
+
+</body>
+</html>
