@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Bugtong Adventure Prototype</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Tile Map</title>
 
 <style>
 body {
@@ -15,17 +13,16 @@ body {
     height: 100vh;
 }
 
-/* GAME SCREEN */
+/* GAME AREA */
 #game {
-    width: 800px;
-    height: 500px;
+    width: 480px;
+    height: 480px;
     position: relative;
+    background: #000;
     overflow: hidden;
-    border: 4px solid #000;
-    background: #2b2b2b;
 }
 
-/* MAP CONTAINER */
+/* MAP */
 #map {
     position: absolute;
     top: 0;
@@ -38,139 +35,65 @@ body {
     height: 32px;
     position: absolute;
 
-    background-image: url("grasstile.png");
-    background-size: 32px 32px;
-    background-repeat: no-repeat;
+    background: limegreen;
 
-    image-rendering: pixelated;
+    border: 1px solid rgba(0,0,0,0.3);
+    box-sizing: border-box;
 }
 
-/* PLAYER */
-#player {
+/* MAIN CHARACTER */
+#mc {
     width: 32px;
     height: 32px;
+    position: absolute;
+
     background: blue;
-    position: absolute;
     border: 2px solid white;
-    z-index: 10;
 }
-
-/* CONTROLS */
-#controls {
-    position: absolute;
-    bottom: 10px;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 20px;
-    box-sizing: border-box;
-    z-index: 20;
-}
-
-#dpad {
-    display: grid;
-    grid-template-columns: 50px 50px 50px;
-    grid-template-rows: 50px 50px 50px;
-    gap: 5px;
-}
-
-.btn {
-    background: #444;
-    color: white;
-    text-align: center;
-    line-height: 50px;
-    user-select: none;
-    border-radius: 6px;
-}
-
-.btn:active {
-    background: #777;
-}
-
-#ab {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.ab-btn {
-    width: 60px;
-    height: 60px;
-    background: red;
-    color: white;
-    text-align: center;
-    line-height: 60px;
-    border-radius: 50%;
-}
-
-.ab-btn:active {
-    background: darkred;
-}
-
 </style>
 </head>
 
 <body>
 
 <div id="game">
-
     <div id="map"></div>
-    <div id="player"></div>
-
-    <!-- CONTROLS -->
-    <div id="controls">
-
-        <div id="dpad">
-            <div></div>
-            <div class="btn" onmousedown="move('up')" ontouchstart="move('up')">↑</div>
-            <div></div>
-
-            <div class="btn" onmousedown="move('left')" ontouchstart="move('left')">←</div>
-            <div></div>
-            <div class="btn" onmousedown="move('right')" ontouchstart="move('right')">→</div>
-
-            <div></div>
-            <div class="btn" onmousedown="move('down')" ontouchstart="move('down')">↓</div>
-            <div></div>
-        </div>
-
-        <div id="ab">
-            <div class="ab-btn" onmousedown="action('A')" ontouchstart="action('A')">A</div>
-            <div class="ab-btn" onmousedown="action('B')" ontouchstart="action('B')">B</div>
-        </div>
-
-    </div>
-
+    <div id="mc"></div>
 </div>
 
 <script>
 
-const player = document.getElementById("player");
-const map = document.getElementById("map");
-const game = document.getElementById("game");
-
-let x = 100;
-let y = 100;
-const speed = 4;
-const keys = {};
-
 /* =========================
-   🗺️ MAP USING [] FORMAT
+   🗺️ 15x15 MAP (using [])
    ========================= */
 const mapData = [
-    ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"],
-    ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"],
-    ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"],
-    ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"],
-    ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"],
-    ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"],
-    ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"]
+["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
+["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
+["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
+["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
+["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
+
+["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
+["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
+["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
+["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
+["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
+
+["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
+["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
+["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
+["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"],
+["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g"]
 ];
 
-/* BUILD MAP */
-function buildMap() {
+const map = document.getElementById("map");
+const mc = document.getElementById("mc");
 
-    map.innerHTML = "";
+const tileSize = 32;
+
+/* =========================
+   🧱 BUILD MAP
+   ========================= */
+function buildMap() {
 
     for (let row = 0; row < mapData.length; row++) {
         for (let col = 0; col < mapData[row].length; col++) {
@@ -178,8 +101,8 @@ function buildMap() {
             const tile = document.createElement("div");
             tile.classList.add("tile");
 
-            tile.style.left = (col * 32) + "px";
-            tile.style.top = (row * 32) + "px";
+            tile.style.left = (col * tileSize) + "px";
+            tile.style.top = (row * tileSize) + "px";
 
             map.appendChild(tile);
         }
@@ -188,56 +111,11 @@ function buildMap() {
 
 buildMap();
 
-/* CONTROLS */
-document.addEventListener("keydown", (e) => {
-    keys[e.key] = true;
-});
-
-document.addEventListener("keyup", (e) => {
-    keys[e.key] = false;
-});
-
-const tileSize = 32;
-    
-function move(dir) {
-    if (dir === "up") y -= tileSize;
-    if (dir === "down") y += tileSize;
-    if (dir === "left") x -= tileSize;
-    if (dir === "right") x += tileSize;
-}
-
-function action(btn) {
-    if (btn === "A") alert("A pressed");
-    if (btn === "B") alert("B pressed");
-}
-
-/* GAME LOOP */
-function update() {
-
-    if (keys["ArrowUp"]) y -= speed;
-    if (keys["ArrowDown"]) y += speed;
-    if (keys["ArrowLeft"]) x -= speed;
-    if (keys["ArrowRight"]) x += speed;
-
-    /* boundaries */
-    if (x < 0) x = 0;
-    if (y < 0) y = 0;
-
-    if (x > game.clientWidth - player.clientWidth) {
-        x = game.clientWidth - player.clientWidth;
-    }
-
-    if (y > game.clientHeight - player.clientHeight) {
-        y = game.clientHeight - player.clientHeight;
-    }
-
-    player.style.left = x + "px";
-    player.style.top = y + "px";
-
-    requestAnimationFrame(update);
-}
-
-update();
+/* =========================
+   🧍 PLACE MC (no movement yet)
+   ========================= */
+mc.style.left = (3 * tileSize) + "px";
+mc.style.top = (3 * tileSize) + "px";
 
 </script>
 
