@@ -15,15 +15,17 @@ body {
     height: 100vh;
 }
 
+/* GAME SCREEN */
 #game {
     width: 800px;
     height: 500px;
     position: relative;
     overflow: hidden;
     border: 4px solid #000;
+    background: #000;
 }
 
-/* MAP */
+/* MAP CONTAINER */
 #map {
     position: absolute;
     top: 0;
@@ -35,6 +37,7 @@ body {
     width: 32px;
     height: 32px;
     position: absolute;
+    background-image: url("grasstile.png");
     background-size: cover;
 }
 
@@ -48,56 +51,131 @@ body {
     z-index: 10;
 }
 
+/* CONTROLS */
+#controls {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-sizing: border-box;
+    z-index: 20;
+}
+
+#dpad {
+    display: grid;
+    grid-template-columns: 50px 50px 50px;
+    grid-template-rows: 50px 50px 50px;
+    gap: 5px;
+}
+
+.btn {
+    background: #444;
+    color: white;
+    text-align: center;
+    line-height: 50px;
+    user-select: none;
+    border-radius: 6px;
+}
+
+.btn:active {
+    background: #777;
+}
+
+#ab {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ab-btn {
+    width: 60px;
+    height: 60px;
+    background: red;
+    color: white;
+    text-align: center;
+    line-height: 60px;
+    border-radius: 50%;
+}
+
+.ab-btn:active {
+    background: darkred;
+}
+
 </style>
 </head>
 
 <body>
 
 <div id="game">
+
     <div id="map"></div>
     <div id="player"></div>
+
+    <!-- CONTROLS -->
+    <div id="controls">
+
+        <div id="dpad">
+            <div></div>
+            <div class="btn" onmousedown="move('up')" ontouchstart="move('up')">↑</div>
+            <div></div>
+
+            <div class="btn" onmousedown="move('left')" ontouchstart="move('left')">←</div>
+            <div></div>
+            <div class="btn" onmousedown="move('right')" ontouchstart="move('right')">→</div>
+
+            <div></div>
+            <div class="btn" onmousedown="move('down')" ontouchstart="move('down')">↓</div>
+            <div></div>
+        </div>
+
+        <div id="ab">
+            <div class="ab-btn" onmousedown="action('A')" ontouchstart="action('A')">A</div>
+            <div class="ab-btn" onmousedown="action('B')" ontouchstart="action('B')">B</div>
+        </div>
+
+    </div>
+
 </div>
 
 <script>
 
-const map = document.getElementById("map");
 const player = document.getElementById("player");
+const map = document.getElementById("map");
+const game = document.getElementById("game");
+
+let x = 100;
+let y = 100;
+const speed = 4;
+const keys = {};
 
 /* =========================
-   🎮 EDIT YOUR MAP HERE
+   🗺️ MAP USING [] FORMAT
    ========================= */
 const mapData = [
-  ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"],
-  ["grass","grass","grass","stone","grass","grass","grass","grass","grass","grass"],
-  ["grass","water","water","grass","grass","grass","tree","grass","grass","grass"],
-  ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"],
-  ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"]
+    ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"],
+    ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"],
+    ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"],
+    ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"],
+    ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"],
+    ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"],
+    ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"]
 ];
-
-/* TILE TEXTURES */
-const tiles = {
-    grass: "grasstile.png",
-    stone: "/stonetile.png", // optional later
-    water: "/watertile.png", // optional later
-    tree: "/treetile.png"    // optional later
-};
 
 /* BUILD MAP */
 function buildMap() {
+
     map.innerHTML = "";
 
-    for (let y = 0; y < mapData.length; y++) {
-        for (let x = 0; x < mapData[y].length; x++) {
-
-            const tileType = mapData[y][x];
+    for (let row = 0; row < mapData.length; row++) {
+        for (let col = 0; col < mapData[row].length; col++) {
 
             const tile = document.createElement("div");
             tile.classList.add("tile");
 
-            tile.style.left = (x * 32) + "px";
-            tile.style.top = (y * 32) + "px";
-
-            tile.style.backgroundImage = `url(${tiles[tileType]})`;
+            tile.style.left = (col * 32) + "px";
+            tile.style.top = (row * 32) + "px";
 
             map.appendChild(tile);
         }
@@ -106,13 +184,49 @@ function buildMap() {
 
 buildMap();
 
-/* PLAYER POSITION */
-let px = 64;
-let py = 64;
+/* CONTROLS */
+document.addEventListener("keydown", (e) => {
+    keys[e.key] = true;
+});
 
+document.addEventListener("keyup", (e) => {
+    keys[e.key] = false;
+});
+
+function move(dir) {
+    if (dir === "up") y -= speed * 5;
+    if (dir === "down") y += speed * 5;
+    if (dir === "left") x -= speed * 5;
+    if (dir === "right") x += speed * 5;
+}
+
+function action(btn) {
+    if (btn === "A") alert("A pressed");
+    if (btn === "B") alert("B pressed");
+}
+
+/* GAME LOOP */
 function update() {
-    player.style.left = px + "px";
-    player.style.top = py + "px";
+
+    if (keys["ArrowUp"]) y -= speed;
+    if (keys["ArrowDown"]) y += speed;
+    if (keys["ArrowLeft"]) x -= speed;
+    if (keys["ArrowRight"]) x += speed;
+
+    /* boundaries */
+    if (x < 0) x = 0;
+    if (y < 0) y = 0;
+
+    if (x > game.clientWidth - player.clientWidth) {
+        x = game.clientWidth - player.clientWidth;
+    }
+
+    if (y > game.clientHeight - player.clientHeight) {
+        y = game.clientHeight - player.clientHeight;
+    }
+
+    player.style.left = x + "px";
+    player.style.top = y + "px";
 
     requestAnimationFrame(update);
 }
