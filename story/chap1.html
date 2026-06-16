@@ -1,246 +1,222 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Simple Tile Map (10x10)</title>
-    
-    <style>
-        body {
-            margin: 0;
-            background: #222;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        
-        /* GAME AREA */
-        #game {
-            width: 640px;
-            height: 640px;
-            position: relative;
-            background: #000;
-            overflow: hidden;
-        }
-        
-        /* MAP */
-        #map {
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-        
-        /* TILE */
-        .tile {
-            width: 64px;
-            height: 64px;
-            position: absolute;
-        
-            background-image: url("tile_grass.png");
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
-        
-            border: 1px solid rgba(0,0,0,0.3);
-            box-sizing: border-box;
-        
-            image-rendering: pixelated;
-        }
-        
-        /* MAIN CHARACTER */
-        #mc {
-            width: 64px;
-            height: 64px;
-            position: absolute;
-        
-            background-image: url("tile_mc.png");
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
-        
-            image-rendering: pixelated;
-        
-            box-sizing: border-box;
-        }
+<title>Simple Tile Map (10x10)</title>
 
-        /* CONTROLS */
-        #controls {
-            margin-top: 15px;
-            display: flex;
-            justify-content: space-between;
-            width: 640px;
-        }
-        
-        #dpad {
-            display: grid;
-            grid-template-columns: 60px 60px 60px;
-            grid-template-rows: 60px 60px 60px;
-            gap: 5px;
-        }
-        
-        .btn {
-            background: #444;
-            color: white;
-            border: 1px solid #888;
-            text-align: center;
-            line-height: 60px;
-            cursor: pointer;
-            user-select: none;
-        }
-        
-        #ab {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-        
-        .abbtn {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: crimson;
-            color: white;
-            text-align: center;
-            line-height: 70px;
-            cursor: pointer;
-            user-select: none;
-        }
-        
-    </style>
+<style>
+body {
+    margin: 0;
+    background: #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* GAME AREA */
+#game {
+    width: 640px;
+    height: 640px;
+    position: relative;
+    background: #000;
+    overflow: hidden;
+}
+
+/* MAP */
+#map {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* TILE */
+.tile {
+    width: 64px;
+    height: 64px;
+    position: absolute;
+
+    background-image: url("tile_grass.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+
+    image-rendering: pixelated;
+}
+
+/* MAIN CHARACTER */
+#mc {
+    width: 64px;
+    height: 64px;
+    position: absolute;
+
+    background-image: url("tile_mc.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+
+    image-rendering: pixelated;
+}
+
+/* CONTROLS (NOW OVER GAME) */
+#controls {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+    box-sizing: border-box;
+    z-index: 10;
+}
+
+#dpad {
+    display: grid;
+    grid-template-columns: 60px 60px 60px;
+    grid-template-rows: 60px 60px 60px;
+    gap: 5px;
+}
+
+.btn {
+    background: #444;
+    color: white;
+    border: 1px solid #888;
+    text-align: center;
+    line-height: 60px;
+    cursor: pointer;
+    user-select: none;
+}
+
+#ab {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.abbtn {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: crimson;
+    color: white;
+    text-align: center;
+    line-height: 70px;
+    cursor: pointer;
+    user-select: none;
+}
+</style>
 </head>
 
 <body>
-    
-    <div>
-        <div id="game">
-            <div id="map"></div>
-            <div id="mc"></div>
+
+<div id="game">
+
+    <div id="map"></div>
+    <div id="mc"></div>
+
+    <!-- CONTROLS INSIDE GAME -->
+    <div id="controls">
+
+        <div id="dpad">
+            <div></div>
+            <div class="btn" onclick="moveUp()">↑</div>
+            <div></div>
+
+            <div class="btn" onclick="moveLeft()">←</div>
+            <div></div>
+            <div class="btn" onclick="moveRight()">→</div>
+
+            <div></div>
+            <div class="btn" onclick="moveDown()">↓</div>
+            <div></div>
         </div>
-    
-        <div id="controls">
-    
-            <div id="dpad">
-                <div></div>
-                <div class="btn" onclick="moveUp()">↑</div>
-                <div></div>
-    
-                <div class="btn" onclick="moveLeft()">←</div>
-                <div></div>
-                <div class="btn" onclick="moveRight()">→</div>
-    
-                <div></div>
-                <div class="btn" onclick="moveDown()">↓</div>
-                <div></div>
-            </div>
-    
-            <div id="ab">
-                <div class="abbtn" onclick="buttonA()">A</div>
-                <div class="abbtn" onclick="buttonB()">B</div>
-            </div>
+
+        <div id="ab">
+            <div class="abbtn" onclick="buttonA()">A</div>
+            <div class="abbtn" onclick="buttonB()">B</div>
         </div>
+
     </div>
-    
-    <script>
-        
-        const map = document.getElementById("map");
-        const mc = document.getElementById("mc");
-        
-        const tileSize = 64;
-        
-        /* =========================
-           🗺️ 10x10 MAP (using [])
-           ========================= */
-        const mapData = [
-        ["g","g","g","g","g","g","g","g","g","g"],
-        ["g","g","g","g","g","g","g","g","g","g"],
-        ["g","g","g","g","g","g","g","g","g","g"],
-        ["g","g","g","g","g","g","g","g","g","g"],
-        ["g","g","g","g","g","g","g","g","g","g"],
-        
-        ["g","g","g","g","g","g","g","g","g","g"],
-        ["g","g","g","g","g","g","g","g","g","g"],
-        ["g","g","g","g","g","g","g","g","g","g"],
-        ["g","g","g","g","g","g","g","g","g","g"],
-        ["g","g","g","g","g","g","g","g","g","g"]
-        ];
-        
-        /* =========================
-           🧱 BUILD MAP
-           ========================= */
-        function buildMap() {
-        
-            for (let row = 0; row < mapData.length; row++) {
-                for (let col = 0; col < mapData[row].length; col++) {
-        
-                    const tile = document.createElement("div");
-                    tile.classList.add("tile");
-        
-                    tile.style.left = (col * tileSize) + "px";
-                    tile.style.top = (row * tileSize) + "px";
-        
-                    map.appendChild(tile);
-                }
-            }
+
+</div>
+
+<script>
+
+const map = document.getElementById("map");
+const mc = document.getElementById("mc");
+
+const tileSize = 64;
+
+/* MAP */
+const mapData = Array.from({ length: 10 }, () =>
+    Array.from({ length: 10 }, () => "g")
+);
+
+/* BUILD MAP */
+function buildMap() {
+    for (let row = 0; row < mapData.length; row++) {
+        for (let col = 0; col < mapData[row].length; col++) {
+
+            const tile = document.createElement("div");
+            tile.classList.add("tile");
+
+            tile.style.left = (col * tileSize) + "px";
+            tile.style.top = (row * tileSize) + "px";
+
+            map.appendChild(tile);
         }
-        
-        buildMap();
-        
-        /* =========================
-           🧍 MC POSITION
-           ========================= */
-        
-        let mcRow = 4;
-        let mcCol = 4;
-        
-        function drawMC() {
-            mc.style.left = (mcCol * tileSize) + "px";
-            mc.style.top = (mcRow * tileSize) + "px";
-        }
-        
-        drawMC();
-        
-        /* =========================
-           🎮 MOVEMENT
-           ========================= */
-        
-        function moveUp() {
-            if (mcRow > 0) {
-                mcRow--;
-                drawMC();
-            }
-        }
-        
-        function moveDown() {
-            if (mcRow < 9) {
-                mcRow++;
-                drawMC();
-            }
-        }
-        
-        function moveLeft() {
-            if (mcCol > 0) {
-                mcCol--;
-                drawMC();
-            }
-        }
-        
-        function moveRight() {
-            if (mcCol < 9) {
-                mcCol++;
-                drawMC();
-            }
-        }
-        
-        /* =========================
-           🅰️🅱️ BUTTONS
-           ========================= */
-        
-        function buttonA() {
-            alert("A button pressed");
-        }
-        
-        function buttonB() {
-            alert("B button pressed");
-        }
-        
-    </script>
+    }
+}
+
+buildMap();
+
+/* MC POSITION */
+let mcRow = 4;
+let mcCol = 4;
+
+function drawMC() {
+    mc.style.left = (mcCol * tileSize) + "px";
+    mc.style.top = (mcRow * tileSize) + "px";
+}
+
+drawMC();
+
+/* MOVEMENT (1 TILE) */
+function moveUp() {
+    if (mcRow > 0) mcRow--;
+    drawMC();
+}
+
+function moveDown() {
+    if (mcRow < 9) mcRow++;
+    drawMC();
+}
+
+function moveLeft() {
+    if (mcCol > 0) mcCol--;
+    drawMC();
+}
+
+function moveRight() {
+    if (mcCol < 9) mcCol++;
+    drawMC();
+}
+
+/* KEYBOARD SUPPORT */
+document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowUp") moveUp();
+    if (e.key === "ArrowDown") moveDown();
+    if (e.key === "ArrowLeft") moveLeft();
+    if (e.key === "ArrowRight") moveRight();
+});
+
+/* A B BUTTONS */
+function buttonA() {
+    alert("A button pressed");
+}
+
+function buttonB() {
+    alert("B button pressed");
+}
+
+</script>
 
 </body>
 </html>
