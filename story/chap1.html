@@ -20,10 +20,27 @@ body {
 #game {
     width: 800px;
     height: 500px;
-    background: #7ec850;
-    border: 4px solid #000;
     position: relative;
     overflow: hidden;
+    border: 4px solid #000;
+}
+
+/* TILE MAP */
+#map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: grid;
+    grid-template-columns: repeat(25, 32px);
+    grid-template-rows: repeat(15, 32px);
+}
+
+/* EACH TILE */
+.tile {
+    width: 32px;
+    height: 32px;
+    background-image: url("/grasstile.png");
+    background-size: cover;
 }
 
 /* PLAYER */
@@ -36,6 +53,7 @@ body {
     top: 100px;
     border: 2px solid white;
     box-sizing: border-box;
+    z-index: 10;
 }
 
 /* CONTROLS */
@@ -47,9 +65,9 @@ body {
     justify-content: space-between;
     padding: 0 20px;
     box-sizing: border-box;
+    z-index: 20;
 }
 
-/* D-PAD */
 #dpad {
     display: grid;
     grid-template-columns: 50px 50px 50px;
@@ -70,7 +88,6 @@ body {
     background: #777;
 }
 
-/* A B BUTTONS */
 #ab {
     display: flex;
     flex-direction: column;
@@ -92,14 +109,6 @@ body {
     background: darkred;
 }
 
-/* MOBILE SCALE */
-@media (max-width: 850px) {
-    #game {
-        width: 100vw;
-        height: 100vh;
-        border: none;
-    }
-}
 </style>
 </head>
 
@@ -107,12 +116,14 @@ body {
 
 <div id="game">
 
+    <!-- TILE MAP -->
+    <div id="map"></div>
+
     <div id="player"></div>
 
     <!-- CONTROLS -->
     <div id="controls">
 
-        <!-- D-PAD -->
         <div id="dpad">
             <div></div>
             <div class="btn" onmousedown="move('up')" ontouchstart="move('up')">↑</div>
@@ -127,7 +138,6 @@ body {
             <div></div>
         </div>
 
-        <!-- A B BUTTONS -->
         <div id="ab">
             <div class="ab-btn" onmousedown="action('A')" ontouchstart="action('A')">A</div>
             <div class="ab-btn" onmousedown="action('B')" ontouchstart="action('B')">B</div>
@@ -141,14 +151,28 @@ body {
 
 const player = document.getElementById("player");
 const game = document.getElementById("game");
+const map = document.getElementById("map");
 
 let x = 100;
 let y = 100;
 const speed = 4;
-
 const keys = {};
 
-// KEYBOARD CONTROLS
+/* BUILD GRASS MAP */
+function createMap() {
+    const cols = 25;
+    const rows = 15;
+
+    for (let i = 0; i < cols * rows; i++) {
+        const tile = document.createElement("div");
+        tile.classList.add("tile");
+        map.appendChild(tile);
+    }
+}
+
+createMap();
+
+/* KEYBOARD */
 document.addEventListener("keydown", (e) => {
     keys[e.key] = true;
 });
@@ -157,7 +181,7 @@ document.addEventListener("keyup", (e) => {
     keys[e.key] = false;
 });
 
-// MOBILE BUTTON CONTROL
+/* MOBILE MOVE */
 function move(dir) {
     if (dir === "up") y -= speed * 5;
     if (dir === "down") y += speed * 5;
@@ -166,17 +190,11 @@ function move(dir) {
 }
 
 function action(btn) {
-    if (btn === "A") {
-        console.log("A pressed (interact / bugtong answer)");
-        alert("A BUTTON PRESSED (future bugtong interaction)");
-    }
-    if (btn === "B") {
-        console.log("B pressed (cancel)");
-        alert("B BUTTON PRESSED (back)");
-    }
+    if (btn === "A") alert("A pressed (bugtong interaction soon)");
+    if (btn === "B") alert("B pressed");
 }
 
-// GAME LOOP
+/* GAME LOOP */
 function update() {
 
     if (keys["ArrowUp"]) y -= speed;
@@ -184,7 +202,7 @@ function update() {
     if (keys["ArrowLeft"]) x -= speed;
     if (keys["ArrowRight"]) x += speed;
 
-    // boundaries
+    /* boundaries */
     if (x < 0) x = 0;
     if (y < 0) y = 0;
 
