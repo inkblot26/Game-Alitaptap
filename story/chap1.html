@@ -105,11 +105,12 @@ body {
 }
 
 #map {
-    z-index: 1;
+    position: absolute;
 }
 
 #mc {
-    z-index: 10;
+    position: absolute;
+    z-index: 5;
 }
 
 #controls {
@@ -123,8 +124,10 @@ body {
 
 <div id="game">
 
-    <div id="map"></div>
-    <div id="mc"></div>
+    <div id="map">
+        <div id="mc"></div>
+    </div>
+    
 
     <!-- CONTROLS INSIDE GAME -->
     <div id="controls">
@@ -191,29 +194,21 @@ buildMap();
 
 /* DRAW MC */
 function drawMC() {
-
-    const screenX = mcCol * tileSize - camX;
-    const screenY = mcRow * tileSize - camY;
-
-    mc.style.left = screenX + "px";
-    mc.style.top = screenY + "px";
+    mc.style.left = (mcCol * tileSize) + "px";
+    mc.style.top = (mcRow * tileSize) + "px";
 }
 
 /* CAMERA SYSTEM */
 function updateCamera() {
-
     const worldWidth = mapSize * tileSize;
     const worldHeight = mapSize * tileSize;
 
-    // raw camera target (center MC)
     let targetX = mcCol * tileSize - viewSize / 2 + tileSize / 2;
     let targetY = mcRow * tileSize - viewSize / 2 + tileSize / 2;
 
-    // clamp camera so it NEVER goes out of world
     camX = Math.max(0, Math.min(targetX, worldWidth - viewSize));
     camY = Math.max(0, Math.min(targetY, worldHeight - viewSize));
 
-    // move MAP (world)
     map.style.transform = `translate(${-camX}px, ${-camY}px)`;
 
     drawMC();
