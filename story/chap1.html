@@ -218,15 +218,70 @@ function updateCamera() {
 
 /* =========================
    DRAW MC
-   ========================= */
+const map = document.getElementById("map");
+const mc = document.getElementById("mc");
+
+const tileSize = 64;
+const mapSize = 20;
+const viewSize = 640;
+
+// ✅ START POSITION (what you asked)
+let mcRow = 2;
+let mcCol = 2;
+
+let camX = 0;
+let camY = 0;
+
+/* BUILD MAP */
+const mapData = Array.from({ length: mapSize }, () =>
+    Array.from({ length: mapSize }, () => "g")
+);
+
+function buildMap() {
+    for (let row = 0; row < mapData.length; row++) {
+        for (let col = 0; col < mapData[row].length; col++) {
+
+            const tile = document.createElement("div");
+            tile.classList.add("tile");
+
+            tile.style.left = (col * tileSize) + "px";
+            tile.style.top = (row * tileSize) + "px";
+
+            map.appendChild(tile);
+        }
+    }
+}
+
+buildMap();
+
+/* DRAW MC */
 function drawMC() {
     mc.style.left = (mcCol * tileSize) + "px";
     mc.style.top = (mcRow * tileSize) + "px";
 }
 
-/* =========================
-   MOVEMENT
-   ========================= */
+/* CAMERA */
+function updateCamera() {
+
+    const worldWidth = mapSize * tileSize;
+    const worldHeight = mapSize * tileSize;
+
+    camX = mcCol * tileSize - viewSize / 2 + tileSize / 2;
+    camY = mcRow * tileSize - viewSize / 2 + tileSize / 2;
+
+    // clamp
+    if (camX < 0) camX = 0;
+    if (camY < 0) camY = 0;
+
+    if (camX > worldWidth - viewSize) camX = worldWidth - viewSize;
+    if (camY > worldHeight - viewSize) camY = worldHeight - viewSize;
+
+    map.style.transform = `translate(${-camX}px, ${-camY}px)`;
+
+    drawMC();
+}
+
+/* MOVEMENT */
 function moveUp() {
     if (mcRow > 0) mcRow--;
     updateCamera();
@@ -247,9 +302,7 @@ function moveRight() {
     updateCamera();
 }
 
-/* =========================
-   KEYBOARD SUPPORT (FIXED)
-   ========================= */
+/* KEYBOARD */
 document.addEventListener("keydown", (e) => {
     if (e.key === "ArrowUp") moveUp();
     if (e.key === "ArrowDown") moveDown();
@@ -266,10 +319,9 @@ function buttonB() {
     alert("B button pressed");
 }
 
-/* INIT */
+/* INIT (IMPORTANT ORDER) */
 drawMC();
 updateCamera();
-
 </script>
 
 </body>
