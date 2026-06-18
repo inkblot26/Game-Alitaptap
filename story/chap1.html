@@ -84,11 +84,11 @@ body{
 
 #controls{
     position:absolute;
-    bottom:10px;
+    bottom:20px;
     width:100%;
     display:flex;
-    justify-content:center;
-    gap:20px;
+    justify-content:space-between; /* LEFT + RIGHT separation */
+    padding:0 30px;
     z-index:20;
 }
 
@@ -129,8 +129,16 @@ body{
 </div>
 
 <div id="controls">
-    <button onmousedown="moveLeft()" ontouchstart="moveLeft()">←</button>
-    <button onmousedown="moveRight()" ontouchstart="moveRight()">→</button>
+
+    <!-- LEFT SIDE: movement buttons -->
+    <div style="display:flex; gap:10px;">
+        <button onmousedown="moveLeft()" ontouchstart="moveLeft()">←</button>
+        <button onmousedown="moveRight()" ontouchstart="moveRight()">→</button>
+    </div>
+
+    <!-- RIGHT SIDE: action button -->
+    <button onclick="actionButton()" ontouchstart="actionButton()">X</button>
+
 </div>
    
 <script>
@@ -202,6 +210,10 @@ function moveRight(){
     }
     draw();
 }
+
+function actionButton(){
+    console.log("Action button pressed!");
+}    
 
 /* INIT */
 draw();
