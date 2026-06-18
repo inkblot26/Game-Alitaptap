@@ -222,10 +222,7 @@ function fitScreen() {
     const baseWidth = 1408;
     const baseHeight = 768;
 
-    const scaleX = window.innerWidth / baseWidth;
-    const scaleY = window.innerHeight / baseHeight;
-
-    const scale = Math.min(scaleX, scaleY);
+    const scale = window.innerHeight / baseHeight;
 
     document.documentElement.style.setProperty('--game-scale', scale);
 }
