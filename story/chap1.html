@@ -224,6 +224,8 @@ let npcX = 500;           // npc position in world
 
 let moveLeftHeld = false;
 let moveRightHeld = false;
+let keyboardLeft = false;
+let keyboardRight = false;     
      
 /* =========================
    DRAW FUNCTION
@@ -257,12 +259,16 @@ function draw(){
 ========================= */
 document.addEventListener("keydown", function(e){
 
-    if(e.key === "ArrowLeft"){
-        playerX -= SPEED;
+    if(e.key === "ArrowLeft" || e.key === "a" || e.key === "A"){
+        keyboardLeft = true;
     }
 
-    if(e.key === "ArrowRight"){
-        playerX += SPEED;
+    if(e.key === "ArrowRight" || e.key === "d" || e.key === "D"){
+        keyboardRight = true;
+    }
+
+    if(e.key === "ArrowUp" ||e.key === "w" || e.key === "W"){
+        actionButton();
     }
 
     // left boundary
@@ -338,11 +344,11 @@ fitScreen();
 draw();
 
 function gameLoop(){
-    if(moveLeftHeld){
+    if(moveLeftHeld || keyboardLeft){
         playerX -= SPEED;
     }
 
-    if(moveRightHeld){
+    if(moveRightHeld || keyboardRight){
         playerX += SPEED;
     }
 
