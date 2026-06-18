@@ -2,182 +2,243 @@
 <html>
 <head>
 <title>Lakbay</title>
+
+<!-- =========================
+     MOBILE VIEW SETTINGS
+     - prevents zoom / scaling issues
+========================= -->
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+
 <style>
 
+/* =========================
+   TOUCH CONTROL BEHAVIOR
+   - disables browser gestures interfering with game
+========================= */
 html, body {
     touch-action: manipulation;
-}   
+}
+
+/* applies to everything */
 * {
     touch-action: manipulation;
-}    
+}
+
 /* =========================
-   BODY SETUP (PAGE BACKGROUND)
+   BODY (OUTSIDE GAME AREA)
    ========================= */
 body{
-    margin:0; /* removes default browser spacing */
-    background:#222; /* dark gray background outside the game */
+    margin:0; /* remove default spacing */
+    background:#222; /* dark background outside game */
 
-    /* centers the game screen in the middle of the page */
+    /* center game on screen */
     display:flex;
     justify-content:center;
     align-items:center;
-    padding-top:20px; /* gives breathing space */
+
+    padding-top:20px;
     min-height:100vh;
 }
 
 /* =========================
-   GAME SCREEN (MAIN GAME AREA)
+   GAME SCREEN (VISIBLE FRAME)
    ========================= */
 #game{
-    width: min(95vw, 1200px);   /* responsive width mobile + laptop limit*/
-    height: 768px;
-    transform: scale(var(--game-scale));
-    transform-origin: center;
+    width: min(95vw, 1200px);   /* responsive width */
+    height: 768px;              /* fixed game height */
 
-    position:relative; /* allows child elements (player) to be positioned inside */
-    overflow:hidden; /* prevents player from showing outside the box */
-    border:4px solid black; /* visible border around game */
+    transform: scale(var(--game-scale)); /* mobile scaling system */
+    transform-origin: center;             /* scale from center */
 
-    /* BACKGROUND IMAGE (your chapter map) */
-    background-image:url("chap1-0.png"); /* your background image */
-    background-size:cover; /* scaling image to fit game box */
-    background-repeat:no-repeat; /* prevents tiling */
-    background-position:center; /* centers the image */
+    position:relative; /* children (world, controls) use this as reference */
+    overflow:hidden;   /* hides anything outside frame */
+
+    border:4px solid black; /* game border */
+
+    /* background (optional fallback layer) */
+    background-image:url("chap1-0.png");
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-position:center;
 }
 
 /* =========================
-   PLAYER (MAIN CHARACTER)
+   PLAYER CHARACTER (MC)
    ========================= */
 #mc{
-    position:absolute; /* allows movement using left/bottom */
+    position:absolute; /* positioned inside world */
 
-    width: 140px;  /* player width */
-    height:140px; /* player height */
+    width:140px;
+    height:140px;
 
-    background-image:url("mc.png"); /* your character image file */
-    background-size: 100% 100%;       
-    background-repeat:no-repeat;    /* prevents tiling */
-
-    left:100px;  /* starting X position (horizontal) */
-    bottom:130px; /* fixed height above ground */
-
-    z-index:10; /* makes sure player appears above background */
-}
-
-/*NCP oldman1*/   
-#npc{
-    position:absolute;   /* allows placing inside game */
-
-    width:180px;         /* same size as MC (you can adjust) */
-    height:180px;
-
-    background-image:url("oldman1.png"); /* NPC image */
+    background-image:url("mc.png");
     background-size:100% 100%;
     background-repeat:no-repeat;
 
-    left:900px;          /* NPC fixed position X */
-    bottom:130px;        /* same ground level as MC */
+    left:100px;   /* X position in world */
+    bottom:130px; /* ground height */
 
-    z-index:9;           /* behind MC but above background */
+    z-index:10; /* always above background */
 }
 
-#controls{
+/* =========================
+   NPC CHARACTER
+   ========================= */
+#npc{
     position:absolute;
-    bottom:15px;
-    left:0;
-    width:100%;
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-end;
-    padding:0 20px;
-    box-sizing:border-box;
-    z-index:20;
+
+    width:180px;
+    height:180px;
+
+    background-image:url("oldman1.png");
+    background-size:100% 100%;
+    background-repeat:no-repeat;
+
+    left:900px;   /* world position */
+    bottom:130px;
+
+    z-index:9; /* behind player */
 }
 
-#controls button{
-    width:80px;
-    height:80px;
-    font-size:30px;
-    border-radius:10px;
-    border:2px solid black;
-    background:#444;
-    color:white;
-}   
+/* =========================
+   WORLD (MOVING MAP SYSTEM)
+   - this is what scrolls left/right
+========================= */
 #world{
     position:absolute;
     left:0;
     top:0;
-    width:1408px;
+
+    width:1408px;  /* size of your map image */
     height:768px;
 
     background-image:url("chap1-0.png");
-    background-size: cover;
+    background-size:cover;
     background-repeat:no-repeat;
     background-position:center;
-}   
+}
+
+/* =========================
+   CONTROLS UI (BUTTONS)
+   ========================= */
+#controls{
+    position:absolute;
+    bottom:15px;
+    left:0;
+
+    width:100%;
+    display:flex;
+
+    justify-content:space-between; /* left group + right button */
+
+    align-items:flex-end;
+    padding:0 20px;
+
+    box-sizing:border-box;
+    z-index:20;
+}
+
+/* button style */
+#controls button{
+    width:80px;
+    height:80px;
+
+    font-size:30px;
+
+    border-radius:10px;
+    border:2px solid black;
+
+    background:#444;
+    color:white;
+}
+
 </style>
 </head>
 
 <body>
 
 <!-- =========================
-     GAME CONTAINER
+     GAME STRUCTURE
      ========================= -->
 <div id="game">
+
+    <!-- WORLD (moves camera) -->
     <div id="world">
+
+        <!-- player -->
         <div id="mc"></div>
+
+        <!-- npc -->
         <div id="npc"></div>
+
     </div>
 
+    <!-- CONTROLS INSIDE GAME SCREEN -->
     <div id="controls">
 
+        <!-- LEFT: movement buttons -->
         <div style="display:flex; gap:10px;">
             <button onmousedown="moveLeft()" ontouchstart="moveLeft()">←</button>
             <button onmousedown="moveRight()" ontouchstart="moveRight()">→</button>
         </div>
 
+        <!-- RIGHT: action button -->
         <button onclick="actionButton()" ontouchstart="actionButton()">X</button>
 
     </div>
+
 </div>
-   
+
 <script>
-const mc = document.getElementById("mc");
-const world = document.getElementById("world");
-const game = document.getElementById("game");
 
-let playerX = 100;     // MC world position
-let cameraX = 0;       // camera offset
+/* =========================
+   ELEMENT REFERENCES
+========================= */
+const mc = document.getElementById("mc");       // player
+const world = document.getElementById("world"); // map
+const game = document.getElementById("game");   // screen
 
-const WORLD_WIDTH = 1408;
-const SPEED = 10;
+/* =========================
+   GAME STATE VARIABLES
+========================= */
+let playerX = 100;   // player position in world
+let cameraX = 0;     // camera offset
 
-/* NPC world position */
-let npcX = 500;
+const WORLD_WIDTH = 1408; // map size
+const SPEED = 10;         // movement speed
 
-/* DRAW FUNCTION */
+let npcX = 500;           // npc position in world
+
+/* =========================
+   DRAW FUNCTION
+   - updates everything visually
+========================= */
 function draw(){
-    // camera follows player
+
+    // camera follows player (center-ish view)
     cameraX = playerX - 200;
 
-    // clamp camera so it doesn't go out of world
+    // prevent camera going outside map (left side)
     if(cameraX < 0) cameraX = 0;
+
+    // prevent camera going outside map (right side)
     if(cameraX > WORLD_WIDTH - game.clientWidth){
         cameraX = WORLD_WIDTH - game.clientWidth;
     }
 
-    // move world (THIS is the key)
+    // move world (THIS is scrolling effect)
     world.style.left = -cameraX + "px";
 
-    // place MC inside world
+    // place player inside world
     mc.style.left = playerX + "px";
 
-    // place NPC inside world
+    // place npc inside world
     npc.style.left = npcX + "px";
 }
 
-/* CONTROLS */
+/* =========================
+   KEYBOARD CONTROLS
+========================= */
 document.addEventListener("keydown", function(e){
 
     if(e.key === "ArrowLeft"){
@@ -188,8 +249,10 @@ document.addEventListener("keydown", function(e){
         playerX += SPEED;
     }
 
-    /* world boundaries */
+    // left boundary
     if(playerX < 0) playerX = 0;
+
+    // right boundary
     if(playerX > WORLD_WIDTH - 140){
         playerX = WORLD_WIDTH - 140;
     }
@@ -197,7 +260,9 @@ document.addEventListener("keydown", function(e){
     draw();
 });
 
-/* BUTTONS */
+/* =========================
+   MOBILE BUTTONS
+========================= */
 function moveLeft(){
     playerX -= SPEED;
     if(playerX < 0) playerX = 0;
@@ -212,25 +277,32 @@ function moveRight(){
     draw();
 }
 
+/* =========================
+   ACTION BUTTON
+========================= */
 function actionButton(){
     console.log("Action button pressed!");
-}    
+}
 
-/* INIT */
-draw();
-
+/* =========================
+   TOUCH DOUBLE TAP FIX
+   - prevents zoom on mobile
+========================= */
 let lastTouchTime = 0;
 
 document.addEventListener("touchstart", function (e) {
     let now = Date.now();
 
     if (now - lastTouchTime <= 300) {
-        e.preventDefault(); // blocks double tap zoom
+        e.preventDefault();
     }
 
     lastTouchTime = now;
 }, { passive: false });
 
+/* =========================
+   SCREEN SCALING (MOBILE FIT)
+========================= */
 function fitScreen() {
     const baseWidth = 1408;
     const baseHeight = 768;
@@ -240,9 +312,13 @@ function fitScreen() {
     document.documentElement.style.setProperty('--game-scale', scale);
 }
 
+/* run scaling on resize */
 window.addEventListener("resize", fitScreen);
 fitScreen();
-    
+
+/* initial render */
+draw();
+
 </script>
 
 </body>
