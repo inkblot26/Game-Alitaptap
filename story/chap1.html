@@ -282,6 +282,16 @@ document.addEventListener("keydown", function(e){
     draw();
 });
 
+document.addEventListener("keyup", function(e){
+
+    if(e.key === "ArrowLeft" || e.key === "a" || e.key === "A"){
+        keyboardLeft = false;
+    }
+
+    if(e.key === "ArrowRight" || e.key === "d" || e.key === "D"){
+        keyboardRight = false;
+    }
+});     
 /* =========================
    MOBILE BUTTONS
 ========================= */
