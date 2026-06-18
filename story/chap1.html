@@ -3,6 +3,8 @@
 <head>
 <title>Lakbay</title>
 
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+   
 <style>
 
 /* =========================
@@ -11,7 +13,7 @@
 body{
     margin:0; /* removes default browser spacing */
     background:#222; /* dark gray background outside the game */
-
+    touch-action: none;   /* disables zoom gestures */
     /* centers the game screen in the middle of the page */
     display:flex;
     justify-content:center;
@@ -184,6 +186,11 @@ function moveRight(){
     }
     drawPlayer();
 }   
+
+document.addEventListener("dblclick", function(e){
+    e.preventDefault(); // stops zoom on double tap/click
+}, { passive: false });
+   
 </script>
 
 </body>
