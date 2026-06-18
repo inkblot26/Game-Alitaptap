@@ -129,19 +129,17 @@ body{
         <div id="mc"></div>
         <div id="npc"></div>
     </div>
-</div>
 
-<div id="controls">
+    <div id="controls">
 
-    <!-- LEFT SIDE: movement buttons -->
-    <div style="display:flex; gap:10px;">
-        <button onmousedown="moveLeft()" ontouchstart="moveLeft()">←</button>
-        <button onmousedown="moveRight()" ontouchstart="moveRight()">→</button>
+        <div style="display:flex; gap:10px;">
+            <button onmousedown="moveLeft()" ontouchstart="moveLeft()">←</button>
+            <button onmousedown="moveRight()" ontouchstart="moveRight()">→</button>
+        </div>
+
+        <button onclick="actionButton()" ontouchstart="actionButton()">X</button>
+
     </div>
-
-    <!-- RIGHT SIDE: action button -->
-    <button onclick="actionButton()" ontouchstart="actionButton()">X</button>
-
 </div>
    
 <script>
