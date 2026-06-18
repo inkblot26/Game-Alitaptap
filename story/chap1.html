@@ -123,7 +123,7 @@ body{
    ========================= */
 #controls{
     position:absolute;
-    bottom:15px;
+    bottom:5px;
     left:0;
 
     width:100%;
@@ -178,9 +178,22 @@ body{
 
         <!-- LEFT: movement buttons -->
         <div style="display:flex; gap:10px;">
-            <button onmousedown="moveLeft()" ontouchstart="moveLeft()">←</button>
-            <button onmousedown="moveRight()" ontouchstart="moveRight()">→</button>
-        </div>
+              <button 
+                  onmousedown="moveLeftStart()" 
+                  onmouseup="moveLeftEnd()" 
+                  ontouchstart="moveLeftStart()" 
+                  ontouchend="moveLeftEnd()">
+                  ←
+              </button>
+          
+              <button 
+                  onmousedown="moveRightStart()" 
+                  onmouseup="moveRightEnd()" 
+                  ontouchstart="moveRightStart()" 
+                  ontouchend="moveRightEnd()">
+                  →
+              </button>
+          </div>
 
         <!-- RIGHT: action button -->
         <button onclick="actionButton()" ontouchstart="actionButton()">X</button>
@@ -209,6 +222,9 @@ const SPEED = 10;         // movement speed
 
 let npcX = 500;           // npc position in world
 
+let moveLeftHeld = false;
+let moveRightHeld = false;
+     
 /* =========================
    DRAW FUNCTION
    - updates everything visually
@@ -263,18 +279,20 @@ document.addEventListener("keydown", function(e){
 /* =========================
    MOBILE BUTTONS
 ========================= */
-function moveLeft(){
-    playerX -= SPEED;
-    if(playerX < 0) playerX = 0;
-    draw();
+function moveLeftStart(){
+    moveLeftHeld = true;
 }
 
-function moveRight(){
-    playerX += SPEED;
-    if(playerX > WORLD_WIDTH - 140){
-        playerX = WORLD_WIDTH - 140;
-    }
-    draw();
+function moveLeftEnd(){
+    moveLeftHeld = false;
+}
+
+function moveRightStart(){
+    moveRightHeld = true;
+}
+
+function moveRightEnd(){
+    moveRightHeld = false;
 }
 
 /* =========================
@@ -319,6 +337,30 @@ fitScreen();
 /* initial render */
 draw();
 
+function gameLoop(){
+    if(moveLeftHeld){
+        playerX -= SPEED;
+    }
+
+    if(moveRightHeld){
+        playerX += SPEED;
+    }
+
+    // clamp left
+    if(playerX < 0) playerX = 0;
+
+    // clamp right
+    if(playerX > WORLD_WIDTH - 140){
+        playerX = WORLD_WIDTH - 140;
+    }
+
+    draw();
+
+    requestAnimationFrame(gameLoop);
+}
+
+gameLoop();
+     
 </script>
 
 </body>
