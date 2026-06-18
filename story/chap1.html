@@ -2,9 +2,12 @@
 <html>
 <head>
 <title>Lakbay</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <style>
 
+html, body {
+    touch-action: manipulation;
+}   
 /* =========================
    BODY SETUP (PAGE BACKGROUND)
    ========================= */
@@ -197,6 +200,16 @@ function moveRight(){
 
 /* INIT */
 draw();
+
+let lastTouchEnd = 0;
+
+document.addEventListener('touchend', function (event) {
+    let now = (new Date()).getTime();
+    if (now - lastTouchEnd <= 300) {
+        event.preventDefault(); // blocks double tap zoom
+    }
+    lastTouchEnd = now;
+}, false);   
 </script>
 
 </body>
