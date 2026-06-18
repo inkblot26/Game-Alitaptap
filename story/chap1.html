@@ -4,91 +4,130 @@
 <title>Lakbay</title>
 
 <style>
-body{
-    margin:0;
-    background:#222;
 
+/* =========================
+   BODY SETUP (PAGE BACKGROUND)
+   ========================= */
+body{
+    margin:0; /* removes default browser spacing */
+    background:#222; /* dark gray background outside the game */
+
+    /* centers the game screen in the middle of the page */
     display:flex;
     justify-content:center;
     align-items:center;
 
-    height:100vh;
+    height:100vh; /* full screen height */
 }
 
-/* GAME SCREEN */
+/* =========================
+   GAME SCREEN (MAIN GAME AREA)
+   ========================= */
 #game{
-    width:900px;
-    height:500px;
+    width: min(95vw, 1200px);   /* responsive width mobile + laptop limit*/
+    height: min(60vh, 700px);   /* responsive height not to big on screen*/
 
-    position:relative;
-    overflow:hidden;
+    position:relative; /* allows child elements (player) to be positioned inside */
+    overflow:hidden; /* prevents player from showing outside the box */
+    border:4px solid black; /* visible border around game */
 
-    border:4px solid black;
-
-    background-image:url("chap1-0.png");
-    background-size:100% 100%;
-    background-repeat:no-repeat;
-    background-position:center;
+    /* BACKGROUND IMAGE (your chapter map) */
+    background-image:url("chap1-0.png"); /* your background image */
+    background-size:cover; /* scaling image to fit game box */
+    background-repeat:no-repeat; /* prevents tiling */
+    background-position:center; /* centers the image */
 }
 
-/* PLAYER */
+/* =========================
+   PLAYER (MAIN CHARACTER)
+   ========================= */
 #mc{
-    position:absolute;
+    position:absolute; /* allows movement using left/bottom */
 
-    width:50px;
-    height:50px;
+    width:50px;  /* player width */
+    height:50px; /* player height */
 
-    background:blue;
+    background:blue; /* temporary placeholder (you can replace with image later) */
 
-    left:100px;
-    bottom:50px;
+    left:100px;  /* starting X position (horizontal) */
+    bottom:100px; /* fixed height above ground */
 
-    z-index:10;
+    z-index:10; /* makes sure player appears above background */
 }
+
 </style>
 </head>
 
 <body>
 
+<!-- =========================
+     GAME CONTAINER
+     ========================= -->
 <div id="game">
 
+    <!-- PLAYER BOX -->
     <div id="mc"></div>
 
 </div>
 
 <script>
 
-const mc = document.getElementById("mc");
-const game = document.getElementById("game");
+/* =========================
+   GET ELEMENTS FROM HTML
+   ========================= */
+const mc = document.getElementById("mc");     // player box
+const game = document.getElementById("game"); // game screen
 
-let playerX = 100;
+/* =========================
+   PLAYER POSITION VARIABLE
+   ========================= */
+let playerX = 100; // starting horizontal position
 
+/* =========================
+   FUNCTION: DRAW PLAYER
+   - updates player position on screen
+   ========================= */
 function drawPlayer(){
-    mc.style.left = playerX + "px";
+    mc.style.left = playerX + "px"; // move player horizontally
 }
 
+/* =========================
+   KEYBOARD INPUT (CONTROLS)
+   ========================= */
 document.addEventListener("keydown", function(e){
 
+    /* MOVE LEFT */
     if(e.key === "ArrowLeft"){
-        playerX -= 10;
+        playerX -= 10; // move 10px left
     }
 
+    /* MOVE RIGHT */
     if(e.key === "ArrowRight"){
-        playerX += 10;
+        playerX += 10; // move 10px right
     }
 
-    // prevent leaving screen
+    /* =========================
+       SCREEN BOUNDARY CHECK
+       (prevents player leaving game box)
+       ========================= */
+
+    // if player goes too far left
     if(playerX < 0){
         playerX = 0;
     }
 
+    // if player goes too far right
+    // game.clientWidth = width of game box (900px)
+    // - 50 ensures player doesn't overflow outside screen
     if(playerX > game.clientWidth - 50){
         playerX = game.clientWidth - 50;
     }
 
+    /* redraw player after movement */
     drawPlayer();
 });
 
+/* draw player once at start */
 drawPlayer();
 
 </script>
