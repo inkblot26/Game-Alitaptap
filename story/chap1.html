@@ -44,11 +44,11 @@ body{
 #mc{
     position:absolute; /* allows movement using left/bottom */
 
-    width: 100px;  /* player width */
-    height:100px; /* player height */
+    width: 140px;  /* player width */
+    height:140px; /* player height */
 
     background-image:url("mc.png"); /* your character image file */
-    background-size:contain;        /* keeps image ratio correct */
+    background-size: 100% 100%;       
     background-repeat:no-repeat;    /* prevents tiling */
 
     left:100px;  /* starting X position (horizontal) */
@@ -121,8 +121,8 @@ document.addEventListener("keydown", function(e){
     // if player goes too far right
     // game.clientWidth = width of game box (900px)
     // - 100 ensures player doesn't overflow outside screen
-    if(playerX > game.clientWidth - 100){
-        playerX = game.clientWidth - 100;
+    if(playerX > game.clientWidth - 140){
+        playerX = game.clientWidth - 140;
     }
 
     /* redraw player after movement */
