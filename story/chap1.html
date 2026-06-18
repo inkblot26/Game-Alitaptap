@@ -32,6 +32,8 @@ body{
 #game{
     width: min(95vw, 1200px);   /* responsive width mobile + laptop limit*/
     height: 768px;
+    transform: scale(var(--game-scale));
+    transform-origin: center;
 
     position:relative; /* allows child elements (player) to be positioned inside */
     overflow:hidden; /* prevents player from showing outside the box */
@@ -215,6 +217,21 @@ document.addEventListener("touchstart", function (e) {
 
     lastTouchTime = now;
 }, { passive: false });
+
+function fitScreen() {
+    const baseWidth = 1408;
+    const baseHeight = 768;
+
+    const scaleX = window.innerWidth / baseWidth;
+    const scaleY = window.innerHeight / baseHeight;
+
+    const scale = Math.min(scaleX, scaleY);
+
+    document.documentElement.style.setProperty('--game-scale', scale);
+}
+
+window.addEventListener("resize", fitScreen);
+fitScreen();
     
 </script>
 
