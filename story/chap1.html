@@ -75,93 +75,64 @@ body{
 <script>
 
 /* =========================
-   ELEMENTS
+   GET ELEMENTS FROM HTML
    ========================= */
-const mc = document.getElementById("mc");
-const game = document.getElementById("game");
+const mc = document.getElementById("mc");     // player box
+const game = document.getElementById("game"); // game screen
+const playerSize = 100;
+/* =========================
+   PLAYER POSITION VARIABLE
+   ========================= */
+let playerX = 100; // starting horizontal position
 
 /* =========================
-   PLAYER SETTINGS
-   ========================= */
-const playerSize = 140;
-
-let playerX = 100;   // left/right position
-let playerY = 100;   // up/down position
-let velocityY = 0;   // jump speed
-let isJumping = false;
-
-/* =========================
-   DRAW PLAYER
+   FUNCTION: DRAW PLAYER
+   - updates player position on screen
    ========================= */
 function drawPlayer(){
-    mc.style.left = playerX + "px";
-    mc.style.bottom = playerY + "px";
+    mc.style.left = playerX + "px"; // move player horizontally
 }
 
 /* =========================
-   JUMP
-   ========================= */
-function jump(){
-    if(isJumping) return;
-
-    isJumping = true;
-    velocityY = 18; // jump strength
-}
-
-/* =========================
-   GAME LOOP (GRAVITY)
-   ========================= */
-function update(){
-
-    velocityY -= 1;       // gravity pulls down
-    playerY += velocityY; // apply movement
-
-    // ground check
-    if(playerY <= 100){
-        playerY = 100;
-        velocityY = 0;
-        isJumping = false;
-    }
-
-    drawPlayer();
-    requestAnimationFrame(update);
-}
-
-/* =========================
-   CONTROLS
+   KEYBOARD INPUT (CONTROLS)
    ========================= */
 document.addEventListener("keydown", function(e){
 
+    /* MOVE LEFT */
     if(e.key === "ArrowLeft"){
-        playerX -= 10;
+        playerX -= 10; // move 10px left
     }
 
+    /* MOVE RIGHT */
     if(e.key === "ArrowRight"){
-        playerX += 10;
+        playerX += 10; // move 10px right
     }
 
-    if(e.key === "ArrowUp"){
-        e.preventDefault(); // stop scroll
-        jump();
+    /* =========================
+       SCREEN BOUNDARY CHECK
+       (prevents player leaving game box)
+       ========================= */
+
+    // if player goes too far left
+    if(playerX < 0){
+        playerX = 0;
     }
 
-    // left boundary
-    if(playerX < 0) playerX = 0;
-
-    // right boundary
-    if(playerX > game.clientWidth - playerSize){
-        playerX = game.clientWidth - playerSize;
+    // if player goes too far right
+    // game.clientWidth = width of game box (900px)
+    // - 100 ensures player doesn't overflow outside screen
+    if(playerX > game.clientWidth - 140){
+        playerX = game.clientWidth - 140;
     }
 
+    /* redraw player after movement */
     drawPlayer();
 });
 
-/* =========================
-   START GAME
-   ========================= */
+/* draw player once at start */
 drawPlayer();
-update();
 
 </script>
+
 </body>
 </html>
