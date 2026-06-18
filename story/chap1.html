@@ -73,7 +73,26 @@ body{
 
     z-index:9;           /* behind MC but above background */
 }
-   
+
+#controls{
+    position:absolute;
+    bottom:10px;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    z-index:20;
+}
+
+#controls button{
+    width:80px;
+    height:80px;
+    font-size:30px;
+    border-radius:10px;
+    border:2px solid black;
+    background:#444;
+    color:white;
+}   
 </style>
 </head>
 
@@ -87,6 +106,11 @@ body{
       <div id="npc"></div>  <!-- NPC oldman1 added -->
 </div>
 
+<div id="controls">
+    <button onmousedown="moveLeft()" ontouchstart="moveLeft()">←</button>
+    <button onmousedown="moveRight()" ontouchstart="moveRight()">→</button>
+</div>
+   
 <script>
 
 /* =========================
@@ -147,6 +171,19 @@ document.addEventListener("keydown", function(e){
 /* draw player once at start */
 drawPlayer();
 
+function moveLeft(){
+    playerX -= 15;
+    if(playerX < 0) playerX = 0;
+    drawPlayer();
+}
+
+function moveRight(){
+    playerX += 15;
+    if(playerX > game.clientWidth - 140){
+        playerX = game.clientWidth - 140;
+    }
+    drawPlayer();
+}   
 </script>
 
 </body>
