@@ -44,10 +44,12 @@ body{
 #mc{
     position:absolute; /* allows movement using left/bottom */
 
-    width:50px;  /* player width */
-    height:50px; /* player height */
+    width:60px;  /* player width */
+    height:60px; /* player height */
 
-    background:blue; /* temporary placeholder (you can replace with image later) */
+    background-image:url("mc.png"); /* your character image file */
+    background-size:contain;        /* keeps image ratio correct */
+    background-repeat:no-repeat;    /* prevents tiling */
 
     left:100px;  /* starting X position (horizontal) */
     bottom:100px; /* fixed height above ground */
