@@ -63,6 +63,55 @@ body{
 }
 
 /* =========================
+   TOP BAR (HOME + SCORE)
+========================= */
+#topBar{
+    position:absolute;
+    top:10px;
+    left:10px;
+
+    display:flex;
+    gap:10px;
+    align-items:center;
+
+    z-index:50;
+}
+
+/* same style as Tuklas mode */
+.topBtn,
+.topInfo{
+    height:40px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:0 14px;
+
+    border-radius:10px;
+
+    font-family:Georgia, serif;
+    font-weight:bold;
+    font-size:1rem;
+
+    box-sizing:border-box;
+}
+
+/* Home button */
+.topBtn{
+    border:none;
+    cursor:pointer;
+
+    background:white;
+    color:#182848;
+}
+
+/* Mystery counter */
+.topInfo{
+    background:rgba(255,255,255,0.95);
+    color:#182848;
+}     
+/* =========================
    PLAYER CHARACTER (MC)
    ========================= */
 #mc{
@@ -162,6 +211,18 @@ body{
      GAME STRUCTURE
      ========================= -->
 <div id="game">
+     <!-- TOP BAR -->
+     <div id="topBar">
+     
+         <button class="topBtn" onclick="goHome()">
+             Home
+         </button>
+     
+         <div class="topInfo" id="mysteryCounter">
+             Mystery: 0
+         </div>
+     
+     </div>
 
     <!-- WORLD (moves camera) -->
     <div id="world">
@@ -254,7 +315,13 @@ function draw(){
     // place npc inside world
     npc.style.left = npcX + "px";
 }
-
+/* =========================
+   TOPBAR CONTROLS
+========================= */
+function goHome(){
+    window.location.href = "index.html";
+}
+     
 /* =========================
    KEYBOARD CONTROLS
 ========================= */
