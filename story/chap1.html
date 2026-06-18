@@ -57,6 +57,23 @@ body{
     z-index:10; /* makes sure player appears above background */
 }
 
+/*NCP oldman1*/   
+#npc{
+    position:absolute;   /* allows placing inside game */
+
+    width:140px;         /* same size as MC (you can adjust) */
+    height:200px;
+
+    background-image:url("oldman1.png"); /* NPC image */
+    background-size:100% 100%;
+    background-repeat:no-repeat;
+
+    left:500px;          /* NPC fixed position X */
+    bottom:100px;        /* same ground level as MC */
+
+    z-index:9;           /* behind MC but above background */
+}
+   
 </style>
 </head>
 
@@ -66,10 +83,8 @@ body{
      GAME CONTAINER
      ========================= -->
 <div id="game">
-
-    <!-- PLAYER BOX -->
-    <div id="mc"></div>
-
+      <div id="mc"></div>   <!-- PLAYER BOX -->
+      <div id="npc"></div>  <!-- NPC oldman1 added -->
 </div>
 
 <script>
