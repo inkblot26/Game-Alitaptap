@@ -32,8 +32,6 @@ body{
     border:4px solid black; /* visible border around game */
 
     /* BACKGROUND IMAGE (your chapter map) */
-    background-image:url("chap1-0.png"); /* your background image */
-    background-size:cover; /* scaling image to fit game box */
     background-repeat:no-repeat; /* prevents tiling */
     background-position:center; /* centers the image */
 }
@@ -93,6 +91,21 @@ body{
     background:#444;
     color:white;
 }   
+   
+#world{
+    position:absolute;
+    left:0;
+    bottom:0;
+
+    width:3000px;   /* map size (adjust later if needed) */
+    height:100%;
+
+    background-image:url("chap1-0.png");
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-position:center;
+}
+   
 </style>
 </head>
 
@@ -102,8 +115,13 @@ body{
      GAME CONTAINER
      ========================= -->
 <div id="game">
-      <div id="mc"></div>   <!-- PLAYER BOX -->
-      <div id="npc"></div>  <!-- NPC oldman1 added -->
+
+    <div id="world">
+        <div id="npc"></div>
+    </div>
+
+    <div id="mc"></div>
+
 </div>
 
 <div id="controls">
@@ -122,16 +140,11 @@ const playerSize = 100;
 /* =========================
    PLAYER POSITION VARIABLE
    ========================= */
-let playerX = 100; // starting horizontal position
+let playerX = 100;
+let worldX = 0;
 
-/* =========================
-   FUNCTION: DRAW PLAYER
-   - updates player position on screen
-   ========================= */
-function drawPlayer(){
-    mc.style.left = playerX + "px"; // move player horizontally
-}
-
+const WORLD_WIDTH = 3000;
+const world = document.getElementById("world");
 /* =========================
    KEYBOARD INPUT (CONTROLS)
    ========================= */
@@ -171,19 +184,32 @@ document.addEventListener("keydown", function(e){
 /* draw player once at start */
 drawPlayer();
 
-function moveLeft(){
-    playerX -= 15;
-    if(playerX < 0) playerX = 0;
-    drawPlayer();
+function update(){
+    mc.style.left = playerX + "px";
+    world.style.left = worldX + "px";
 }
 
-function moveRight(){
-    playerX += 15;
-    if(playerX > game.clientWidth - 140){
-        playerX = game.clientWidth - 140;
+   function moveLeft(){
+    playerX -= 15;
+
+    if(playerX < 150){
+        worldX += 10;
+        playerX = 150;
     }
-    drawPlayer();
-}   
+
+    update();
+}
+
+   function moveRight(){
+    playerX += 15;
+
+    if(playerX > game.clientWidth - 150){
+        worldX -= 10;
+        playerX = game.clientWidth - 150;
+    }
+
+    update();
+}
 </script>
 
 </body>
