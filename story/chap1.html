@@ -79,7 +79,7 @@ body{
    ========================= */
 const mc = document.getElementById("mc");     // player box
 const game = document.getElementById("game"); // game screen
-
+const playerSize = 100;
 /* =========================
    PLAYER POSITION VARIABLE
    ========================= */
@@ -120,9 +120,9 @@ document.addEventListener("keydown", function(e){
 
     // if player goes too far right
     // game.clientWidth = width of game box (900px)
-    // - 50 ensures player doesn't overflow outside screen
-    if(playerX > game.clientWidth - 50){
-        playerX = game.clientWidth - 50;
+    // - 100 ensures player doesn't overflow outside screen
+    if(playerX > game.clientWidth - 100){
+        playerX = game.clientWidth - 100;
     }
 
     /* redraw player after movement */
