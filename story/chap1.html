@@ -97,11 +97,11 @@ body{
     position:absolute;
     left:0;
     top:0;
-    width:3000px;   /* world size (map width) */
-    height:100%;
+    width:1408px;
+    height:768px;
 
     background-image:url("chap1-0.png");
-    background-size:cover;
+    background-size:100% 100%;
     background-repeat:no-repeat;
     background-position:center;
 }   
@@ -133,7 +133,7 @@ const game = document.getElementById("game");
 let playerX = 100;     // MC world position
 let cameraX = 0;       // camera offset
 
-const WORLD_WIDTH = 3000;
+const WORLD_WIDTH = 1408;
 const SPEED = 10;
 
 /* NPC world position */
