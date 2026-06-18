@@ -31,13 +31,22 @@ body{
     overflow:hidden; /* prevents player from showing outside the box */
     border:4px solid black; /* visible border around game */
 
-    /* BACKGROUND IMAGE (your chapter map) */
-    background-image:url("chap1-0.png"); /* your background image */
-    background-size:cover; /* scaling image to fit game box */
-    background-repeat:no-repeat; /* prevents tiling */
-    background-position:center; /* centers the image */
 }
 
+#world{
+    position:absolute;
+
+    width:3000px;      /* entire chapter width */
+    height:100%;
+
+    left:0;
+    top:0;
+
+    background-image:url("chap1-0.png");
+    background-size:100% 100%;
+    background-repeat:no-repeat;
+}
+   
 /* =========================
    PLAYER (MAIN CHARACTER)
    ========================= */
@@ -102,8 +111,15 @@ body{
      GAME CONTAINER
      ========================= -->
 <div id="game">
-      <div id="mc"></div>   <!-- PLAYER BOX -->
-      <div id="npc"></div>  <!-- NPC oldman1 added -->
+
+    <div id="world">
+
+        <div id="npc"></div>
+
+    </div>
+
+    <div id="mc"></div>
+
 </div>
 
 <div id="controls">
@@ -118,6 +134,9 @@ body{
    ========================= */
 const mc = document.getElementById("mc");     // player box
 const game = document.getElementById("game"); // game screen
+const world = document.getElementById("world");
+let worldX = 0;
+const WORLD_WIDTH = 3000;   
 const playerSize = 100;
 /* =========================
    PLAYER POSITION VARIABLE
@@ -129,7 +148,9 @@ let playerX = 100; // starting horizontal position
    - updates player position on screen
    ========================= */
 function drawPlayer(){
-    mc.style.left = playerX + "px"; // move player horizontally
+
+    world.style.left = worldX + "px";
+
 }
 
 /* =========================
@@ -172,18 +193,29 @@ document.addEventListener("keydown", function(e){
 drawPlayer();
 
 function moveLeft(){
-    playerX -= 15;
-    if(playerX < 0) playerX = 0;
+
+    worldX += 15;
+
+    if(worldX > 0){
+        worldX = 0;
+    }
+
     drawPlayer();
 }
 
 function moveRight(){
-    playerX += 15;
-    if(playerX > game.clientWidth - 140){
-        playerX = game.clientWidth - 140;
+
+    worldX -= 15;
+
+    let maxScroll =
+        -(WORLD_WIDTH - game.clientWidth);
+
+    if(worldX < maxScroll){
+        worldX = maxScroll;
     }
+
     drawPlayer();
-}   
+} 
 </script>
 
 </body>
