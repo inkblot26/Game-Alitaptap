@@ -75,113 +75,93 @@ body{
 <script>
 
 /* =========================
-   GET ELEMENTS FROM HTML
+   ELEMENTS
    ========================= */
-const mc = document.getElementById("mc");     // player element
-const game = document.getElementById("game"); // game screen
-
-const playerSize = 140; // size of character (IMPORTANT for boundaries)
+const mc = document.getElementById("mc");
+const game = document.getElementById("game");
 
 /* =========================
-   PLAYER POSITION (X = left/right)
+   PLAYER SETTINGS
    ========================= */
-let playerX = 100; // starting horizontal position
-   
-/* =========================
-   PLAYER JUMP VARIABLES
-   ========================= */
-let playerY = 100;        // starting vertical position (bottom)
-let velocityY = 0;        // upward/downward speed
-let isJumping = false;    // prevents double jump
+const playerSize = 140;
+
+let playerX = 100;   // left/right position
+let playerY = 100;   // up/down position
+let velocityY = 0;   // jump speed
+let isJumping = false;
 
 /* =========================
-   DRAW PLAYER ON SCREEN
+   DRAW PLAYER
    ========================= */
 function drawPlayer(){
-    mc.style.left = playerX + "px";  // move left/right
-    mc.style.bottom = playerY + "px"; // move up/down (jump)
+    mc.style.left = playerX + "px";
+    mc.style.bottom = playerY + "px";
 }
 
 /* =========================
-   JUMP FUNCTION
+   JUMP
    ========================= */
 function jump(){
-    if(isJumping) return;   // if already jumping, ignore
+    if(isJumping) return;
 
-    isJumping = true;        // mark as jumping
-    velocityY = 20;          // initial jump power (higher = higher jump)
+    isJumping = true;
+    velocityY = 18; // jump strength
 }
 
 /* =========================
-   GAME LOOP (gravity system)
-   runs many times per second
+   GAME LOOP (GRAVITY)
    ========================= */
 function update(){
 
-    // ensure player starts correctly on ground
-    if(playerY < 100){
-        playerY = 100;
-    }
-   
-    // apply gravity (pull player down slowly)
-    velocityY -= 1;
+    velocityY -= 1;       // gravity pulls down
+    playerY += velocityY; // apply movement
 
-    // update vertical position
-    playerY += velocityY;
-
-    // ground collision (stop falling)
+    // ground check
     if(playerY <= 100){
-        playerY = 100;      // reset to ground level
-        velocityY = 0;      // stop movement
-        isJumping = false;  // allow next jump
+        playerY = 100;
+        velocityY = 0;
+        isJumping = false;
     }
 
-    drawPlayer();           // redraw player position
-
-    requestAnimationFrame(update); // keep loop running
+    drawPlayer();
+    requestAnimationFrame(update);
 }
 
 /* =========================
-   KEYBOARD CONTROLS
+   CONTROLS
    ========================= */
 document.addEventListener("keydown", function(e){
 
-    /* MOVE LEFT */
     if(e.key === "ArrowLeft"){
         playerX -= 10;
     }
 
-    /* MOVE RIGHT */
     if(e.key === "ArrowRight"){
         playerX += 10;
     }
 
-    /* JUMP */
     if(e.key === "ArrowUp"){
-        e.preventDefault(); // stops browser scrolling
-        jump(); // call jump function
+        e.preventDefault(); // stop scroll
+        jump();
     }
 
-    /* LEFT BOUNDARY */
-    if(playerX < 0){
-        playerX = 0;
-    }
+    // left boundary
+    if(playerX < 0) playerX = 0;
 
-    /* RIGHT BOUNDARY */
+    // right boundary
     if(playerX > game.clientWidth - playerSize){
         playerX = game.clientWidth - playerSize;
     }
 
-    drawPlayer(); // update position after input
+    drawPlayer();
 });
 
 /* =========================
    START GAME
    ========================= */
-drawPlayer(); // initial position
-update();     // start gravity loop
+drawPlayer();
+update();
 
 </script>
-
 </body>
 </html>
