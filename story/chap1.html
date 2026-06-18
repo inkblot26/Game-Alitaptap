@@ -1,125 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Simple Tile Map (20x20)</title>
+<title>Lakbay</title>
 
 <style>
-body {
-    margin: 0;
-    background: #222;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+body{
+    margin:0;
+    background:#222;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    height:100vh;
 }
 
-/* GAME AREA */
-#game {
-    width: min(95vw, 900px);
-    height: min(95vw, 900px);
-    transform-origin: center;
-    max-height: 95vh;
+/* GAME SCREEN */
+#game{
+    width:900px;
+    height:500px;
 
-    position: relative;
-    background: #000;
-    overflow: hidden;
+    background:skyblue;
+
+    position:relative;
+    overflow:hidden;
+
+    border:4px solid black;
 }
 
-/* MAP */
-#map {
-    position: absolute;
-    top: 0;
-    left: 0;
+/* GROUND */
+#ground{
+    position:absolute;
+
+    left:0;
+    bottom:0;
+
+    width:100%;
+    height:80px;
+
+    background:green;
 }
 
-/* TILE */
-.tile {
-    width: 64px;
-    height: 64px;
-    position: absolute;
+/* PLAYER */
+#mc{
+    position:absolute;
 
-    background-image: url("tile_grass.png");
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
+    width:50px;
+    height:50px;
 
-    image-rendering: pixelated;
+    background:blue;
+
+    left:100px;
+    bottom:80px;
 }
-
-/* MAIN CHARACTER */
-#mc {
-    width: 64px;
-    height: 64px;
-    position: absolute;
-
-    background-image: url("tile_mc.png");
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-
-    image-rendering: pixelated;
-
-    z-index: 10;
-}
-
-/* CONTROLS */
-#controls {
-    position: absolute;
-    bottom: 10px;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 10px;
-    box-sizing: border-box;
-    z-index: 20;
-}
-
-#dpad {
-    display: grid;
-    grid-template-columns: 60px 60px 60px;
-    grid-template-rows: 60px 60px 60px;
-    gap: 5px;
-}
-
-.btn {
-    background: #444;
-    color: white;
-    border: 1px solid #888;
-    text-align: center;
-    line-height: 60px;
-    cursor: pointer;
-    user-select: none;
-}
-
-#ab {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-}
-
-.abbtn {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background: crimson;
-    color: white;
-    text-align: center;
-    line-height: 70px;
-    cursor: pointer;
-    user-select: none;
-}
-
-#map {
-    position: absolute;
-}
-
-#mc {
-    position: absolute;
-    z-index: 5;
-}
-
-#controls {
-    z-index: 10;
-}
-    
 </style>
 </head>
 
@@ -127,210 +60,39 @@ body {
 
 <div id="game">
 
-    <div id="map">
-        <div id="mc"></div>
-    </div>
-    
+    <div id="ground"></div>
 
-    <!-- CONTROLS INSIDE GAME -->
-    <div id="controls">
-
-        <div id="dpad">
-            <div></div>
-            <div class="btn" onclick="moveUp()">↑</div>
-            <div></div>
-
-            <div class="btn" onclick="moveLeft()">←</div>
-            <div></div>
-            <div class="btn" onclick="moveRight()">→</div>
-
-            <div></div>
-            <div class="btn" onclick="moveDown()">↓</div>
-            <div></div>
-        </div>
-
-        <div id="ab">
-            <div class="abbtn" onclick="buttonA()">A</div>
-            <div class="abbtn" onclick="buttonB()">B</div>
-        </div>
-
-    </div>
+    <div id="mc"></div>
 
 </div>
 
 <script>
-const map = document.getElementById("map");
+
 const mc = document.getElementById("mc");
-const game = document.getElementById("game");
-let tileSize = 64;
-const mapSize = 20;
 
-/* START POSITION (VISIBLE + SAFE) */
-let mcRow = 2;
-let mcCol = 2;
+let playerX = 100;
 
-let camX = 0;
-let camY = 0;
-
-/* BUILD MAP */
-const mapData = [
-["t","t","t","t","t","t","t","t","t","t","t","t","t","t","t","t","t","t","t","t"],
-["t","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","t"],
-["t","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","t"],
-["t","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","t"],
-["t","g","g","g","g","w","w","w","w","w","w","w","g","g","g","g","g","g","g","t"],
-
-["t","g","g","g","g","w","w","w","w","w","w","w","g","g","g","g","g","g","g","t"],
-["t","g","g","g","g","w","w","w","w","w","w","w","g","g","g","g","g","g","g","t"],
-["t","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","t"],
-["t","g","g","g","g","g","g","h","h","h","g","g","g","g","g","g","g","g","g","t"],
-["t","g","g","g","g","g","g","h","h","h","g","g","g","g","g","g","g","g","g","t"],
-
-["t","g","g","g","g","g","g","h","h","h","g","g","g","g","g","g","g","g","g","t"],
-["t","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","t"],
-["t","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","t"],
-["t","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","t"],
-["t","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","t"],
-
-["t","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","t"],
-["t","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","t"],
-["t","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","t"],
-["t","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","t"],
-["t","t","t","t","t","t","t","t","t","t","t","t","t","t","t","t","t","t","t","t"]
-];
-
-function buildMap() {
-
-    for (let row = 0; row < mapData.length; row++) {
-        for (let col = 0; col < mapData[row].length; col++) {
-
-            const tile = document.createElement("div");
-            tile.classList.add("tile");
-
-            tile.style.width = tileSize + "px";
-            tile.style.height = tileSize + "px";
-            
-            tile.style.left = (col * tileSize) + "px";
-            tile.style.top = (row * tileSize) + "px";
-
-            const type = mapData[row][col];
-
-            if (type === "g") {
-                tile.style.backgroundImage = 'url("tile_grass.png")';
-            }
-
-            if (type === "t") {
-                tile.style.background = "darkgreen";
-                tile.style.color = "white";
-                tile.innerText = "T";
-            }
-
-            if (type === "w") {
-                tile.style.background = "dodgerblue";
-                tile.style.color = "white";
-                tile.innerText = "W";
-            }
-
-            if (type === "h") {
-                tile.style.background = "brown";
-                tile.style.color = "white";
-                tile.innerText = "H";
-            }
-
-            tile.style.display = "flex";
-            tile.style.alignItems = "center";
-            tile.style.justifyContent = "center";
-            tile.style.fontWeight = "bold";
-
-            map.appendChild(tile);
-        }
-    }
-}
-
-
-
-/* DRAW MC */
-function drawMC() {
-    mc.style.left = (mcCol * tileSize) + "px";
-    mc.style.top = (mcRow * tileSize) + "px";
-}
-
-/* CAMERA SYSTEM */
-function updateCamera() {
-    const viewSize = game.clientWidth;
-    const worldWidth = mapSize * tileSize;
-    const worldHeight = mapSize * tileSize;
-
-    let targetX = mcCol * tileSize - viewSize / 2 + tileSize / 2;
-    let targetY = mcRow * tileSize - viewSize / 2 + tileSize / 2;
-
-    camX = Math.max(0, Math.min(targetX, worldWidth - viewSize));
-    camY = Math.max(0, Math.min(targetY, worldHeight - viewSize));
-
-    map.style.transform = `translate(${-camX}px, ${-camY}px)`;
-
-    drawMC();
-}
-
-/* MOVEMENT */
-function moveUp() {
-    if (mcRow > 0) mcRow--;
-    updateCamera();
-}
-
-function moveDown() {
-    if (mcRow < mapSize - 1) mcRow++;
-    updateCamera();
-}
-
-function moveLeft() {
-    if (mcCol > 0) mcCol--;
-    updateCamera();
-}
-
-function moveRight() {
-    if (mcCol < mapSize - 1) mcCol++;
-    updateCamera();
+function drawPlayer(){
+    mc.style.left = playerX + "px";
 }
 
 /* KEYBOARD */
-document.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowUp") moveUp();
-    if (e.key === "ArrowDown") moveDown();
-    if (e.key === "ArrowLeft") moveLeft();
-    if (e.key === "ArrowRight") moveRight();
+document.addEventListener("keydown", function(e){
+
+    if(e.key === "ArrowLeft"){
+        playerX -= 10;
+    }
+
+    if(e.key === "ArrowRight"){
+        playerX += 10;
+    }
+
+    drawPlayer();
 });
 
-/* BUTTONS */
-function buttonA() {
-    alert("A button pressed");
-}
+drawPlayer();
 
-function buttonB() {
-    alert("B button pressed");
-}
-
-function updateGameScale() {
-    const w = window.innerWidth;
-
-    const game = document.getElementById("game");
-
-    if (w < 600) {
-        game.style.transform = "scale(1.3)";
-    } else if (w < 900) {
-        game.style.transform = "scale(1.1)";
-    } else {
-        game.style.transform = "scale(1)";
-    }
-}
-
-window.addEventListener("resize", updateGameScale);
-updateGameScale();
-    
-buildMap();    
-/* INIT */
-drawMC();
-updateCamera();
 </script>
+
 </body>
 </html>
